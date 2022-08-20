@@ -1,0 +1,57 @@
+// Import the functions you need from the SDKs you need
+import * as firebase from 'firebase/app';
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
+  TwitterAuthProvider,
+  onAuthStateChanged,
+  signOut,
+} from 'firebase/auth';
+
+const firebaseConfig = {
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_PUBLIC_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: 'costd-789a2.appspot.com',
+  messagingSenderId: '294037826120',
+  appId: '1:294037826120:web:45ec69e5c25e48e7a3c67d',
+  measurementId: 'G-JH3F85GZT8',
+};
+
+// Initialize Firebase
+const app = firebase.initializeApp(firebaseConfig);
+const auth = getAuth();
+
+const mapUserFromFirebase = (user) => {
+  if (!user.user) return null;
+  const { displayName, email, photoURL } = user.user;
+  return {
+    displayName,
+    email,
+    avatar: photoURL,
+  };
+};
+
+export const checkAuthState = (onChange) => {
+  return onAuthStateChanged(auth, (user) => {
+    const normalizedUser = mapUserFromFirebase({ user });
+    onChange(normalizedUser);
+  });
+};
+
+export const loginWithGoogle = () => {
+  const provider = new GoogleAuthProvider();
+  return signInWithPopup(auth, provider).then(mapUserFromFirebase);
+};
+
+export const loginWithTwitter = () => {
+  const provider = new TwitterAuthProvider();
+  return signInWithPopup(auth, provider).then(mapUserFromFirebase);
+};
+
+export const logout = () => {
+  return signOut(auth).catch((err) => {
+    console.error(err);
+  });
+};
