@@ -43,7 +43,7 @@ export default function Header() {
       </div>
       <Navbar>
         <Navitem href="/">Página principal</Navitem>
-        <Navitem href="/newgroup">Nuevo grupo</Navitem>
+        <Navitem href="/groups/new">Nuevo grupo</Navitem>
       </Navbar>
       {user === null ? (
         <>
