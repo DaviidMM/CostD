@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import UserBalance from '../../components/UserBalance';
+import Group from '../../components/Group';
 
 export default function GroupPage({ group }) {
   console.log({ group });
@@ -11,19 +11,7 @@ export default function GroupPage({ group }) {
     if (!group) router.push('/');
   }, [group, router]);
 
-  return (
-    group && (
-      <div className="w-1/3 p-4 mx-auto mt-10 border border-orange-600 rounded-lg">
-        <h1 className="text-3xl font-semibold text-center">{group.name}</h1>
-        <p className="text-center">{group.description}</p>
-        <div className="flex flex-col gap-2">
-          {group.members.map((member) => (
-            <UserBalance user={member} key={member} balance={1} />
-          ))}
-        </div>
-      </div>
-    )
-  );
+  return group && <Group group={group} />;
 }
 
 export async function getServerSideProps(context) {

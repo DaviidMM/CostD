@@ -2,108 +2,114 @@ import { db } from '../client';
 import {
   addDoc,
   collection,
-  getDocs,
-  Timestamp,
-  getDoc,
   doc,
+  getDoc,
+  getDocs,
   query,
+  Timestamp,
   where,
 } from 'firebase/firestore';
+import normalizeGroup from '../../../utils/normalizeGroup';
+import normalizeExpense from '../../../utils/normalizeExpense';
+
+const groupsCollection = collection(db, 'groups');
+const expensesCollection = collection(db, 'expenses');
 
 export const addGroup = async (group) => {
-  try {
-    const docRef = await addDoc(collection(db, 'groups'), {
-      ...group,
-      createdAt: Timestamp.fromDate(new Date()),
-    });
+  const docRef = await addDoc(groupsCollection, {
+    ...group,
+    createdAt: Timestamp.fromDate(new Date()),
+  });
 
-    const data = (await getDoc(docRef)).data();
+  const data = (await getDoc(docRef)).data();
 
-    return {
-      id: docRef.id,
-      ...data,
-      createdAt: data.createdAt.toDate(),
-    };
-  } catch (err) {
-    console.error(err);
-  }
+  return {
+    id: docRef.id,
+    ...data,
+    createdAt: data.createdAt.toDate(),
+  };
 };
 
 export const getGroups = async () => {
-  try {
-    const groups = await getDocs(collection(db, 'groups'));
-    return groups.docs.map((group) => {
-      const data = group.data();
-      const id = group.id;
-      return {
-        id,
-        ...data,
-        createdAt: data.createdAt.toDate(),
-      };
-    });
-  } catch (err) {
-    console.error(err);
-  }
+  const groups = await getDocs(groupsCollection);
+  return await Promise.all(
+    groups.docs.map(async (group) => {
+      const groupData = group.data();
+      const groupId = group.id;
+      const expensesQuery = query(
+        expensesCollection,
+        where('group', '==', groupId)
+      );
+      const expensesRef = await getDocs(expensesQuery);
+
+      const expenses = expensesRef.docs.map((expense) => {
+        const data = expense.data();
+        const id = expense.id;
+        return {
+          id,
+          ...data,
+          createdAt: data.createdAt.toDate(),
+          payedAt: data.payedAt.toDate(),
+        };
+      });
+
+      return normalizeGroup({
+        id: groupId,
+        data: { ...groupData, expenses },
+      });
+    })
+  );
 };
 
 export const getGroup = async (id) => {
-  try {
-    const docSnap = await getDoc(doc(db, 'groups', id));
+  const groupRef = doc(db, 'groups', id);
+  const groupSnap = await getDoc(groupRef);
 
-    if (docSnap.exists()) {
-      const data = docSnap.data();
+  if (groupSnap.exists()) {
+    const data = groupSnap.data();
+    const expensesQuery = query(expensesCollection, where('group', '==', id));
+    const expensesRef = await getDocs(expensesQuery);
+    const expenses = expensesRef.docs.map((expense) => {
+      const data = expense.data();
+      const id = expense.id;
       return {
         id,
         ...data,
         createdAt: data.createdAt.toDate(),
+        payedAt: data.payedAt.toDate(),
       };
-    }
-
-    return null;
-  } catch (err) {
-    console.error(err);
-  }
-};
-
-export const addCost = async ({ group, member, amount, payedAt }) => {
-  try {
-    const docRef = await addDoc(collection(db, 'costs'), {
-      group,
-      member,
-      amount,
-      payedAt,
-      createdAt: Timestamp.fromDate(new Date()),
     });
 
-    console.log({ docRef });
-
-    return {
-      id: docRef.id,
-    };
-  } catch (err) {
-    console.error(err);
+    return normalizeGroup({ id, data: { ...data, expenses } });
   }
+
+  return null;
 };
 
-export const getGroupCosts = async (id) => {
-  try {
-    const q = query(collection(db, 'costs'), where('group', '==', id));
-    const snapshot = await getDocs(q);
-    console.log({ snapshot });
-    const costs = [];
-    snapshot.forEach((cost) => {
-      const data = cost.data();
-      const id = cost.id;
-
-      console.log({ data, id });
-      costs.push({
-        id,
-        ...data,
-        createdAt: data.createdAt.toDate(),
-      });
-    });
-    return costs;
-  } catch (err) {
-    console.error(err);
+export const addExpense = async ({
+  amount,
+  description,
+  group,
+  member,
+  payedAt,
+}) => {
+  const groupRef = doc(db, 'groups', group);
+  const groupSnap = await getDoc(groupRef);
+  if (!groupSnap.exists()) {
+    throw new Error('Grupo no encontrado');
   }
+
+  const docRef = await addDoc(expensesCollection, {
+    description,
+    member,
+    group,
+    amount,
+    payedAt: Timestamp.fromDate(new Date(payedAt)),
+    createdAt: Timestamp.fromDate(new Date()),
+  });
+
+  const data = (await getDoc(docRef)).data();
+  const id = docRef.id;
+
+  return normalizeExpense({ id, data });
 };
