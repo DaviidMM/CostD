@@ -11,7 +11,7 @@ export default function GroupPage({ group }) {
     if (!group) router.push('/');
   }, [group, router]);
 
-  return group && <Group group={group} />;
+  return group && <Group {...group} />;
 }
 
 export async function getServerSideProps(context) {
@@ -20,6 +20,7 @@ export async function getServerSideProps(context) {
     const group = await axios
       .get(`http://localhost:3000/api/groups/${id}`)
       .then((res) => res.data);
+    console.log('getServerSideProps', { group });
     return {
       props: { group },
     };

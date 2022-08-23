@@ -1,19 +1,20 @@
 const bgClasses = {
   blue: 'text-blue-900 bg-blue-100 hover:bg-blue-200 hover:text-blue-900',
-  white: 'bg-slate-200 hover:bg-slate-300',
   default: 'bg-slate-300 hover:bg-slate-200',
+  orange: 'bg-orange-500 hover:bg-orange-600 hover:text-white',
+  white: 'bg-slate-200 hover:bg-slate-300',
 };
 
 const borderClasses = {
   blue: 'ring-blue-400 hover:bg-blue-300 hover:text-blue-800',
-  white: '',
   default: 'ring-slate-500',
+  white: '',
 };
 
 const textClasses = {
   blue: 'text-blue-400',
-  white: 'text-black',
   default: 'text-slate-500',
+  white: 'text-black',
 };
 
 export default function Button({
@@ -25,7 +26,7 @@ export default function Button({
 }) {
   return (
     <button
-      className={`${className} flex flex-row gap-2 items-center p-2 rounded-md focus:outline-none font-semibold ${
+      className={`${className} flex flex-row gap-2 items-center p-2 rounded-md focus:outline-none font-semibold transition-colors ${
         textClasses[color]
       } ${bordered ? `ring-2 ${borderClasses[color]}` : bgClasses[color]}`}
       onClick={onClick}

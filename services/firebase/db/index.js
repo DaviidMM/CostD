@@ -72,12 +72,7 @@ export const getGroup = async (id) => {
     const expenses = expensesRef.docs.map((expense) => {
       const data = expense.data();
       const id = expense.id;
-      return {
-        id,
-        ...data,
-        createdAt: data.createdAt.toDate(),
-        payedAt: data.payedAt.toDate(),
-      };
+      return normalizeExpense({ id, data });
     });
 
     return normalizeGroup({ id, data: { ...data, expenses } });

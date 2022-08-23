@@ -1,13 +1,15 @@
-export default function ExpensesPanel({ data: expenses }) {
+import Button from '../Button';
+import Expense from '../Expense';
+
+export default function ExpensesPanel({ expenses }) {
   return (
-    <div>
-      {expenses.map((expense) => {
-        return (
-          <div key={expense.id} className="p-1 rounded-md hover:bg-slate-200">
-            {expense.description} - {expense.amount}€
-          </div>
-        );
-      })}
-    </div>
+    <>
+      <ul className="mb-4">
+        {expenses.map((expense) => {
+          return <Expense key={expense.id} {...expense} />;
+        })}
+      </ul>
+      <Button color="orange">💵 Añadir gasto</Button>
+    </>
   );
 }
