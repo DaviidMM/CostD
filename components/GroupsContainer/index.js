@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Button from '../Button';
 
 export default function GroupContainer({ groups }) {
   return (
@@ -7,7 +8,7 @@ export default function GroupContainer({ groups }) {
         groups.map((group) => {
           return (
             <Link key={group.id} href="/groups/[id]" as={`/groups/${group.id}`}>
-              <button className="p-2 text-left bg-orange-700 rounded-md hover:bg-orange-600">
+              <button className="p-2 text-left transition-colors bg-orange-700 rounded-md hover:bg-orange-600">
                 {group.name}
               </button>
             </Link>
@@ -16,6 +17,11 @@ export default function GroupContainer({ groups }) {
       ) : (
         <p className="text-center">No groups found</p>
       )}
+      <Link href="/groups/new">
+        <Button color="orange" className="w-fit">
+          ➕ Crear grupo nuevo
+        </Button>
+      </Link>
     </div>
   );
 }

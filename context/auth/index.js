@@ -4,11 +4,11 @@ import { checkAuthState } from '../../services/firebase/client';
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [auth, setAuth] = useState(null);
 
   useEffect(() => {
-    checkAuthState(setUser);
+    checkAuthState(setAuth);
   }, []);
 
-  return <AuthContext.Provider value={user}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>;
 };

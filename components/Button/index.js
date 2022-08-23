@@ -1,3 +1,5 @@
+const { forwardRef } = require('react');
+
 const bgClasses = {
   blue: 'text-blue-900 bg-blue-100 hover:bg-blue-200 hover:text-blue-900',
   default: 'bg-slate-300 hover:bg-slate-200',
@@ -17,15 +19,13 @@ const textClasses = {
   white: 'text-black',
 };
 
-export default function Button({
-  bordered,
-  children,
-  color = 'default',
-  className = '',
-  onClick = () => {},
-}) {
+const Button = forwardRef(function Button(
+  { bordered, children, color = 'default', className = '', onClick = () => {} },
+  ref
+) {
   return (
     <button
+      ref={ref}
       className={`${className} flex flex-row gap-2 items-center p-2 rounded-md focus:outline-none font-semibold transition-colors ${
         textClasses[color]
       } ${bordered ? `ring-2 ${borderClasses[color]}` : bgClasses[color]}`}
@@ -34,4 +34,6 @@ export default function Button({
       {children}
     </button>
   );
-}
+});
+
+export default Button;

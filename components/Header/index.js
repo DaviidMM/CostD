@@ -13,9 +13,10 @@ import LoginModal from '../LoginModal';
 import { Menu, Transition } from '@headlessui/react';
 import { LogoutIcon } from '@heroicons/react/outline';
 import useAuth from '../../hooks/useAuth';
+import authStatus from '../../context/auth/status';
 
 export default function Header() {
-  const user = useAuth();
+  const { user, status } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
 
   const handleLogout = () => logout();
@@ -42,10 +43,10 @@ export default function Header() {
         </Link>
       </div>
       <Navbar>
-        <Navitem href="/">Página principal</Navitem>
-        <Navitem href="/groups/new">Nuevo grupo</Navitem>
+        <Navitem href="/">Inicio</Navitem>
+        <Navitem href="/groups">Grupos</Navitem>
       </Navbar>
-      {user === null ? (
+      {status !== authStatus.authenticated ? (
         <>
           <Button bordered onClick={openModal} color="blue">
             Iniciar sesión
