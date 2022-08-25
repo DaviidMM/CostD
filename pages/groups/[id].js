@@ -1,35 +1,24 @@
-import axios from 'axios';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Group from '../../components/Group';
+import Dots from '../../components/Loading/Dots';
+import authStatus from '../../context/auth/status';
+import useAuth from '../../hooks/useAuth';
+import useGroup from '../../hooks/useGroup';
 
-export default function GroupPage({ group }) {
-  console.log({ group });
+export default function GroupPage() {
+  const { status } = useAuth();
   const router = useRouter();
+  const group = useGroup(router.query.id);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!group) router.push('/');
+    if (group && router.isReady) setLoading(false);
   }, [group, router]);
 
-  return group && <Group {...group} />;
-}
-
-export async function getServerSideProps(context) {
-  try {
-    const { id } = context.query;
-    const group = await axios
-      .get(`http://localhost:3000/api/groups/${id}`)
-      .then((res) => res.data);
-    console.log('getServerSideProps', { group });
-    return {
-      props: { group },
-    };
-  } catch (err) {
-    console.error(err);
-    return {
-      props: {
-        group: null,
-      },
-    };
+  if (status === authStatus.unauthenticated) {
+    router.push('/');
   }
+
+  return loading ? <Dots /> : <Group {...group} />;
 }

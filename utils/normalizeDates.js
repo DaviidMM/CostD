@@ -1,6 +1,5 @@
 export const normalizeLongDate = (date) => {
   const dateObject = new Date(date);
-  console.log({ dateObject });
   const weekday = dateObject.toLocaleString('default', { weekday: 'long' });
 
   return `${weekday}, ${dateObject.getDate()} de ${dateObject.toLocaleString(

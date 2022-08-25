@@ -9,6 +9,7 @@ import {
   signOut,
 } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
+import authStatus from '../../context/auth/status';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_PUBLIC_API_KEY,
@@ -38,7 +39,13 @@ const mapUserFromFirebase = (user) => {
 export const checkAuthState = (onChange) => {
   return onAuthStateChanged(auth, (user) => {
     const normalizedUser = mapUserFromFirebase({ user });
-    onChange(normalizedUser);
+    if (normalizedUser) {
+      return onChange({
+        user: normalizedUser,
+        status: authStatus.authenticated,
+      });
+    }
+    onChange({ user: null, status: authStatus.unauthenticated });
   });
 };
 

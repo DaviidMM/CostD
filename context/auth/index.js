@@ -1,14 +1,18 @@
 import { createContext, useEffect, useState } from 'react';
 import { checkAuthState } from '../../services/firebase/client';
+import authStatus from './status';
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [auth, setAuth] = useState(null);
+  const [contextValue, setContextValue] = useState({
+    user: null,
+    status: authStatus.loading,
+  });
 
-  useEffect(() => {
-    checkAuthState(setAuth);
-  }, []);
+  useEffect(() => checkAuthState(setContextValue), []);
 
-  return <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
+  );
 };
