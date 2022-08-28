@@ -2,17 +2,20 @@ const { forwardRef } = require('react');
 
 const bgClasses = {
   blue: 'text-blue-900 bg-blue-100 hover:bg-blue-200 hover:text-blue-900',
-  orange: 'bg-orange-500 hover:bg-orange-600 hover:text-white',
+  orange: 'bg-orange-500 hover:bg-orange-600',
+  red: 'bg-red-600 hover:bg-red-800 hover:text-white',
   white: 'bg-slate-200 hover:bg-slate-300',
 };
 
 const borderClasses = {
   blue: 'ring-blue-400 hover:bg-blue-300 hover:text-blue-800',
+  red: 'ring-red-600 hover:bg-red-300 hover:text-red-800 text-red-600',
   white: '',
 };
 
 const textClasses = {
   blue: 'text-blue-400',
+  red: 'text-white',
   white: 'text-black',
 };
 
