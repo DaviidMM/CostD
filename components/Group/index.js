@@ -2,12 +2,12 @@ import { Tab } from '@headlessui/react';
 import BalancePanel from '../BalancePanel';
 import ExpensesPanel from '../ExpensesPanel';
 
-export default function Group({ name, description, expenses }) {
+export default function Group({ name, description, expenses, members }) {
   const tabs = [
     {
       label: 'Gastos',
       Component: ExpensesPanel,
-      data: { expenses },
+      data: { expenses, members },
     },
     {
       label: 'Saldos',
@@ -43,7 +43,7 @@ export default function Group({ name, description, expenses }) {
             return (
               <Tab.Panel
                 key={label}
-                className="p-3 text-black bg-white rounded-lg shadow-[0_0_10px_0] shadow-black/60"
+                className="p-3 bg-gradient-to-br from-slate-500 to-slate-600 rounded-lg shadow-[0_0_10px_0] shadow-black/60"
               >
                 <Component {...data} />
               </Tab.Panel>

@@ -6,6 +6,7 @@ import {
   getDoc,
   getDocs,
   query,
+  setDoc,
   Timestamp,
   where,
 } from 'firebase/firestore';
@@ -90,9 +91,7 @@ export const addExpense = async ({
 }) => {
   const groupRef = doc(db, 'groups', group);
   const groupSnap = await getDoc(groupRef);
-  if (!groupSnap.exists()) {
-    throw new Error('Grupo no encontrado');
-  }
+  if (!groupSnap.exists()) throw new Error('Grupo no encontrado');
 
   const docRef = await addDoc(expensesCollection, {
     description,
@@ -106,5 +105,40 @@ export const addExpense = async ({
   const data = (await getDoc(docRef)).data();
   const id = docRef.id;
 
+  return normalizeExpense({ id, data });
+};
+
+export const editExpense = async ({
+  id,
+  amount,
+  description,
+  payedAt,
+  member,
+}) => {
+  // Get expense ref and check if exists
+  const expenseRef = doc(db, 'expenses', id);
+  const expenseSnap = await getDoc(expenseRef);
+  if (!expenseSnap.exists()) {
+    const error = new Error('Gasto no encontrado');
+    error.status = 404;
+    throw error;
+  }
+
+  const updatedValues = {
+    description,
+    amount,
+    payedAt: payedAt ? Timestamp.fromDate(new Date(payedAt)) : undefined,
+    member,
+    group: undefined,
+  };
+
+  // Remove undefined values from updatedValues
+  Object.keys(updatedValues).forEach((key) => {
+    if (updatedValues[key] === undefined) delete updatedValues[key];
+  });
+
+  await setDoc(expenseRef, updatedValues, { merge: true });
+
+  const data = (await getDoc(expenseRef)).data();
   return normalizeExpense({ id, data });
 };

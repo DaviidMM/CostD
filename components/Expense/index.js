@@ -1,22 +1,29 @@
-import Link from 'next/link';
-import { useState } from 'react';
 import {
   normalizeLongDate,
   normalizeShortDate,
 } from '../../utils/normalizeDates';
+import ModifyExpenseForm from '../ModifyExpenseForm';
 
-export default function Expense({ description, amount, member, payedAt }) {
+export default function Expense({
+  amount,
+  description,
+  id,
+  member,
+  members,
+  open,
+  payedAt,
+  toggleExpense,
+}) {
   const longDate = normalizeLongDate(payedAt);
   const shortDate = normalizeShortDate(payedAt);
-  const [open, setOpen] = useState(false);
 
-  const handleClick = () => setOpen(!open);
+  const handleClick = () => toggleExpense(id);
 
   return (
-    <>
+    <div className="flex flex-col gap-2 ">
       <button
         onClick={handleClick}
-        className="flex flex-row justify-between w-full p-2 rounded-md hover:bg-orange-200 hover:shadow-md"
+        className={`border border-slate-300 flex flex-row justify-between w-full p-2 rounded-md hover:bg-slate-400 hover:border-slate-400 hover:shadow-md transition-colors bg-slate-300 text-black shadow-md`}
       >
         <div className="flex flex-col text-left">
           <span>
@@ -35,12 +42,15 @@ export default function Expense({ description, amount, member, payedAt }) {
         </div>
       </button>
       <div
-        className={'transition-all overflow-hidden ' + (open ? 'h-20' : 'h-0')}
+        className={'transition-all overflow-hidden ' + (open ? 'h-44' : 'h-0')}
       >
-        <div className="h-full p-2 bg-orange-100 rounded-md ">
-          Formulario para modificar un gasto
+        <div className="h-full p-2 text-black rounded-md bg-slate-300 ">
+          <ModifyExpenseForm
+            expense={{ amount, description, id, member, payedAt }}
+            members={members}
+          />
         </div>
       </div>
-    </>
+    </div>
   );
 }
