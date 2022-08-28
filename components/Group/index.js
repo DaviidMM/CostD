@@ -32,7 +32,7 @@ export default function Group(group) {
       data: { expenses, members },
     },
     {
-      label: 'Saldos',
+      label: 'Saldo',
       Component: BalancePanel,
       data: expenses,
     },
@@ -42,8 +42,6 @@ export default function Group(group) {
       data: { members, setMembers, updateMembers },
     },
   ];
-
-  console.log({ members });
 
   return (
     <div className="w-2/3 p-4 mx-auto mt-10 border-2 shadow-[0_0_10px_0_black] border-orange-600 rounded-lg xl:w-2/4 h-fit">
@@ -60,7 +58,7 @@ export default function Group(group) {
               <Tab
                 key={tab.label}
                 className={({ selected }) =>
-                  'w-full rounded-lg py-2.5 text-sm font-medium leading-5 focus-visible:outline-none ' +
+                  'w-full rounded-lg py-2.5 text-sm font-medium leading-5 focus-visible:outline-none transition-colors ' +
                   (selected
                     ? 'bg-white shadow text-orange-700'
                     : 'text-white hover:bg-white/[0.12] hover:text-white')
