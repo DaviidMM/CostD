@@ -1,7 +1,5 @@
-import {
-  normalizeLongDate,
-  normalizeShortDate,
-} from '../../utils/normalizeDates';
+import { useState } from 'react';
+import { normalizeLongDate, normalizeShortDate } from '../../utils/dates';
 import ModifyExpenseForm from '../ModifyExpenseForm';
 
 export default function Expense({
@@ -14,10 +12,22 @@ export default function Expense({
   payedAt,
   toggleExpense,
 }) {
-  const longDate = normalizeLongDate(payedAt);
-  const shortDate = normalizeShortDate(payedAt);
+  const [descriptionValue, setDescriptionValue] = useState(description);
+  const [amountValue, setAmountValue] = useState(amount);
+  const [memberValue, setMemberValue] = useState(member);
+  const [payedAtValue, setPayedAtValue] = useState(payedAt);
+
+  const longDate = normalizeLongDate(payedAtValue);
+  const shortDate = normalizeShortDate(payedAtValue);
 
   const handleClick = () => toggleExpense(id);
+
+  const handleChange = (expense) => {
+    setDescriptionValue(expense.description);
+    setAmountValue(expense.amount);
+    setMemberValue(expense.member);
+    setPayedAtValue(expense.payedAt);
+  };
 
   return (
     <div className="flex flex-col gap-2 ">
@@ -27,15 +37,15 @@ export default function Expense({
       >
         <div className="flex flex-col text-left">
           <span>
-            <b>{description}</b>
+            <b>{descriptionValue}</b>
           </span>
           <span className="text-sm">
-            Pagado por: <b>{member}</b>
+            Pagado por: <b>{memberValue}</b>
           </span>
         </div>
         <div className="flex flex-col text-right">
           <span>
-            <b>{amount}€</b>
+            <b>{amountValue}€</b>
           </span>
           <span className="hidden text-sm md:block">{longDate}</span>
           <span className="block text-sm md:hidden">{shortDate}</span>
@@ -48,6 +58,7 @@ export default function Expense({
           <ModifyExpenseForm
             expense={{ amount, description, id, member, payedAt }}
             members={members}
+            onChange={handleChange}
           />
         </div>
       </div>

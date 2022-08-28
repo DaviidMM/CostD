@@ -11,8 +11,5 @@ export const modifyExpense = async ({
     .put(`/api/expenses/${id}`, { description, amount, member, payedAt })
     .then((res) => {
       return res.data;
-    })
-    .catch((err) => {
-      console.log({ err });
     });
 };

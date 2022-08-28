@@ -1,17 +1,28 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { modifyExpense } from '../../services/expenses';
 import Button from '../Button';
 import Input from '../Input';
 import { toast } from 'react-toastify';
+import { formatInputDate } from '../../utils/dates';
 
-export default function ModifyExpenseForm({ expense, members = [] }) {
+export default function ModifyExpenseForm({ expense, members = [], onChange }) {
   const { id } = expense;
   const [description, setDescription] = useState(expense.description);
   const [amount, setAmount] = useState(expense.amount);
   const [member, setMember] = useState(expense.member);
-  const [payedAt, setPayedAt] = useState(
-    new Date(expense.payedAt).toISOString().split(':').slice(0, -1).join(':')
-  );
+  const [payedAt, setPayedAt] = useState(formatInputDate(expense.payedAt));
+  const [changed, setChanged] = useState(false);
+
+  useEffect(() => {
+    if (
+      description !== expense.description ||
+      amount !== expense.amount ||
+      member !== expense.member ||
+      payedAt !== formatInputDate(expense.payedAt)
+    ) {
+      setChanged(true);
+    }
+  }, [description, amount, member, payedAt]);
 
   const handleDescriptionChange = (e) => setDescription(e.target.value);
   const handleAmountChange = (e) => setAmount(Number(e.target.value));
@@ -29,11 +40,25 @@ export default function ModifyExpenseForm({ expense, members = [] }) {
       payedAt,
     });
 
-    toast.promise(promise, {
-      success: 'Gasto modificado con éxito',
-      error: 'Ha ocurrido un error modificando el gasto',
-      pending: 'Actualizando gasto...',
-    });
+    toast
+      .promise(promise, {
+        success: 'Gasto modificado con éxito',
+        error: 'Ha ocurrido un error modificando el gasto',
+        pending: 'Actualizando gasto...',
+      })
+      .then((updatedExpense) => {
+        const { description, amount, member, payedAt } = updatedExpense;
+        onChange({
+          description,
+          amount,
+          member,
+          payedAt,
+        });
+        setChanged(false);
+      })
+      .catch((err) => {
+        toast.error(err.response.data.error || 'Error inesperado');
+      });
   };
 
   return (
@@ -78,7 +103,11 @@ export default function ModifyExpenseForm({ expense, members = [] }) {
         />
       </div>
 
-      <Button className="self-end px-2 py-1 w-fit" color="orange">
+      <Button
+        disabled={!changed}
+        className="self-end px-2 py-1 w-fit"
+        color="orange"
+      >
         Guardar
       </Button>
     </form>

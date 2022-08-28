@@ -10,6 +10,7 @@ import {
 } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import authStatus from '../../context/auth/status';
+import { storeDbUser } from './db';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_PUBLIC_API_KEY,
@@ -28,11 +29,12 @@ export const db = getFirestore(app);
 
 const mapUserFromFirebase = (user) => {
   if (!user.user) return null;
-  const { displayName, email, photoURL } = user.user;
+  const { displayName, email, photoURL, uid: id } = user.user;
   return {
+    avatar: photoURL,
     displayName,
     email,
-    avatar: photoURL,
+    id,
   };
 };
 
@@ -51,7 +53,9 @@ export const checkAuthState = (onChange) => {
 
 export const loginWithGoogle = () => {
   const provider = new GoogleAuthProvider();
-  return signInWithPopup(auth, provider).then(mapUserFromFirebase);
+  return signInWithPopup(auth, provider)
+    .then(mapUserFromFirebase)
+    .then(storeDbUser);
 };
 
 export const loginWithTwitter = () => {

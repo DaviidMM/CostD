@@ -1,8 +1,30 @@
 import { Tab } from '@headlessui/react';
+import { useState } from 'react';
+import { toast } from 'react-toastify';
+import { updateGroup } from '../../services/groups';
 import BalancePanel from '../BalancePanel';
 import ExpensesPanel from '../ExpensesPanel';
+import MembersPanel from '../MembersPanel';
+import Typed from '../Typed';
 
-export default function Group({ name, description, expenses, members }) {
+export default function Group(group) {
+  const { id, name, description, expenses } = group;
+
+  const [members, setMembers] = useState(group.members);
+
+  const updateMembers = (members) => {
+    const promise = updateGroup(id, { members });
+    toast
+      .promise(promise, {
+        success: 'Se ha actualizado el grupo',
+        error: 'No se ha podido actualizar el grupo',
+        pending: 'Actualizando grupo...',
+      })
+      .then((then) => {
+        console.log({ then });
+      });
+  };
+
   const tabs = [
     {
       label: 'Gastos',
@@ -14,15 +36,26 @@ export default function Group({ name, description, expenses, members }) {
       Component: BalancePanel,
       data: expenses,
     },
+    {
+      label: 'Miembros',
+      Component: MembersPanel,
+      data: { members, setMembers, updateMembers },
+    },
   ];
+
+  console.log({ members });
 
   return (
     <div className="w-2/3 p-4 mx-auto mt-10 border-2 shadow-[0_0_10px_0_black] border-orange-600 rounded-lg xl:w-2/4 h-fit">
-      <h1 className="text-3xl font-semibold text-center">{name}</h1>
-      <p className="text-center">{description}</p>
+      <h1 className="text-3xl font-semibold text-center">
+        <Typed bold text={name} cursor="" />
+      </h1>
+      <p className="text-justify">
+        <Typed text={description} cursor="" typeSpeed={10} />
+      </p>
       <Tab.Group>
         <Tab.List className="flex p-1 mt-4 space-x-1 text-black bg-gradient-to-br from-orange-600 to-orange-900 rounded-xl">
-          {tabs.map((tab, idx) => {
+          {tabs.map((tab) => {
             return (
               <Tab
                 key={tab.label}
@@ -39,7 +72,7 @@ export default function Group({ name, description, expenses, members }) {
           })}
         </Tab.List>
         <Tab.Panels className="mt-2">
-          {tabs.map(({ Component, label, data }, idx) => {
+          {tabs.map(({ Component, label, data }) => {
             return (
               <Tab.Panel
                 key={label}

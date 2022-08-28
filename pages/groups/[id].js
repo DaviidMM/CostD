@@ -14,6 +14,7 @@ export default function GroupPage() {
 
   useEffect(() => {
     if (group && router.isReady) setLoading(false);
+    if (group === null) router.push('/');
   }, [group, router]);
 
   if (status === authStatus.unauthenticated) {

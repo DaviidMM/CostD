@@ -1,5 +1,5 @@
 const colors = {
-  orange: 'from-orange-500 to-orange-700',
+  orange: 'from-orange-500 via-orange-300 to-orange-500',
 };
 
 export default function ColoredText({ bold, children, color }) {

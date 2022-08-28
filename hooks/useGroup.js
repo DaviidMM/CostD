@@ -2,14 +2,17 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 
 export default function useGroup(id) {
-  const [group, setGroup] = useState(null);
+  const [group, setGroup] = useState(undefined);
 
   useEffect(() => {
     if (id) {
       axios
         .get(`/api/groups/${id}`)
         .then((res) => res.data)
-        .then(setGroup);
+        .then((group) => {
+          setGroup(group);
+        })
+        .catch((err) => setGroup(null));
     }
   }, [id]);
 

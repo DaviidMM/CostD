@@ -9,6 +9,7 @@ module.exports = {
       animation: {
         'spin-ease-in-out': 'spin 1s ease-in-out infinite',
         longBounce: 'longBounce 1s ease-in-out infinite',
+        blink: 'blink 1.1s steps(1,end) infinite',
       },
       keyframes: {
         longBounce: {
@@ -19,6 +20,14 @@ module.exports = {
           '50%': {
             transform: 'none',
             'animation-timing-function': 'cubic-bezier(0,0,0.2,1)',
+          },
+        },
+        blink: {
+          '0%, 100%': {
+            opacity: 1,
+          },
+          '50%': {
+            opacity: 0,
           },
         },
       },

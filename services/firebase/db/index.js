@@ -13,10 +13,9 @@ import {
 import normalizeGroup from '../../../utils/normalizeGroup';
 import normalizeExpense from '../../../utils/normalizeExpense';
 
-const groupsCollection = collection(db, 'groups');
-const expensesCollection = collection(db, 'expenses');
-
 export const addGroup = async (group) => {
+  console.log('addGroup', { group });
+  const groupsCollection = collection(db, 'groups');
   const docRef = await addDoc(groupsCollection, {
     ...group,
     createdAt: Timestamp.fromDate(new Date()),
@@ -32,6 +31,8 @@ export const addGroup = async (group) => {
 };
 
 export const getGroups = async () => {
+  const groupsCollection = collection(db, 'groups');
+  const expensesCollection = collection(db, 'expenses');
   const groups = await getDocs(groupsCollection);
   return await Promise.all(
     groups.docs.map(async (group) => {
@@ -63,6 +64,8 @@ export const getGroups = async () => {
 };
 
 export const getGroup = async (id) => {
+  const expensesCollection = collection(db, 'expenses');
+
   const groupRef = doc(db, 'groups', id);
   const groupSnap = await getDoc(groupRef);
 
@@ -89,6 +92,8 @@ export const addExpense = async ({
   member,
   payedAt,
 }) => {
+  const expensesCollection = collection(db, 'expenses');
+
   const groupRef = doc(db, 'groups', group);
   const groupSnap = await getDoc(groupRef);
   if (!groupSnap.exists()) throw new Error('Grupo no encontrado');
@@ -141,4 +146,53 @@ export const editExpense = async ({
 
   const data = (await getDoc(expenseRef)).data();
   return normalizeExpense({ id, data });
+};
+
+export const editGroup = async ({
+  id,
+  name,
+  description,
+  category,
+  members,
+}) => {
+  // Get expense ref and check if exists
+  const groupRef = doc(db, 'groups', id);
+  const groupSnap = await getDoc(groupRef);
+  if (!groupSnap.exists()) {
+    const error = new Error('Grupo no encontrado');
+    error.status = 404;
+    throw error;
+  }
+
+  const updatedValues = {
+    category,
+    description,
+    members,
+    name,
+  };
+
+  // Remove undefined values from updatedValues
+  Object.keys(updatedValues).forEach((key) => {
+    if (updatedValues[key] === undefined) delete updatedValues[key];
+  });
+
+  await setDoc(groupRef, updatedValues, { merge: true });
+
+  const data = (await getDoc(groupRef)).data();
+  return normalizeGroup({ id, data });
+};
+
+export const storeDbUser = async (user) => {
+  await setDoc(doc(db, 'users', user.id), {
+    ...user,
+    lastLogin: Timestamp.fromDate(new Date()),
+  });
+
+  const docRef = doc(db, 'users', user.id);
+  const data = (await getDoc(docRef)).data();
+
+  return {
+    id: docRef.id,
+    ...data,
+  };
 };
