@@ -1,4 +1,4 @@
-import { editExpense } from '../../../services/firebase/db';
+import { deleteExpense, editExpense } from '../../../services/firebase/db';
 
 export default function handler(req, res) {
   if (req.method === 'PUT') {
@@ -15,6 +15,13 @@ export default function handler(req, res) {
   }
   if (req.method === 'DELETE') {
     const { id } = req.query;
-    return res.status(200).json({ action: 'Eliminar gasto' + id });
+    return deleteExpense(id)
+      .then(() => {
+        res.status(200).json({});
+      })
+      .catch((err) => {
+        console.log({ err });
+        res.status(err.status).json({ error: err.message });
+      });
   }
 }

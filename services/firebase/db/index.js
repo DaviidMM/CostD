@@ -2,6 +2,7 @@ import { db } from '../client';
 import {
   addDoc,
   collection,
+  deleteDoc,
   doc,
   getDoc,
   getDocs,
@@ -12,6 +13,16 @@ import {
 } from 'firebase/firestore';
 import normalizeGroup from '../../../utils/normalizeGroup';
 import normalizeExpense from '../../../utils/normalizeExpense';
+
+const getExpense = async (id) => {
+  // Get expense ref and check if exists
+  const expenseRef = doc(db, 'expenses', id);
+  const expenseSnap = await getDoc(expenseRef);
+  if (!expenseSnap.exists()) {
+    return false;
+  }
+  return expenseRef;
+};
 
 export const addGroup = async (group) => {
   console.log('addGroup', { group });
@@ -85,6 +96,8 @@ export const getGroup = async (id) => {
   return null;
 };
 
+/* Expenses */
+
 export const addExpense = async ({
   amount,
   description,
@@ -121,9 +134,8 @@ export const editExpense = async ({
   member,
 }) => {
   // Get expense ref and check if exists
-  const expenseRef = doc(db, 'expenses', id);
-  const expenseSnap = await getDoc(expenseRef);
-  if (!expenseSnap.exists()) {
+  const expenseRef = await getExpense(id);
+  if (!expenseRef) {
     const error = new Error('Gasto no encontrado');
     error.status = 404;
     throw error;
@@ -147,6 +159,23 @@ export const editExpense = async ({
   const data = (await getDoc(expenseRef)).data();
   return normalizeExpense({ id, data });
 };
+
+export const deleteExpense = async (id) => {
+  // Get expense ref and check if exists
+  const expenseRef = await getExpense(id);
+  console.log({ expenseRef });
+  if (!expenseRef) {
+    const error = new Error('Gasto no encontrado');
+    error.status = 404;
+    throw error;
+  }
+
+  await deleteDoc(expenseRef);
+
+  return true;
+};
+
+/* End Expenses */
 
 export const editGroup = async ({
   id,

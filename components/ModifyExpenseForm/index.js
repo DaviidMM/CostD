@@ -4,8 +4,16 @@ import Button from '../Button';
 import Input from '../Input';
 import { toast } from 'react-toastify';
 import { formatInputDate } from '../../utils/dates';
+import Select from '../Select';
+import { TrashIcon } from '@heroicons/react/solid';
+import { SaveIcon } from '@heroicons/react/outline';
 
-export default function ModifyExpenseForm({ expense, members = [], onChange }) {
+export default function ModifyExpenseForm({
+  expense,
+  members = [],
+  onDelete,
+  onUpdate,
+}) {
   const { id } = expense;
   const [description, setDescription] = useState(expense.description);
   const [amount, setAmount] = useState(expense.amount);
@@ -22,12 +30,14 @@ export default function ModifyExpenseForm({ expense, members = [], onChange }) {
     ) {
       setChanged(true);
     }
-  }, [description, amount, member, payedAt]);
+  }, [description, amount, member, payedAt, expense]);
 
   const handleDescriptionChange = (e) => setDescription(e.target.value);
   const handleAmountChange = (e) => setAmount(Number(e.target.value));
   const handleMemberChange = (e) => setMember(e.target.value);
   const handlePayedAtChange = (e) => setPayedAt(e.target.value);
+
+  const handleDelete = () => onDelete(expense);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -48,7 +58,7 @@ export default function ModifyExpenseForm({ expense, members = [], onChange }) {
       })
       .then((updatedExpense) => {
         const { description, amount, member, payedAt } = updatedExpense;
-        onChange({
+        onUpdate({
           description,
           amount,
           member,
@@ -69,47 +79,47 @@ export default function ModifyExpenseForm({ expense, members = [], onChange }) {
       <div className="grid grid-cols-2 gap-2">
         <Input
           label="Descripción"
-          value={description}
           onChange={handleDescriptionChange}
+          value={description}
         />
         <Input
-          type="number"
           label="Cantidad"
-          value={amount}
           onChange={handleAmountChange}
+          selectAllOnFocus
           step="0.01"
+          type="number"
+          value={amount}
         />
-        <div className="flex flex-col">
-          <label htmlFor="member">Miembro</label>
-          <select
-            className="px-2 py-1 text-white rounded-md"
-            id="member"
-            value={member}
-            onChange={handleMemberChange}
-          >
-            <option value="">Seleccione un miembro</option>
-            {members.map((member) => (
-              <option key={member} value={member}>
-                {member}
-              </option>
-            ))}
-          </select>
-        </div>
+        <Select
+          label="Pagado por"
+          onChange={handleMemberChange}
+          options={members.map((m) => m.name)}
+          placeholder="Selecciona un miembro"
+          value={member}
+        />
         <Input
           label="Fecha de pago"
+          onChange={handlePayedAtChange}
           type="datetime-local"
           value={payedAt}
-          onChange={handlePayedAtChange}
         />
       </div>
 
-      <Button
-        disabled={!changed}
-        className="self-end px-2 py-1 w-fit"
-        color="orange"
-      >
-        Guardar
-      </Button>
+      <div className="flex flex-row justify-end gap-2">
+        <Button color="red" className="py-1" onClick={handleDelete}>
+          <TrashIcon className="w-4 h-4" />
+          Eliminar
+        </Button>
+        <Button
+          disabled={!changed}
+          className="px-2 py-1 w-fit"
+          color="orange"
+          type="submit"
+        >
+          <SaveIcon className="w-4 h-4" />
+          Guardar
+        </Button>
+      </div>
     </form>
   );
 }
