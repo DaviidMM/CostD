@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { toast } from 'react-toastify';
+import { deleteExpense } from '../../services/expenses';
 import { normalizeLongDate, normalizeShortDate } from '../../utils/dates';
 import ModifyExpenseForm from '../ModifyExpenseForm';
 
@@ -8,6 +10,7 @@ export default function Expense({
   id,
   member,
   members,
+  onDelete,
   open,
   payedAt,
   toggleExpense,
@@ -27,6 +30,30 @@ export default function Expense({
     setAmountValue(expense.amount);
     setMemberValue(expense.member);
     setPayedAtValue(expense.payedAt);
+  };
+
+  const handleDelete = (expense) => {
+    console.log('handleDelete', { expense });
+
+    if (!confirm('¿Estás seguro de que quieres eliminar este gasto?')) {
+      return;
+    }
+
+    const promise = deleteExpense(expense);
+
+    toast
+      .promise(promise, {
+        success: 'Se ha eliminado el gasto',
+        error: 'Ha ocurrido un error eliminando el gasto',
+        pending: 'Eliminando gasto...',
+      })
+      .then(() => onDelete(expense))
+      .catch((err) => {
+        console.error({ err });
+        toast.error(
+          err.response.data.error || 'Ha ocurrido un error eliminando el gasto'
+        );
+      });
   };
 
   return (
@@ -58,7 +85,8 @@ export default function Expense({
           <ModifyExpenseForm
             expense={{ amount, description, id, member, payedAt }}
             members={members}
-            onChange={handleChange}
+            onDelete={handleDelete}
+            onUpdate={handleChange}
           />
         </div>
       </div>
