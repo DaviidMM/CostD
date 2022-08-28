@@ -2,11 +2,14 @@ export default function Input({
   className = '',
   label,
   name,
-  value,
   onChange = () => {},
+  selectAllOnFocus = false,
   step = '1',
   type = 'text',
+  value,
 }) {
+  const handleFocus = (e) => e.target.select();
+
   return (
     <div className={(className ? className + ' ' : '') + 'flex flex-col'}>
       {label && (
@@ -20,6 +23,7 @@ export default function Input({
         type={type}
         value={value}
         onChange={onChange}
+        onFocus={selectAllOnFocus ? handleFocus : () => {}}
         step={type === 'datetime-local' ? '60' : step}
         name={name}
       />
