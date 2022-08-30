@@ -23,10 +23,11 @@ export default function ModifyExpenseForm({
 
   useEffect(() => {
     if (
-      description !== expense.description ||
-      amount !== expense.amount ||
-      member !== expense.member ||
-      payedAt !== formatInputDate(expense.payedAt)
+      document.activeElement.nodeName.toLowerCase() === 'input' &&
+      (description !== expense.description ||
+        amount !== expense.amount ||
+        member !== expense.member ||
+        payedAt !== formatInputDate(expense.payedAt))
     ) {
       setChanged(true);
     }

@@ -79,11 +79,11 @@ export const editExpense = async ({
 
   await db.collection('expenses').doc(id).update(updatedValues);
 
-  const createdDoc = await db.collection('expenses').doc(id).get();
+  const updatedDoc = await db.collection('expenses').doc(id).get();
 
   return normalizeExpense({
     id,
-    data: createdDoc.data(),
+    data: updatedDoc.data(),
   });
 };
 
@@ -108,10 +108,8 @@ export const editGroup = async ({
   category,
   members,
 }) => {
-  // Get expense ref and check if exists
-  const groupRef = doc(db, 'groups', id);
-  const groupSnap = await getDoc(groupRef);
-  if (!groupSnap.exists()) {
+  const group = await db.collection('groups').doc(id).get();
+  if (!group.exists) {
     const error = new Error('Grupo no encontrado');
     error.status = 404;
     throw error;
@@ -129,8 +127,12 @@ export const editGroup = async ({
     if (updatedValues[key] === undefined) delete updatedValues[key];
   });
 
-  await setDoc(groupRef, updatedValues, { merge: true });
+  await db.collection('groups').doc(id).update(updatedValues);
 
-  const data = (await getDoc(groupRef)).data();
-  return normalizeGroup({ id, data });
+  const updatedDoc = await db.collection('groups').doc(id).get();
+
+  return normalizeGroup({
+    id,
+    data: updatedDoc.data(),
+  });
 };

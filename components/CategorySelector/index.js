@@ -9,12 +9,22 @@ const categories = [
   '🛠 Proyecto',
 ];
 
-export default function CategorySelector({ onChange }) {
+export default function CategorySelector({
+  onChange,
+  selected: initialSelected,
+}) {
   const [selected, setSelected] = useState(null);
 
   useEffect(() => {
-    onChange(selected);
+    if (selected) onChange(selected);
   }, [selected, onChange]);
+
+  useEffect(() => {
+    const initialSelectedExists = categories.includes(initialSelected);
+    if (initialSelected && initialSelectedExists) {
+      setSelected(initialSelected);
+    }
+  }, []); // eslint-disable-line
 
   const selectCategory = (category) => setSelected(category);
 

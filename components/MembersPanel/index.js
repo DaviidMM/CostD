@@ -1,18 +1,34 @@
+import { useState } from 'react';
+import { toast } from 'react-toastify';
 import Button from '../Button';
 import MembersBox from '../MembersBox';
 
 export default function MembersPanel({ members, setMembers, updateMembers }) {
+  const [changed, setChanged] = useState(false);
+
+  const handleSetMembers = (members) => {
+    setChanged(true);
+    setMembers(members);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('submit');
-    console.log({ members });
-    updateMembers(members);
+    if (members.some((m) => !m.name)) {
+      return toast.warning('Todos los miembros deben tener un nombre');
+    }
+    updateMembers(members).then(() => setChanged(false));
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <MembersBox className="mb-4" members={members} setMembers={setMembers} />
-      <Button type="submit">Guardar miembros</Button>
+      <MembersBox
+        className="mb-4"
+        members={members}
+        setMembers={handleSetMembers}
+      />
+      <Button disabled={!changed} type="submit">
+        Guardar miembros
+      </Button>
     </form>
   );
 }
