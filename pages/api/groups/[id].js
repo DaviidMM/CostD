@@ -1,13 +1,6 @@
-import { editGroup, getGroup } from '../../../../services/firebase/db';
+import { editGroup } from '../../../services/firebase/db/admin';
 
 export default async function handler(req, res) {
-  if (req.method === 'GET') {
-    const { id } = req.query;
-    return getGroup(id).then((group) => {
-      if (group) return res.status(200).json(group);
-      return res.status(404).json({ error: 'Grupo no encontrado' });
-    });
-  }
   if (req.method === 'PUT') {
     const { id } = req.query;
     const { name, description, category, members } = req.body;

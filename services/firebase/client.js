@@ -10,7 +10,7 @@ import {
 } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import authStatus from '../../context/auth/status';
-import { storeDbUser } from './db';
+import { storeDbUser } from './db/client';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_PUBLIC_API_KEY,

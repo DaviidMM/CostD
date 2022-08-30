@@ -1,20 +1,26 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { getGroup } from '../services/firebase/db/client';
 
 export default function useGroup(id) {
   const [group, setGroup] = useState(undefined);
 
   useEffect(() => {
     if (id) {
-      axios
-        .get(`/api/groups/${id}`)
-        .then((res) => res.data)
+      getGroup(id)
         .then((group) => {
+          console.log({ group });
           setGroup(group);
         })
-        .catch((err) => setGroup(null));
+        .catch((err) => {
+          console.log({ err });
+          setGroup(null);
+        });
+    } else {
+      setGroup(null);
     }
   }, [id]);
+
+  console.log('useGroup', { group });
 
   return group;
 }

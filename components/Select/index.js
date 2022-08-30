@@ -10,7 +10,7 @@ export default function Select({
     <div className="flex flex-col">
       <label htmlFor="member">{label}</label>
       <select
-        className="px-2 py-1 text-white rounded-md"
+        className="h-full px-2 py-1 text-white rounded-md"
         id="member"
         value={value || ''}
         name={name}

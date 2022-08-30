@@ -1,14 +1,6 @@
-import { addGroup, getGroups } from '../../../services/firebase/db';
+import { addGroup } from '../../../services/firebase/db/admin';
 
 export default function handler(req, res) {
-  if (req.method === 'GET') {
-    return getGroups()
-      .then((groups) => res.status(200).json(groups))
-      .catch((err) => {
-        console.error(err);
-        return res.status(500).json(err);
-      });
-  }
   if (req.method === 'POST') {
     const { name, category, description, members } = req.body;
     return addGroup({ name, category, description, members })

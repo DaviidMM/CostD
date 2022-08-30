@@ -1,14 +1,12 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { getGroups } from '../services/firebase/db/client';
 
 export default function useGroups() {
   const [groups, setGroups] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios
-      .get('/api/groups')
-      .then((res) => res.data)
+    getGroups()
       .then((groups) => {
         setGroups(groups);
         setLoading(false);
