@@ -3,16 +3,6 @@ import normalizeGroup from '../../../utils/normalizeGroup';
 import normalizeExpense from '../../../utils/normalizeExpense';
 import { Timestamp } from 'firebase-admin/firestore';
 
-const getExpense = async (id) => {
-  // Get expense ref and check if exists
-  const expenseRef = doc(db, 'expenses', id);
-  const expenseSnap = await getDoc(expenseRef);
-  if (!expenseSnap.exists()) {
-    return false;
-  }
-  return expenseRef;
-};
-
 export const addGroup = async (group) => {
   const doc = await db.collection('groups').add({
     category: group.category,
@@ -133,6 +123,31 @@ export const editGroup = async ({
 
   return normalizeGroup({
     id,
+    data: updatedDoc.data(),
+  });
+};
+
+export const bindUserToMember = async ({ group, user, member }) => {
+  const docRef = db.collection('groups').doc(group);
+  const doc = await docRef.get();
+  if (!doc.exists) {
+    const error = new Error('Grupo no encontrado');
+    error.status = 404;
+    throw error;
+  }
+
+  const { members } = doc.data();
+
+  const updatedMembers = members.map((m) =>
+    m.id === member ? { ...m, uid: user } : m
+  );
+
+  await docRef.update({ members: updatedMembers });
+
+  const updatedDoc = await docRef.get();
+
+  return normalizeGroup({
+    id: doc.id,
     data: updatedDoc.data(),
   });
 };

@@ -18,3 +18,7 @@ export const updateGroup = async (
   const { data } = await axios.put(`/api/groups/${id}`, updatedFields);
   return data;
 };
+
+export const bindUserToMember = ({ group, user, member }) => {
+  return axios.put(`/api/groups/${group}/bind`, { user, member });
+};

@@ -3,7 +3,7 @@ import { ArrowLeftIcon, CogIcon, XIcon } from '@heroicons/react/solid';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import useAuth from '../../hooks/useAuth';
-import { updateGroup } from '../../services/groups';
+import { bindUserToMember, updateGroup } from '../../services/groups';
 import BalancePanel from '../BalancePanel';
 import Button from '../Button';
 import CategoryItem from '../CategorySelector/CategoryItem';
@@ -21,8 +21,8 @@ export default function Group(initialGroup) {
   const [members, setMembers] = useState(group.members);
   const [showConfig, setShowConfig] = useState(false);
   const [animateIcon, setAnimateIcon] = useState(false);
-  const [userIsMember, setUserIsMember] = useState(
-    members.some((m) => m.uid === userId)
+  const [userMember, setUserMember] = useState(
+    members.find((m) => m.uid === userId)?.id
   );
 
   const onUpdate = (updatedGroup) => {
@@ -38,9 +38,33 @@ export default function Group(initialGroup) {
     });
   };
 
-  const toggleAnimation = () => {
-    setAnimateIcon(!animateIcon);
+  const handleBindUserToMember = (memberId) => {
+    const promise = bindUserToMember({
+      group: group.id,
+      user: userId,
+      member: memberId,
+    });
+
+    toast
+      .promise(promise, {
+        success: '¡Vinculado correctamente! 🔗',
+        error: '¡Ha ocurrido un error! ❌',
+        pending: 'Vinculando...',
+      })
+      .then((res) => res.data)
+      .then((updatedGroup) => {
+        const { members } = updatedGroup;
+        setGroup({ ...group, members });
+        setMembers(members);
+        setUserMember(members.find((m) => m.uid === userId)?.id);
+      })
+      .catch((err) => {
+        console.log({ err });
+        toast.error(err.response.data.error);
+      });
   };
+
+  const toggleAnimation = () => setAnimateIcon(!animateIcon);
   const toggleConfig = () => setShowConfig(!showConfig);
 
   const tabs = [
@@ -56,12 +80,10 @@ export default function Group(initialGroup) {
     },
   ];
 
-  console.log({ userIsMember });
-
-  return !userIsMember ? (
+  return !userMember ? (
     <div>
       ¡No estás asociado a ningún miembro del grupo! 💀
-      <MemberSelector members={members} />
+      <MemberSelector members={members} onSelect={handleBindUserToMember} />
     </div>
   ) : (
     <div className="relative w-2/3 p-4 mx-auto mt-10 border-2 shadow-[0_0_10px_0_black] border-orange-600 rounded-lg xl:w-2/4 h-fit">
@@ -101,11 +123,14 @@ export default function Group(initialGroup) {
         />
       ) : (
         <div className="flex flex-col gap-4">
-          <div>
-            <CategoryItem
-              category={group.category}
-              className="absolute left-4 top-4"
-            />
+          <div className="pb-8 border-b border-orange-600">
+            <div className="absolute flex flex-col left-4 top-4">
+              <CategoryItem category={group.category} />
+              <small>
+                Registrado como{' '}
+                <b>{members.find((m) => m.id === userMember).name}</b>
+              </small>
+            </div>
             <h1 className="text-3xl font-semibold text-center grow">
               <Typed bold text={group.name} cursor="" />
             </h1>

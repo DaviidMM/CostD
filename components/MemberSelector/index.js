@@ -3,20 +3,18 @@ import { toast } from 'react-toastify';
 import Button from '../Button';
 import MemberItem from './MemberItem';
 
-export default function MemberSelector({ members, selected: initialSelected }) {
+export default function MemberSelector({
+  members,
+  selected: initialSelected,
+  onSelect = () => {},
+}) {
   const [selected, setSelected] = useState(initialSelected);
 
-  const onSelect = (id) => setSelected(id);
+  const handleSelect = (id) => setSelected(id);
 
   const handleSubmit = () => {
-    console.log('Submit');
-    if (!selected) {
-      return toast.error('Selecciona un miembro');
-    }
-
-    console.log(
-      'Añadir el id del usuario logeado al campo uid del miembro al que se vincule'
-    );
+    if (!selected) return toast.error('Selecciona un miembro');
+    onSelect(selected);
   };
 
   return (
@@ -25,7 +23,7 @@ export default function MemberSelector({ members, selected: initialSelected }) {
         <MemberItem
           key={member.id}
           {...member}
-          onSelect={onSelect}
+          onSelect={handleSelect}
           selected={selected === member.id}
         />
       ))}
