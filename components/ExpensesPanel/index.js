@@ -33,7 +33,7 @@ export default function ExpensesPanel(expense) {
         />
       ) : (
         <>
-          <ul className="flex flex-col gap-2 mb-4">
+          <ul className="flex flex-col gap-2 mb-4 overflow-y-scroll max-h-96">
             {expenses.map((expense) => {
               return (
                 <Expense

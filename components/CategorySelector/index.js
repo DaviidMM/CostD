@@ -13,18 +13,13 @@ export default function CategorySelector({
   onChange,
   selected: initialSelected,
 }) {
-  const [selected, setSelected] = useState(null);
+  const [selected, setSelected] = useState(
+    categories.includes(initialSelected) ? initialSelected : null
+  );
 
   useEffect(() => {
-    if (selected) onChange(selected);
-  }, [selected, onChange]);
-
-  useEffect(() => {
-    const initialSelectedExists = categories.includes(initialSelected);
-    if (initialSelected && initialSelectedExists) {
-      setSelected(initialSelected);
-    }
-  }, []); // eslint-disable-line
+    if (selected && selected !== initialSelected) onChange(selected);
+  }, [initialSelected, selected, onChange]);
 
   const selectCategory = (category) => setSelected(category);
 

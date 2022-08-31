@@ -36,7 +36,7 @@ export default function Header() {
   };
 
   return (
-    <header className="sticky top-0 flex flex-row items-center w-full h-20 gap-5 px-32 place-content-between bg-slate-800">
+    <header className="sticky top-0 z-50 flex flex-row items-center w-full h-20 gap-5 px-32 place-content-between bg-slate-800">
       <div className="p-2 transition-all rounded-md hover:shadow-sm hover:bg-slate-600 shadow-black">
         <Link href="/">
           <a className="text-2xl font-bold text-white">CostD</a>
