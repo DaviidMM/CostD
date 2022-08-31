@@ -1,4 +1,4 @@
-import { editGroup } from '../../../services/firebase/db/admin';
+import { editGroup } from '../../../../services/firebase/db/admin';
 
 export default async function handler(req, res) {
   if (req.method === 'PUT') {

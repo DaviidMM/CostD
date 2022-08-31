@@ -18,7 +18,7 @@ export const addGroup = async (group) => {
     category: group.category,
     description: group.description,
     name: group.name,
-    members: group.members,
+    members: group.members.map((m) => ({ ...m, uid: '' })),
     createdAt: Timestamp.fromDate(new Date()),
   });
 

@@ -1,7 +1,6 @@
 import { useRouter } from 'next/router';
 // import Typed from 'react-typed';
 import Typed from '../../components/Typed';
-import ColoredText from '../../components/ColoredText';
 import GroupContainer from '../../components/GroupsContainer';
 import authStatus from '../../context/auth/status';
 import useAuth from '../../hooks/useAuth';

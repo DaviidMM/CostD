@@ -22,8 +22,6 @@ export default function NewGroupForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('submit');
-    console.log({ name, category, description, members });
 
     if (!name || !category || !description || members.some((m) => !m.name)) {
       return toast.warning('Rellena todos los campos');

@@ -1,21 +1,29 @@
 import { Tab } from '@headlessui/react';
 import { ArrowLeftIcon, CogIcon, XIcon } from '@heroicons/react/solid';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+import useAuth from '../../hooks/useAuth';
 import { updateGroup } from '../../services/groups';
 import BalancePanel from '../BalancePanel';
 import Button from '../Button';
 import CategoryItem from '../CategorySelector/CategoryItem';
 import ExpensesPanel from '../ExpensesPanel';
 import GroupConfig from '../GroupConfig';
+import MemberSelector from '../MemberSelector';
 import Tabs from '../Tabs';
 import Typed from '../Typed';
 
 export default function Group(initialGroup) {
+  const {
+    user: { id: userId },
+  } = useAuth();
   const [group, setGroup] = useState(initialGroup);
   const [members, setMembers] = useState(group.members);
   const [showConfig, setShowConfig] = useState(false);
   const [animateIcon, setAnimateIcon] = useState(false);
+  const [userIsMember, setUserIsMember] = useState(
+    members.some((m) => m.uid === userId)
+  );
 
   const onUpdate = (updatedGroup) => {
     setGroup({ ...group, ...updatedGroup });
@@ -30,6 +38,11 @@ export default function Group(initialGroup) {
     });
   };
 
+  const toggleAnimation = () => {
+    setAnimateIcon(!animateIcon);
+  };
+  const toggleConfig = () => setShowConfig(!showConfig);
+
   const tabs = [
     {
       label: 'Gastos',
@@ -43,14 +56,14 @@ export default function Group(initialGroup) {
     },
   ];
 
-  const toggleAnimation = () => {
-    setAnimateIcon(!animateIcon);
-  };
-  const toggleConfig = () => setShowConfig(!showConfig);
+  console.log({ userIsMember });
 
-  console.log({ group });
-
-  return (
+  return !userIsMember ? (
+    <div>
+      ¡No estás asociado a ningún miembro del grupo! 💀
+      <MemberSelector members={members} />
+    </div>
+  ) : (
     <div className="relative w-2/3 p-4 mx-auto mt-10 border-2 shadow-[0_0_10px_0_black] border-orange-600 rounded-lg xl:w-2/4 h-fit">
       <Button
         className="absolute top-4 right-4"

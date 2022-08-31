@@ -27,9 +27,9 @@ export default function ExpensesPanel(expense) {
     <div>
       {showNewExpenseForm ? (
         <NewExpenseForm
-          onCreate={addExpense}
           closeForm={() => setShowNewExpenseForm(false)}
           members={members}
+          onCreate={addExpense}
         />
       ) : (
         <>
