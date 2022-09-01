@@ -14,9 +14,16 @@ export default function GroupsPage() {
   }
 
   return (
-    <div>
-      <h1 className="my-4 text-3xl font-semibold text-center">
-        <Typed bold colored color="orange" text="Grupos" cursor="" />
+    <div className="flex flex-col gap-4">
+      <h1 className="text-4xl font-semibold text-center ">
+        <Typed
+          bold
+          gradientColor
+          color="orange"
+          text="Grupos"
+          cursor=""
+          className="w-full"
+        />
       </h1>
       <GroupContainer />
     </div>

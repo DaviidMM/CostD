@@ -5,6 +5,7 @@ const bgClasses = {
   orange: 'bg-orange-500 hover:bg-orange-600',
   red: 'bg-red-600 hover:bg-red-800 hover:text-white',
   white: 'bg-slate-200 hover:bg-slate-300',
+  black: 'bg-gradient-to-r from-slate-800 to-slate-700 hover:to-slate-800',
 };
 
 const borderClasses = {
@@ -17,13 +18,14 @@ const textClasses = {
   blue: 'text-blue-400',
   red: 'text-white',
   white: 'text-black',
+  black: 'text-white',
 };
 
 const Button = forwardRef(function Button(
   {
     bordered,
     children,
-    color = 'orange',
+    color = 'black',
     className = '',
     disabled,
     onClick = () => {},

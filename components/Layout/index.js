@@ -10,12 +10,12 @@ export default function Layout({ children }) {
   const { status } = auth;
 
   return (
-    <>
+    <section className="flex flex-col min-h-screen bg-zinc-800">
       <ToastContainer theme="dark" />
       <Header />
-      <main className="flex flex-grow bg-gradient-to-br from-slate-600 via-slate-600 to-slate-900">
+      <main className="flex flex-grow w-full max-w-5xl px-6 mx-auto ">
         {status === authStatus.loading ? <Dots /> : children}
       </main>
-    </>
+    </section>
   );
 }

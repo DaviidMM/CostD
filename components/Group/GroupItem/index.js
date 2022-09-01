@@ -5,7 +5,7 @@ import Button from '../../Button';
 export default function GroupItem({ description, expenses, id, name }) {
   return (
     <Link href="/groups/[id]" as={`/groups/${id}`}>
-      <Button className="!w-full p-2 text-left transition-colors bg-orange-700 rounded-md hover:bg-orange-600 flex flex-row justify-between group">
+      <button className="!w-full items-center p-2 text-left transition-all duration-500 bg-gradient-to-br from-yellow-400 via-red-500 to-pink-500 bg-size-200 bg-pos-0 hover:bg-pos-100 rounded-md  flex flex-row justify-between group">
         <div className="flex flex-col w-5/6">
           <span>{name}</span>
           <span
@@ -25,7 +25,7 @@ export default function GroupItem({ description, expenses, id, name }) {
           </span>
           <ChevronRightIcon className="w-5 h-5" />
         </div>
-      </Button>
+      </button>
     </Link>
   );
 }

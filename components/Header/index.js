@@ -36,10 +36,12 @@ export default function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-50 flex flex-row items-center w-full h-20 gap-5 px-32 place-content-between bg-slate-800">
-      <div className="p-2 transition-all rounded-md hover:shadow-sm hover:bg-slate-600 shadow-black">
+    <header className="sticky top-0 z-50 flex flex-row items-center w-full h-20 gap-5 px-32 text-slate-200 place-content-between">
+      <div className="p-2 transition-all hover:text-white">
         <Link href="/">
-          <a className="text-2xl font-bold text-white">CostD</a>
+          <a className="text-2xl font-semibold">
+            Cost<i>D</i>
+          </a>
         </Link>
       </div>
       <Navbar>

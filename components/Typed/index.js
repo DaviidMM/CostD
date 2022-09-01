@@ -1,11 +1,16 @@
 import { useEffect, useState } from 'react';
 import ColoredText from '../ColoredText';
 
+const colorClasses = {
+  black: 'text-black',
+};
+
 export default function Typed({
   bold = false,
-  colored = false,
-  color = 'orange',
+  color = 'black',
+  className,
   cursor = '|',
+  gradientColor = false,
   loop = false,
   loopDelay = 1000,
   text,
@@ -31,8 +36,14 @@ export default function Typed({
   }, [counter, text, typeSpeed, loopDelay, loop]);
 
   return (
-    <span className={bold ? 'font-bold' : ''}>
-      {colored ? (
+    <span
+      className={
+        (className ? className + ' ' : '') +
+        (bold ? 'font-bold ' : '') +
+        (!gradientColor ? colorClasses[color] : '')
+      }
+    >
+      {gradientColor ? (
         <ColoredText color={color}>{shownLetters}</ColoredText>
       ) : (
         shownLetters

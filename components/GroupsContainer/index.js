@@ -8,15 +8,15 @@ export default function GroupContainer() {
   const { groups, loading } = useGroups();
 
   return (
-    <div className="flex flex-col w-2/3 gap-2 p-4 mx-auto border-2 border-orange-600 rounded-lg shadow-lg xl:w-2/4">
+    <div className="flex flex-col gap-2">
       {loading ? (
         <Spinner />
       ) : groups?.length ? (
-        groups.map((group) => {
-          return <GroupItem key={group.id} {...group} />;
-        })
+        groups.map((group) => <GroupItem key={group.id} {...group} />)
       ) : (
-        <p className="text-center">No groups found</p>
+        <p className="text-center">
+          ¡No estás en ningún grupo! Crea uno o únete a uno existente
+        </p>
       )}
       <Link href="/groups/new">
         <Button color="orange" className="w-fit">
