@@ -42,7 +42,7 @@ export default function MembersBox({
           />
         ))}
       </div>
-      <Button onClick={addMember}>
+      <Button color="orange" onClick={addMember}>
         <PlusIcon className="w-4 h-4" />
       </Button>
     </div>

@@ -1,3 +1,5 @@
+import ColoredBorder from '../ColoredBorder';
+
 export default function Input({
   className = '',
   label,
@@ -11,22 +13,32 @@ export default function Input({
   const handleFocus = (e) => e.target.select();
 
   return (
-    <div className={(className ? className + ' ' : '') + 'flex flex-col'}>
-      {label && (
-        <label className="select-none" htmlFor={label.toLowerCase()}>
-          {label}
-        </label>
-      )}
-      <input
-        className="px-2 py-1 text-white rounded-md"
-        id={name}
-        type={type}
-        value={value}
-        onChange={onChange}
-        onFocus={selectAllOnFocus ? handleFocus : () => {}}
-        step={type === 'datetime-local' ? '60' : step}
-        name={name}
-      />
-    </div>
+    <ColoredBorder color="orange" className="rounded-full">
+      <div
+        className={
+          (className ? className + ' ' : '') +
+          'rounded-full items-center overflow-hidden flex flex-row text-black font-semibold'
+        }
+      >
+        {label && (
+          <label
+            className="px-2 leading-loose bg-transparent select-none whitespace-nowrap"
+            htmlFor={label.toLowerCase()}
+          >
+            {label}
+          </label>
+        )}
+        <input
+          className="w-full px-2 py-1 text-white bg-black focus:outline-none"
+          id={name}
+          type={type}
+          value={value}
+          onChange={onChange}
+          onFocus={selectAllOnFocus ? handleFocus : () => {}}
+          step={type === 'datetime-local' ? '60' : step}
+          name={name}
+        />
+      </div>
+    </ColoredBorder>
   );
 }

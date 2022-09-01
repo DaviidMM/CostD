@@ -42,7 +42,7 @@ export default function NewGroupForm() {
 
   return (
     <form
-      className="flex flex-col w-1/3 gap-4 p-4 mx-auto border-2 border-orange-600 rounded-lg shadow-lg"
+      className="flex flex-col gap-4 p-4 mx-auto border-2 border-orange-600 rounded-lg shadow-lg"
       onSubmit={handleSubmit}
     >
       <Input
@@ -61,7 +61,7 @@ export default function NewGroupForm() {
         members={members}
         setMembers={handleMembersChange}
       />
-      <Button className="w-fit" type="submit">
+      <Button className="w-fit" color="orange" type="submit">
         Crear grupo
       </Button>
     </form>

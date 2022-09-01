@@ -15,7 +15,13 @@ export default function NewGroupPage() {
   return (
     <div>
       <h1 className="my-4 text-3xl font-semibold text-center">
-        <Typed bold colored color="orange" text="Crear nuevo grupo" cursor="" />
+        <Typed
+          bold
+          gradientColor
+          color="orange"
+          text="Crear nuevo grupo"
+          cursor=""
+        />
       </h1>
       <NewGroupForm />
     </div>
