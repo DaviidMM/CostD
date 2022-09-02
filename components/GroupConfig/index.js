@@ -69,7 +69,7 @@ const Form = ({ group, onUpdate }) => {
           )
       )}
       <CategorySelector onChange={handleCategoryChange} selected={category} />
-      <Button disabled={!changed} type="submit">
+      <Button color="orange" disabled={!changed} type="submit">
         Guardar
       </Button>
     </form>
@@ -101,9 +101,6 @@ export default function GroupConfig({
 
   return (
     <div>
-      <h1 className="text-3xl font-semibold text-center grow">
-        Editando grupo
-      </h1>
       <Tabs tabs={tabs} />
     </div>
   );

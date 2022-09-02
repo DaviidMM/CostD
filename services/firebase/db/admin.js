@@ -8,7 +8,7 @@ export const addGroup = async (group) => {
     category: group.category,
     description: group.description,
     name: group.name,
-    members: group.members.map((m) => ({ ...m, uid: '' })),
+    members: group.members.map((m) => ({ ...m, uid: m.uid || '' })),
     createdAt: Timestamp.fromDate(new Date()),
   });
 

@@ -24,8 +24,8 @@ export default function CategorySelector({
   const selectCategory = (category) => setSelected(category);
 
   return (
-    <div>
-      <label className="select-none">Categorias</label>
+    <div className="flex flex-col gap-2">
+      <label className="select-none">Categoria</label>
       <div>
         {categories.map((category) => (
           <CategoryItem
