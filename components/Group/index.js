@@ -1,6 +1,5 @@
-import { Tab } from '@headlessui/react';
-import { ArrowLeftIcon, CogIcon, XIcon } from '@heroicons/react/solid';
-import { useEffect, useMemo, useState } from 'react';
+import { ArrowLeftIcon, Cog8ToothIcon } from '@heroicons/react/24/solid';
+import { useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
 import useAuth from '../../hooks/useAuth';
 import { bindUserToMember, updateGroup } from '../../services/groups';
@@ -18,7 +17,13 @@ export default function Group(initialGroup) {
     user: { id: userId },
   } = useAuth();
   const [group, setGroup] = useState(initialGroup);
-  const [members, setMembers] = useState(group.members);
+  const [members, setMembers] = useState(
+    group.members.sort((a, b) => {
+      if (a.uid === userId) return -1;
+      if (b.uid === userId) return 1;
+      return 0;
+    })
+  );
   const [showConfig, setShowConfig] = useState(false);
   const [animateIcon, setAnimateIcon] = useState(false);
   const [userMember, setUserMember] = useState(
@@ -83,13 +88,15 @@ export default function Group(initialGroup) {
     [group, members]
   );
 
+  console.log({ members });
+
   return !userMember ? (
     <div>
       ¡No estás asociado a ningún miembro del grupo! 💀
       <MemberSelector members={members} onSelect={handleBindUserToMember} />
     </div>
   ) : (
-    <div className="relative p-4 mx-auto mt-10 h-fit">
+    <div className="relative p-4 mx-auto mt-10 border-2 border-orange-600 rounded-lg shadow-md h-fit">
       <header className="relative pb-8 mb-4 border-b-2 border-orange-600">
         <div className="absolute top-0 left-0 flex flex-col w-1/5 max-w-xs">
           <CategoryItem category={group.category} selected />
@@ -123,7 +130,7 @@ export default function Group(initialGroup) {
               (animateIcon ? '-translate-x-0.5' : 'translate-x-0')
             }
           />
-          <CogIcon
+          <Cog8ToothIcon
             className={
               'w-5 h-5 transition-transform' +
               ' ' +
@@ -137,6 +144,7 @@ export default function Group(initialGroup) {
 
       {showConfig ? (
         <GroupConfig
+          bindUserToMember={handleBindUserToMember}
           group={group}
           members={members}
           onUpdate={onUpdate}

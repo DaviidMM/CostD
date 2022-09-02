@@ -44,30 +44,32 @@ const Form = ({ group, onUpdate }) => {
       acc[key] = fields[key].value;
       return acc;
     }, {});
-    return updateGroup(group.id, { ...formValues, category }).then(
-      (updatedGroup) => {
+    const promise = updateGroup(group.id, { ...formValues, category });
+
+    return toast
+      .promise(promise, {
+        success: '¡Grupo actualizado! 🥳',
+        error: '¡Ha ocurrido un error! ❌',
+        pending: 'Actualizando grupo...',
+      })
+      .then((updatedGroup) => {
         onUpdate(updatedGroup);
-        toast.success('¡Grupo actualizado! 🥳');
         setChanged(false);
-      }
-    );
+      });
   };
 
   return (
     <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-      {Object.keys(fields).map(
-        (key) =>
-          key !== 'category' && (
-            <Input
-              key={key}
-              label={fields[key].label}
-              name={key}
-              type="text"
-              onChange={handleChange}
-              value={fields[key].value}
-            />
-          )
-      )}
+      {Object.keys(fields).map((key) => (
+        <Input
+          key={key}
+          label={fields[key].label}
+          name={key}
+          type="text"
+          onChange={handleChange}
+          value={fields[key].value}
+        />
+      ))}
       <CategorySelector onChange={handleCategoryChange} selected={category} />
       <Button color="orange" disabled={!changed} type="submit">
         Guardar
@@ -78,6 +80,7 @@ const Form = ({ group, onUpdate }) => {
 
 export default function GroupConfig({
   group,
+  bindUserToMember,
   members,
   onUpdate,
   setMembers,
@@ -93,7 +96,7 @@ export default function GroupConfig({
       {
         label: 'Miembros',
         Component: MembersPanel,
-        data: { members, setMembers, updateMembers },
+        data: { bindUserToMember, members, setMembers, updateMembers },
       },
     ],
     [members] // eslint-disable-line

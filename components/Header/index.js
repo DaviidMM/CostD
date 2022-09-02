@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Navbar from './Navbar';
 import Navitem from './Navbar/Navitem';
 import Button from '../Button';
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import {
   loginWithGoogle,
   loginWithTwitter,
@@ -11,24 +11,32 @@ import {
 } from '../../services/firebase/client';
 import LoginModal from '../LoginModal';
 import { Menu, Transition } from '@headlessui/react';
-import { LogoutIcon } from '@heroicons/react/outline';
 import useAuth from '../../hooks/useAuth';
 import authStatus from '../../context/auth/status';
+import {
+  ArrowLeftOnRectangleIcon,
+  Bars3BottomLeftIcon,
+  XMarkIcon,
+} from '@heroicons/react/24/solid';
+import { useRouter } from 'next/router';
 
 export default function Header() {
+  const { pathname } = useRouter();
   const { user, status } = useAuth();
-  const [isOpen, setIsOpen] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+
+  useEffect(() => setShowMenu(false), [pathname]);
 
   const handleLogout = () => logout();
-  const openModal = () => setIsOpen(true);
-  const closeModal = () => setIsOpen(false);
+  const openModal = () => setShowLoginModal(true);
+  const closeModal = () => setShowLoginModal(false);
 
   const handleLoginGoogle = () => {
     loginWithGoogle()
       .then(() => closeModal())
       .catch((err) => console.error(err));
   };
-
   const handleLoginTwitter = () => {
     loginWithTwitter()
       .then(() => closeModal())
@@ -36,15 +44,24 @@ export default function Header() {
   };
 
   return (
-    <header className="flex flex-row items-center w-full h-20 gap-5 px-32 text-slate-200 place-content-between">
-      <div className="p-2 transition-all hover:text-white">
+    <header className="flex flex-row items-center w-full h-20 gap-5 px-8 md:px-32 text-slate-200 place-content-between">
+      <input type="checkbox" id="menu" hidden className="peer" />
+      <button onClick={() => setShowMenu(!showMenu)} className="z-50 md:hidden">
+        <Bars3BottomLeftIcon
+          className={'w-6 h-6' + (showMenu ? ' hidden' : '')}
+        />
+        <XMarkIcon
+          className={'w-6 h-6 text-black' + (showMenu ? '' : ' hidden')}
+        />
+      </button>
+      <div className="hidden p-2 transition-all hover:text-white md:block">
         <Link href="/">
           <a className="text-2xl font-semibold">
             Cost<i>D</i>
           </a>
         </Link>
       </div>
-      <Navbar>
+      <Navbar showMenu={showMenu}>
         <Navitem href="/">Inicio</Navitem>
         <Navitem href="/groups">Grupos</Navitem>
       </Navbar>
@@ -80,7 +97,7 @@ export default function Header() {
                       } group flex gap-2 flex-row w-full font-semibold items-center rounded-md px-2 py-2 text-sm`}
                       onClick={handleLogout}
                     >
-                      <LogoutIcon className="w-5 h-5" />
+                      <ArrowLeftOnRectangleIcon className="w-5 h-5" />
                       Cerrar sesión
                     </button>
                   )}
@@ -92,7 +109,7 @@ export default function Header() {
       )}
       <LoginModal
         closeModal={closeModal}
-        isOpen={isOpen}
+        isOpen={showLoginModal}
         handleLoginGoogle={handleLoginGoogle}
         handleLoginTwitter={handleLoginTwitter}
       />

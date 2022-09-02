@@ -3,7 +3,12 @@ import { toast } from 'react-toastify';
 import Button from '../Button';
 import MembersBox from '../MembersBox';
 
-export default function MembersPanel({ members, setMembers, updateMembers }) {
+export default function MembersPanel({
+  bindUserToMember,
+  members,
+  setMembers,
+  updateMembers,
+}) {
   const [changed, setChanged] = useState(false);
 
   const handleSetMembers = (members) => {
@@ -22,6 +27,7 @@ export default function MembersPanel({ members, setMembers, updateMembers }) {
   return (
     <form onSubmit={handleSubmit}>
       <MembersBox
+        bindUserToMember={bindUserToMember}
         className="mb-4"
         members={members}
         setMembers={handleSetMembers}

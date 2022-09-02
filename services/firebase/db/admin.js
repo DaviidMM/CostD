@@ -139,7 +139,11 @@ export const bindUserToMember = async ({ group, user, member }) => {
   const { members } = doc.data();
 
   const updatedMembers = members.map((m) =>
-    m.id === member ? { ...m, uid: user } : m
+    m.id === member
+      ? { ...m, uid: user }
+      : m.uid === user
+      ? { ...m, uid: '' }
+      : m
   );
 
   await docRef.update({ members: updatedMembers });

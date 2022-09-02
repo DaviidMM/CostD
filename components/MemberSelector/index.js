@@ -5,8 +5,8 @@ import MemberItem from './MemberItem';
 
 export default function MemberSelector({
   members,
-  selected: initialSelected,
   onSelect = () => {},
+  selected: initialSelected,
 }) {
   const [selected, setSelected] = useState(initialSelected);
 

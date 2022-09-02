@@ -1,14 +1,19 @@
-import { PlusIcon } from '@heroicons/react/outline';
+import { PlusIcon } from '@heroicons/react/24/outline';
 import { nanoid } from 'nanoid';
+import useAuth from '../../hooks/useAuth';
 import Button from '../Button';
 import MemberItem from './MemberItem';
 
 export default function MembersBox({
+  bindUserToMember,
   className,
   label = '',
   members = [],
   setMembers = () => {},
 }) {
+  const {
+    user: { id: userId },
+  } = useAuth();
   const addMember = () => {
     setMembers([...members, { name: '', id: nanoid() }]);
   };
@@ -35,15 +40,16 @@ export default function MembersBox({
           <MemberItem
             id={member.id}
             key={idx}
-            canDelete={members.length > 1}
+            canDelete={members.length > 1 && member.uid !== userId}
             name={member.name}
+            onBind={bindUserToMember}
             onChange={handleMemberChange}
             onDelete={removeMember}
           />
         ))}
       </div>
       <Button color="orange" onClick={addMember}>
-        <PlusIcon className="w-4 h-4" />
+        <PlusIcon className="w-5 h-5" />
       </Button>
     </div>
   );

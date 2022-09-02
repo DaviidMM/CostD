@@ -1,6 +1,5 @@
-import { ChevronRightIcon } from '@heroicons/react/solid';
+import { ChevronRightIcon } from '@heroicons/react/24/solid';
 import Link from 'next/link';
-import Button from '../../Button';
 
 export default function GroupItem({ description, expenses, id, name }) {
   return (
