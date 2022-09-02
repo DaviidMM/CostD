@@ -25,8 +25,8 @@ export default function MemberItem({
         value={name}
       />
       {canDelete && (
-        <Button color="red">
-          <XIcon className="w-4 h-4" onClick={handleRemove} />
+        <Button color="red" onClick={handleRemove}>
+          <XIcon className="w-4 h-4" />
         </Button>
       )}
     </div>

@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
+import useAuth from '../../hooks/useAuth';
 import { createExpense } from '../../services/expenses';
 import { formatInputDate } from '../../utils/dates';
 import Button from '../Button';
@@ -12,12 +13,15 @@ export default function NewExpenseForm({
   members = [],
   onCreate = () => {},
 }) {
+  const {
+    user: { id: userId },
+  } = useAuth();
   const router = useRouter();
   const group = router.query.id;
 
   const [amount, setAmount] = useState(0);
   const [description, setDescription] = useState('');
-  const [member, setMember] = useState(null);
+  const [member, setMember] = useState(members.find((m) => m.uid === userId));
   const [payedAt, setPayedAt] = useState(formatInputDate(new Date()));
 
   const handleAmountChange = (e) => setAmount(e.target.value);
@@ -61,7 +65,10 @@ export default function NewExpenseForm({
   console.log({ amount, description, member, payedAt });
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form
+      className="grid grid-cols-1 gap-2 md:grid-cols-2"
+      onSubmit={handleSubmit}
+    >
       <Input
         label="Descripción"
         name="description"
@@ -92,8 +99,12 @@ export default function NewExpenseForm({
         value={payedAt}
       />
       <div className="flex flex-row gap-4 mt-4">
-        <Button type="submit">Añadir</Button>
-        <Button onClick={closeForm}>Cancelar</Button>
+        <Button color="orange" type="submit">
+          Añadir
+        </Button>
+        <Button color="orange" onClick={closeForm}>
+          Cancelar
+        </Button>
       </div>
     </form>
   );

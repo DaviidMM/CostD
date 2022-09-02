@@ -17,7 +17,7 @@ export default function CategoryItem({
         className={
           (className ? className + ' ' : '') +
           'select-none px-2 py-1 rounded-full hover:bg-transparent w-fit transition-colors font-semibold hover:text-black ' +
-          (selected ? 'bg-transparent' : 'bg-black')
+          (selected ? 'bg-transparent text-black' : 'bg-black text-white')
         }
         type="button"
         onClick={handleClick}

@@ -28,7 +28,7 @@ export default function MembersBox({
   };
 
   return (
-    <div className={className}>
+    <div className={(className ? className + ' ' : '') + 'flex flex-col gap-2'}>
       {label && <label>{label}</label>}
       <div className="flex flex-col gap-4 mb-4">
         {members.map((member, idx) => (

@@ -7,7 +7,7 @@ const colorClasses = {
 
 export default function Typed({
   bold = false,
-  color = 'black',
+  color = 'white',
   className,
   cursor = '|',
   gradientColor = false,

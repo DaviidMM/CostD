@@ -1,6 +1,6 @@
 import { Tab } from '@headlessui/react';
 import { ArrowLeftIcon, CogIcon, XIcon } from '@heroicons/react/solid';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
 import useAuth from '../../hooks/useAuth';
 import { bindUserToMember, updateGroup } from '../../services/groups';
@@ -30,7 +30,7 @@ export default function Group(initialGroup) {
   };
 
   const updateMembers = async (members) => {
-    const promise = updateGroup(id, { members });
+    const promise = updateGroup(group.id, { members });
     return toast.promise(promise, {
       success: 'Se ha actualizado el grupo',
       error: 'No se ha podido actualizar el grupo',
@@ -67,18 +67,21 @@ export default function Group(initialGroup) {
   const toggleAnimation = () => setAnimateIcon(!animateIcon);
   const toggleConfig = () => setShowConfig(!showConfig);
 
-  const tabs = [
-    {
-      label: 'Gastos',
-      Component: ExpensesPanel,
-      data: { expenses: group.expenses, members },
-    },
-    {
-      label: 'Saldo',
-      Component: BalancePanel,
-      data: {},
-    },
-  ];
+  const tabs = useMemo(
+    () => [
+      {
+        label: 'Gastos',
+        Component: ExpensesPanel,
+        data: { expenses: group.expenses, members },
+      },
+      {
+        label: 'Saldo',
+        Component: BalancePanel,
+        data: {},
+      },
+    ],
+    [group, members]
+  );
 
   return !userMember ? (
     <div>
@@ -86,32 +89,51 @@ export default function Group(initialGroup) {
       <MemberSelector members={members} onSelect={handleBindUserToMember} />
     </div>
   ) : (
-    <div className="relative w-2/3 p-4 mx-auto mt-10 border-2 shadow-[0_0_10px_0_black] border-orange-600 rounded-lg xl:w-2/4 h-fit">
-      <Button
-        className="absolute top-4 right-4"
-        onClick={toggleConfig}
-        onMouseEnter={toggleAnimation}
-        onMouseLeave={toggleAnimation}
-      >
-        <ArrowLeftIcon
-          className={
-            'w-5 h-5 transition-all absolute' +
-            ' ' +
-            (!showConfig ? 'scale-0' : 'scale-100') +
-            ' ' +
-            (animateIcon ? '-translate-x-0.5' : 'translate-x-0')
-          }
-        />
-        <CogIcon
-          className={
-            'w-5 h-5 transition-all' +
-            ' ' +
-            (showConfig ? 'scale-0' : 'scale-100') +
-            ' ' +
-            (animateIcon ? 'rotate-360' : 'rotate-0')
-          }
-        />
-      </Button>
+    <div className="relative p-4 mx-auto mt-10 h-fit">
+      <header className="relative pb-8 mb-4 border-b-2 border-orange-600">
+        <div className="absolute top-0 left-0 flex flex-col w-1/5 max-w-xs">
+          <CategoryItem category={group.category} selected />
+          <small className="overflow-hidden whitespace-nowrap text-ellipsis">
+            Registrado como{' '}
+            <b>{members.find((m) => m.id === userMember).name}</b>
+          </small>
+        </div>
+        <h1 className="mx-auto text-3xl font-semibold text-center w-fit">
+          <Typed
+            gradientColor
+            color="orange"
+            bold
+            text={group.name}
+            cursor=""
+          />
+        </h1>
+        <Button
+          className="absolute top-0 right-0"
+          color="orange"
+          onClick={toggleConfig}
+          onMouseEnter={toggleAnimation}
+          onMouseLeave={toggleAnimation}
+        >
+          <ArrowLeftIcon
+            className={
+              'w-5 h-5 transition-transform absolute' +
+              ' ' +
+              (!showConfig ? 'scale-0' : 'scale-100') +
+              ' ' +
+              (animateIcon ? '-translate-x-0.5' : 'translate-x-0')
+            }
+          />
+          <CogIcon
+            className={
+              'w-5 h-5 transition-transform' +
+              ' ' +
+              (showConfig ? 'scale-0' : 'scale-100') +
+              ' ' +
+              (animateIcon ? 'rotate-360' : 'rotate-0')
+            }
+          />
+        </Button>
+      </header>
 
       {showConfig ? (
         <GroupConfig
@@ -123,19 +145,7 @@ export default function Group(initialGroup) {
         />
       ) : (
         <div className="flex flex-col gap-4">
-          <div className="pb-8 border-b border-orange-600">
-            <div className="absolute flex flex-col left-4 top-4">
-              <CategoryItem category={group.category} />
-              <small>
-                Registrado como{' '}
-                <b>{members.find((m) => m.id === userMember).name}</b>
-              </small>
-            </div>
-            <h1 className="text-3xl font-semibold text-center grow">
-              <Typed bold text={group.name} cursor="" />
-            </h1>
-          </div>
-          <p className="text-justify">
+          <p className="text-justify text-white">
             <Typed text={group.description} cursor="" typeSpeed={10} />
           </p>
           <Tabs tabs={tabs} />

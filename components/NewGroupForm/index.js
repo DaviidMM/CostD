@@ -7,8 +7,12 @@ import MembersBox from '../MembersBox';
 import { nanoid } from 'nanoid';
 import { createGroup } from '../../services/groups';
 import { useRouter } from 'next/router';
+import useAuth from '../../hooks/useAuth';
 
 export default function NewGroupForm() {
+  const {
+    user: { id: uid },
+  } = useAuth();
   const [name, setName] = useState('');
   const [category, setCategory] = useState('');
   const [description, setDescription] = useState('');
@@ -23,11 +27,17 @@ export default function NewGroupForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!name || !category || !description || members.some((m) => !m.name)) {
+    if (!name || !category || members.some((m) => !m.name)) {
       return toast.warning('Rellena todos los campos');
     }
 
-    const promise = createGroup({ name, category, description, members });
+    // Create group binding first member to the current user
+    const promise = createGroup({
+      name,
+      category,
+      description,
+      members: members.map((m, idx) => (idx === 0 ? { ...m, uid } : m)),
+    });
 
     toast
       .promise(promise, {
