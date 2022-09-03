@@ -7,10 +7,11 @@ import {
   TwitterAuthProvider,
   onAuthStateChanged,
   signOut,
+  getIdToken,
 } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import authStatus from '../../context/auth/status';
-import { storeDbUser } from './db/client';
+import api from '../api';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_PUBLIC_API_KEY,
@@ -39,15 +40,20 @@ const mapUserFromFirebase = (user) => {
 };
 
 export const checkAuthState = (onChange) => {
-  return onAuthStateChanged(auth, (user) => {
+  return onAuthStateChanged(auth, async (user) => {
     const normalizedUser = mapUserFromFirebase({ user });
     if (normalizedUser) {
       return onChange({
         user: normalizedUser,
         status: authStatus.authenticated,
+        token: await getIdToken(user),
       });
     }
-    onChange({ user: null, status: authStatus.unauthenticated });
+    return onChange({
+      user: null,
+      status: authStatus.unauthenticated,
+      token: null,
+    });
   });
 };
 
@@ -55,16 +61,33 @@ export const loginWithGoogle = () => {
   const provider = new GoogleAuthProvider();
   return signInWithPopup(auth, provider)
     .then(mapUserFromFirebase)
-    .then(storeDbUser);
+    .then(storeUserInDb);
 };
 
 export const loginWithTwitter = () => {
   const provider = new TwitterAuthProvider();
-  return signInWithPopup(auth, provider).then(mapUserFromFirebase);
+  return signInWithPopup(auth, provider)
+    .then(mapUserFromFirebase)
+    .then(storeUserInDb);
 };
 
 export const logout = () => {
   return signOut(auth).catch((err) => {
     console.error(err);
+  });
+};
+
+export const getUserToken = async () => {
+  const { currentUser } = auth;
+  console.log({ currentUser });
+  return currentUser ? await getIdToken(currentUser) : null;
+};
+
+export const storeUserInDb = async (user) => {
+  if (!user) return;
+  const { id, email, displayName, avatar } = user;
+  return api.post('/users', { id, email, displayName, avatar }).then((res) => {
+    console.log('client', { res });
+    return res.data;
   });
 };

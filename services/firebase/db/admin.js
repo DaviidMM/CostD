@@ -155,3 +155,21 @@ export const bindUserToMember = async ({ group, user, member }) => {
     data: updatedDoc.data(),
   });
 };
+
+export const storeDbUser = async ({ avatar, displayName, email, id }) => {
+  const docRef = await db.collection('users').doc(id);
+  await docRef.set({
+    avatar,
+    displayName,
+    email,
+    id,
+    lastLogin: Timestamp.fromDate(new Date()),
+  });
+
+  const addedDoc = await docRef.get();
+
+  return {
+    ...addedDoc.data(),
+    id: docRef.id,
+  };
+};

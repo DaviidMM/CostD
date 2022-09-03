@@ -22,7 +22,8 @@ import { useRouter } from 'next/router';
 
 export default function Header() {
   const { pathname } = useRouter();
-  const { user, status } = useAuth();
+  const auth = useAuth();
+  const { user, status } = auth;
   const [showMenu, setShowMenu] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
 

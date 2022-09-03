@@ -63,18 +63,3 @@ export const getGroup = async (id) => {
 
   return null;
 };
-
-export const storeDbUser = async (user) => {
-  await setDoc(doc(db, 'users', user.id), {
-    ...user,
-    lastLogin: Timestamp.fromDate(new Date()),
-  });
-
-  const docRef = doc(db, 'users', user.id);
-  const data = (await getDoc(docRef)).data();
-
-  return {
-    id: docRef.id,
-    ...data,
-  };
-};
