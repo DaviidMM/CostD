@@ -5,7 +5,6 @@ export default function handler(req, res) {
     const { avatar, displayName, email, id } = req.body;
     storeDbUser({ avatar, displayName, email, id })
       .then((storedUser) => {
-        console.log({ storedUser });
         res.status(200).json(storedUser);
       })
       .catch((err) => {
