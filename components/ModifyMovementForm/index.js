@@ -1,54 +1,60 @@
 import { useEffect, useState } from 'react';
-import { modifyExpense } from '../../services/expenses';
+import { modifyMovement } from '../../services/movements';
 import Button from '../Button';
 import Input from '../Input';
 import { toast } from 'react-toastify';
 import { formatInputDate } from '../../utils/dates';
 import Select from '../Select';
-import { TrashIcon } from '@heroicons/react/solid';
-import { SaveIcon } from '@heroicons/react/outline';
+import { ArrowDownOnSquareIcon } from '@heroicons/react/24/outline';
+import { TrashIcon } from '@heroicons/react/24/solid';
+import movementTypes from '../../data/movementTypes';
 
-export default function ModifyExpenseForm({
-  expense,
+export default function ModifyMovementForm({
+  movement,
   members = [],
   onDelete,
   onUpdate,
 }) {
-  const { id } = expense;
-  const [description, setDescription] = useState(expense.description);
-  const [amount, setAmount] = useState(expense.amount);
-  const [member, setMember] = useState(expense.member);
-  const [payedAt, setPayedAt] = useState(formatInputDate(expense.payedAt));
+  const { id } = movement;
+  const [amount, setAmount] = useState(movement.amount);
+  const [description, setDescription] = useState(movement.description);
+  const [member, setMember] = useState(movement.member);
+  const [payedAt, setPayedAt] = useState(formatInputDate(movement.payedAt));
+  const [type, setType] = useState(movement.type);
   const [changed, setChanged] = useState(false);
 
   useEffect(() => {
     if (
-      document.activeElement.nodeName.toLowerCase() === 'input' &&
-      (description !== expense.description ||
-        amount !== expense.amount ||
-        member !== expense.member ||
-        payedAt !== formatInputDate(expense.payedAt))
+      (document.activeElement.nodeName.toLowerCase() === 'input' ||
+        document.activeElement.nodeName.toLowerCase() === 'select') &&
+      (description !== movement.description ||
+        amount !== movement.amount ||
+        member !== movement.member ||
+        payedAt !== formatInputDate(movement.payedAt) ||
+        type !== movement.type)
     ) {
       setChanged(true);
     }
-  }, [description, amount, member, payedAt, expense]);
+  }, [description, amount, member, payedAt, type, movement]);
 
-  const handleDescriptionChange = (e) => setDescription(e.target.value);
   const handleAmountChange = (e) => setAmount(Number(e.target.value));
+  const handleDescriptionChange = (e) => setDescription(e.target.value);
   const handleMemberChange = (e) => setMember(e.target.value);
   const handlePayedAtChange = (e) => setPayedAt(e.target.value);
+  const handleTypeAtChange = (e) => setType(e.target.value);
 
-  const handleDelete = () => onDelete(expense);
+  const handleDelete = () => onDelete(movement);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const promise = modifyExpense({
+    const promise = modifyMovement({
       id,
       description,
       amount,
       member,
       payedAt,
+      type,
     });
 
     toast
@@ -57,13 +63,16 @@ export default function ModifyExpenseForm({
         error: 'Ha ocurrido un error modificando el gasto',
         pending: 'Actualizando gasto...',
       })
-      .then((updatedExpense) => {
-        const { description, amount, member, payedAt } = updatedExpense;
+      .then((updatedMovement) => {
+        const { amount, description, id, member, payedAt, type } =
+          updatedMovement;
         onUpdate({
-          description,
           amount,
+          description,
+          id,
           member,
           payedAt,
+          type,
         });
         setChanged(false);
       })
@@ -78,6 +87,17 @@ export default function ModifyExpenseForm({
       onSubmit={handleSubmit}
     >
       <div className="grid grid-cols-2 gap-2">
+        <Select
+          label="Tipo"
+          name="type"
+          onChange={handleTypeAtChange}
+          options={movementTypes.map((mT) => ({
+            value: mT.id,
+            label: mT.name,
+          }))}
+          placeholder="Selecciona un tipo"
+          value={type}
+        />
         <Input
           label="Descripción"
           onChange={handleDescriptionChange}
@@ -93,8 +113,9 @@ export default function ModifyExpenseForm({
         />
         <Select
           label="Pagado por"
+          name="type"
           onChange={handleMemberChange}
-          options={members.map((m) => m.name)}
+          options={members.map((m) => ({ label: m.name, value: m.id }))}
           placeholder="Selecciona un miembro"
           value={member}
         />
@@ -117,7 +138,7 @@ export default function ModifyExpenseForm({
           color="orange"
           type="submit"
         >
-          <SaveIcon className="w-4 h-4" />
+          <ArrowDownOnSquareIcon className="w-4 h-4" />
           Guardar
         </Button>
       </div>

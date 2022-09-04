@@ -3,9 +3,10 @@ import Button from '../../Button';
 import Input from '../../Input';
 
 export default function MemberItem({
-  canDelete,
+  actions,
   id,
   name,
+  isNew = false,
   onBind = () => {},
   onChange = () => {},
   onDelete = () => {},
@@ -27,11 +28,12 @@ export default function MemberItem({
         onChange={handleChange}
         value={name}
       />
-      {canDelete && (
+      {actions && (
         <div className="flex flex-row gap-4">
           <Button
             className="py-1 whitespace-nowrap"
             color="orange"
+            disabled={isNew}
             onClick={handleBind}
           >
             ¡Soy yo!

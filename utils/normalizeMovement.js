@@ -1,4 +1,4 @@
-export default function normalizeExpense({ id, data }) {
+export default function normalizeMovement({ id, data }) {
   return {
     id,
     ...data,

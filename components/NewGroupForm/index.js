@@ -67,6 +67,7 @@ export default function NewGroupForm() {
       />
       <CategorySelector onChange={handleCategoryChange} />
       <MembersBox
+        actions={false}
         label="Miembros"
         members={members}
         setMembers={handleMembersChange}

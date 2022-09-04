@@ -17,7 +17,5 @@ export default function useGroups() {
       });
   }, []);
 
-  console.log('useGroups', { groups });
-
   return { groups, loading };
 }

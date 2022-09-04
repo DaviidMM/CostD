@@ -29,7 +29,7 @@ export default function Input({
           </label>
         )}
         <input
-          className="w-full px-2 py-1 text-white bg-black focus:outline-none"
+          className="w-full h-8 px-2 py-1 text-white bg-black focus:outline-none"
           id={name}
           type={type}
           value={value}

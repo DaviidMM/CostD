@@ -5,6 +5,7 @@ import Button from '../Button';
 import MemberItem from './MemberItem';
 
 export default function MembersBox({
+  actions = true,
   bindUserToMember,
   className,
   label = '',
@@ -15,7 +16,7 @@ export default function MembersBox({
     user: { id: userId },
   } = useAuth();
   const addMember = () => {
-    setMembers([...members, { name: '', id: nanoid() }]);
+    setMembers([...members, { name: '', id: nanoid(), isNew: true }]);
   };
 
   const handleMemberChange = (member) => {
@@ -39,8 +40,9 @@ export default function MembersBox({
         {members.map((member, idx) => (
           <MemberItem
             id={member.id}
+            isNew={member.isNew}
             key={idx}
-            canDelete={members.length > 1 && member.uid !== userId}
+            actions={actions && members.length > 1 && member.uid !== userId}
             name={member.name}
             onBind={bindUserToMember}
             onChange={handleMemberChange}

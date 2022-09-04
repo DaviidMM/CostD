@@ -6,7 +6,7 @@ import { bindUserToMember, updateGroup } from '../../services/groups';
 import BalancePanel from '../BalancePanel';
 import Button from '../Button';
 import CategoryItem from '../CategorySelector/CategoryItem';
-import ExpensesPanel from '../ExpensesPanel';
+import MovementsPanel from '../MovementsPanel';
 import GroupConfig from '../GroupConfig';
 import MemberSelector from '../MemberSelector';
 import Tabs from '../Tabs';
@@ -34,13 +34,17 @@ export default function Group(initialGroup) {
     setGroup({ ...group, ...updatedGroup });
   };
 
+  const onMovementUpdate = (movements) => setGroup({ ...group, movements });
+
   const updateMembers = async (members) => {
     const promise = updateGroup(group.id, { members });
-    return toast.promise(promise, {
-      success: 'Se ha actualizado el grupo',
-      error: 'No se ha podido actualizar el grupo',
-      pending: 'Actualizando grupo...',
-    });
+    return toast
+      .promise(promise, {
+        success: 'Se ha actualizado el grupo',
+        error: 'No se ha podido actualizar el grupo',
+        pending: 'Actualizando grupo...',
+      })
+      .then((updatedGroup) => setMembers(updatedGroup.members));
   };
 
   const handleBindUserToMember = (memberId) => {
@@ -72,23 +76,18 @@ export default function Group(initialGroup) {
   const toggleAnimation = () => setAnimateIcon(!animateIcon);
   const toggleConfig = () => setShowConfig(!showConfig);
 
-  const tabs = useMemo(
-    () => [
-      {
-        label: 'Gastos',
-        Component: ExpensesPanel,
-        data: { expenses: group.expenses, members },
-      },
-      {
-        label: 'Saldo',
-        Component: BalancePanel,
-        data: {},
-      },
-    ],
-    [group, members]
-  );
-
-  console.log({ members });
+  const tabs = [
+    {
+      label: 'Movimientos',
+      Component: MovementsPanel,
+      data: { movements: group.movements, members, onMovementUpdate },
+    },
+    {
+      label: 'Saldo',
+      Component: BalancePanel,
+      data: { movements: group.movements, members },
+    },
+  ];
 
   return !userMember ? (
     <div>
@@ -156,7 +155,7 @@ export default function Group(initialGroup) {
           <p className="text-justify text-white">
             <Typed text={group.description} cursor="" typeSpeed={10} />
           </p>
-          <Tabs tabs={tabs} />
+          <Tabs tabs={tabs} selectedIndex={1} />
         </div>
       )}
     </div>

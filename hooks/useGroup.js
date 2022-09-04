@@ -7,10 +7,7 @@ export default function useGroup(id) {
   useEffect(() => {
     if (id) {
       getGroup(id)
-        .then((group) => {
-          console.log({ group });
-          setGroup(group);
-        })
+        .then((group) => setGroup(group))
         .catch((err) => {
           console.log({ err });
           setGroup(null);
@@ -19,8 +16,6 @@ export default function useGroup(id) {
       setGroup(null);
     }
   }, [id]);
-
-  console.log('useGroup', { group });
 
   return group;
 }

@@ -43,6 +43,7 @@ export const checkAuthState = (onChange) => {
   return onAuthStateChanged(auth, async (user) => {
     const normalizedUser = mapUserFromFirebase({ user });
     if (normalizedUser) {
+      storeUserInDb();
       return onChange({
         user: normalizedUser,
         status: authStatus.authenticated,
@@ -59,9 +60,7 @@ export const checkAuthState = (onChange) => {
 
 export const loginWithGoogle = () => {
   const provider = new GoogleAuthProvider();
-  return signInWithPopup(auth, provider)
-    .then(mapUserFromFirebase)
-    .then(storeUserInDb);
+  return signInWithPopup(auth, provider).then(mapUserFromFirebase);
 };
 
 export const loginWithTwitter = () => {
@@ -79,15 +78,9 @@ export const logout = () => {
 
 export const getUserToken = async () => {
   const { currentUser } = auth;
-  console.log({ currentUser });
   return currentUser ? await getIdToken(currentUser) : null;
 };
 
-export const storeUserInDb = async (user) => {
-  if (!user) return;
-  const { id, email, displayName, avatar } = user;
-  return api.post('/users', { id, email, displayName, avatar }).then((res) => {
-    console.log('client', { res });
-    return res.data;
-  });
+export const storeUserInDb = async () => {
+  return api.post('/users').then((res) => res.data);
 };

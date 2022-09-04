@@ -21,7 +21,9 @@ export default function MembersPanel({
     if (members.some((m) => !m.name)) {
       return toast.warning('Todos los miembros deben tener un nombre');
     }
-    updateMembers(members).then(() => setChanged(false));
+    updateMembers(members).then((members) => {
+      setChanged(false);
+    });
   };
 
   return (

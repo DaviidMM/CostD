@@ -1,6 +1,6 @@
 import { db } from '../admin';
 import normalizeGroup from '../../../utils/normalizeGroup';
-import normalizeExpense from '../../../utils/normalizeExpense';
+import normalizeMovement from '../../../utils/normalizeMovement';
 import { Timestamp } from 'firebase-admin/firestore';
 
 export const addGroup = async (group) => {
@@ -8,7 +8,11 @@ export const addGroup = async (group) => {
     category: group.category,
     description: group.description,
     name: group.name,
-    members: group.members.map((m) => ({ ...m, uid: m.uid || '' })),
+    members: group.members.map((m) => ({
+      id: m.id,
+      name: m.name,
+      uid: m.uid || '',
+    })),
     createdAt: Timestamp.fromDate(new Date()),
   });
 
@@ -17,49 +21,53 @@ export const addGroup = async (group) => {
   return normalizeGroup({ id: doc.id, data: addedDoc.data() });
 };
 
-/* Expenses */
+/* Movements */
 
-export const addExpense = async ({
+export const addMovement = async ({
   amount,
   description,
   group,
   member,
   payedAt,
+  type,
 }) => {
-  const doc = await db.collection('expenses').add({
+  const doc = await db.collection('movements').add({
     amount,
     description,
     group,
     member,
     payedAt: Timestamp.fromDate(new Date(payedAt)),
+    type,
     createdAt: Timestamp.fromDate(new Date()),
   });
 
   const addedDoc = await doc.get();
 
-  return normalizeExpense({ id: doc.id, data: addedDoc.data() });
+  return normalizeMovement({ id: doc.id, data: addedDoc.data() });
 };
 
-export const editExpense = async ({
-  id,
+export const editMovement = async ({
   amount,
   description,
-  payedAt,
+  id,
   member,
+  payedAt,
+  type,
 }) => {
-  const expense = await db.collection('expenses').doc(id).get();
-  if (!expense.exists) {
+  const movement = await db.collection('movements').doc(id).get();
+  if (!movement.exists) {
     const error = new Error('Gasto no encontrado');
     error.status = 404;
     throw error;
   }
 
   const updatedValues = {
-    description,
     amount,
-    payedAt: payedAt ? Timestamp.fromDate(new Date(payedAt)) : undefined,
-    member,
+    description,
     group: undefined,
+    member,
+    payedAt: payedAt ? Timestamp.fromDate(new Date(payedAt)) : undefined,
+    type,
   };
 
   // Remove undefined values from updatedValues
@@ -67,29 +75,29 @@ export const editExpense = async ({
     if (updatedValues[key] === undefined) delete updatedValues[key];
   });
 
-  await db.collection('expenses').doc(id).update(updatedValues);
+  await db.collection('movements').doc(id).update(updatedValues);
 
-  const updatedDoc = await db.collection('expenses').doc(id).get();
+  const updatedDoc = await db.collection('movements').doc(id).get();
 
-  return normalizeExpense({
+  return normalizeMovement({
     id,
     data: updatedDoc.data(),
   });
 };
 
-export const deleteExpense = async (id) => {
-  const expense = await db.collection('expenses').doc(id).get();
-  if (!expense.exists) {
+export const deleteMovement = async (id) => {
+  const movement = await db.collection('movements').doc(id).get();
+  if (!movement.exists) {
     const error = new Error('Gasto no encontrado');
     error.status = 404;
     throw error;
   }
 
-  await db.collection('expenses').doc(id).delete();
+  await db.collection('movements').doc(id).delete();
   return true;
 };
 
-/* End Expenses */
+/* End Movements */
 
 export const editGroup = async ({
   id,
@@ -108,7 +116,7 @@ export const editGroup = async ({
   const updatedValues = {
     category,
     description,
-    members,
+    members: members.map((m) => ({ id: m.id, name: m.name, uid: m.uid || '' })),
     name,
   };
 

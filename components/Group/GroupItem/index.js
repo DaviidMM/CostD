@@ -1,7 +1,7 @@
 import { ChevronRightIcon } from '@heroicons/react/24/solid';
 import Link from 'next/link';
 
-export default function GroupItem({ description, expenses, id, name }) {
+export default function GroupItem({ description, movements, id, name }) {
   return (
     <Link href="/groups/[id]" as={`/groups/${id}`}>
       <button className="!w-full font-semibold items-center p-2 text-left transition-all duration-500 bg-gradient-to-br from-yellow-400 via-orange-500 to-rose-500 bg-size-200 bg-pos-0 hover:bg-pos-100 rounded-md flex flex-row justify-between group text-black hover:text-white">
@@ -18,9 +18,9 @@ export default function GroupItem({ description, expenses, id, name }) {
         <div className="flex flex-row transition-transform group-hover:translate-x-1">
           <span
             className="w-5 h-5 text-sm text-center text-orange-700 bg-orange-100 rounded-full"
-            title={`Hay ${expenses.length} gastos`}
+            title={`Hay ${movements.length} gastos`}
           >
-            {expenses.length}
+            {movements.length}
           </span>
           <ChevronRightIcon className="w-5 h-5" />
         </div>
