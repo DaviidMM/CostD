@@ -23,49 +23,62 @@ ChartJS.register(
 export default function BalancePanel({ movements, members }) {
   console.log({ movements, members });
 
-  const values = [12, 19, -280, 5, 2, 3];
+  const values = [12, 19, -80, 46, 21, 32];
 
   const data = {
-    labels: members.map((m) => m.name),
+    labels: [...members.map((m) => m.name), ...members.map((m) => m.name)],
     datasets: [
       {
-        label: 'Balance',
         data: values,
-        backgroundColor: values.map((val) => (val > 0 ? 'green' : 'red')),
-        borderWidth: 0,
-        hoverBackgroundColor: values.map((val) =>
-          val > 0 ? 'rgb(39, 148, 39)' : 'rgb(255, 59, 59)'
-        ),
-        datalabels: {
-          anchor: values.map((val) => (val > 0 ? 'start' : 'end')),
-          align: values.map((val) => (val > 0 ? 'start' : 'end')),
-          formatter: (val, a) => `${val} €`,
-        },
       },
     ],
   };
 
   const options = {
+    backgroundColor: values.map((val) => (val > 0 ? 'green' : 'red')),
+    hoverBackgroundColor: values.map((val) =>
+      val > 0 ? 'rgb(39, 148, 39)' : 'rgb(255, 59, 59)'
+    ),
+    borderWidth: 0,
+    borderRadius: 6,
     barThickness: 40,
-    maxBarThickness: 50,
+    maxBarThickness: 60,
     minBarLength: 40,
-    indexAxis: 'x',
-    elements: {
-      bar: {},
-    },
+    indexAxis: 'y',
     responsive: true,
+    scales: {
+      x: {
+        ticks: {
+          display: true,
+        },
+        grace: '20%',
+        type: 'linear',
+      },
+    },
+    maxTicksLimit: 10,
     plugins: {
       datalabels: {
-        formatter: Math.round,
+        anchor: values.map((val) => (val > 0 ? 'start' : 'end')),
+        align: values.map((val) => (val > 0 ? 'start' : 'end')),
         font: {
-          size: 14,
+          size: 16,
           weight: 'bold',
+        },
+        textAlign: 'center',
+        labels: {
+          value: {
+            color: 'black',
+            formatter: (val, ctx) =>
+              `${ctx.chart.data.labels[ctx.dataIndex]}\n${val}€`,
+          },
         },
       },
       legend: {
         display: false,
       },
       tooltip: {
+        xAlign: 'center',
+        yAlign: 'center',
         callbacks: {
           label: (item) => `${item.formattedValue} €`,
         },
