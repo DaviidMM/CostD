@@ -10,6 +10,7 @@ import {
 import { Bar } from 'react-chartjs-2';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import colors from 'tailwindcss/colors';
+import { useContext } from 'react';
 
 ChartJS.register(
   CategoryScale,
@@ -21,6 +22,14 @@ ChartJS.register(
   Legend
 );
 
+function getRandomColor() {
+  var letters = '0123456789ABCDEF'.split('');
+  var color = '#';
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
 const calculateChartLimit = (values) => {
   const { max, min, abs } = Math;
   const maxValue = abs(max(...values));
@@ -30,20 +39,12 @@ const calculateChartLimit = (values) => {
 };
 
 export default function BalancePanel({ movements, members }) {
-  const debidoDavid = [-90, -28, -123, 1.24, null, 12];
-  const debidoVictor = [13, -30, 90, -33, 78, 3];
-  const debidoRober = [13, null, 90, -33, -37, 3];
+  const debidoDavid = [null, -34];
+  const debidoVictor = [34, null];
 
   const chartLimit = calculateChartLimit(debidoDavid);
 
-  const tempLabels = [
-    'Usuario 1',
-    'Usuario 2',
-    'Usuario 3',
-    'Usuario 4',
-    'Usuario 5',
-    'Usuario 6',
-  ];
+  const tempLabels = ['David', 'Victor'];
 
   const data = {
     labels: tempLabels,
@@ -51,17 +52,12 @@ export default function BalancePanel({ movements, members }) {
       {
         data: debidoDavid,
         label: 'David',
-        backgroundColor: 'red',
+        backgroundColor: getRandomColor(),
       },
       {
         data: debidoVictor,
         label: 'Victor',
-        backgroundColor: 'blue',
-      },
-      {
-        data: debidoRober,
-        label: 'Rober',
-        backgroundColor: 'green',
+        backgroundColor: getRandomColor(),
       },
     ],
   };
@@ -117,42 +113,28 @@ export default function BalancePanel({ movements, members }) {
     maxTicksLimit: 10,
     plugins: {
       datalabels: {
+        display: false,
+        anchor: 'start',
+        align: 'center',
         font: {
           size: 16,
           weight: '500',
         },
-        textAlign: 'center',
-        labels: {
-          value: {
-            // anchor: debidoDavid.map((val) => (val >= 0 ? 'start' : 'end')),
-            // align: debidoDavid.map((val) => (val >= 0 ? 'end' : 'start')),
-            color: 'white',
-            formatter: (val, ctx) => {
-              const getTextWidth = (text, font) => {
-                // re-use canvas object for better performance
-                var canvas =
-                  getTextWidth.canvas ||
-                  (getTextWidth.canvas = document.createElement('canvas'));
-                var context = canvas.getContext('2d');
-                context.font = font;
-                var metrics = context.measureText(text);
-                return metrics.width;
-              };
-              const { chart } = ctx;
-              const { width: barWidth } = chart.getDatasetMeta(ctx.datasetIndex)
-                .data[ctx.dataIndex];
-              const textWidth = getTextWidth(val);
-              console.log({ textWidth, barWidth });
-              return val && textWidth + 20 < barWidth ? `${val} €` : '';
-            },
-          },
-          // name: {
-          //   anchor: debidoDavid.map((val) => (val >= 0 ? 'start' : 'end')),
-          //   align: debidoDavid.map((val) => (val >= 0 ? 'start' : 'end')),
-          //   color: 'white',
-          //   formatter: (_, ctx) => `${ctx.chart.data.labels[ctx.dataIndex]}`,
-          // },
+        formatter: (value, ctx) => {
+          const datasetArray = [];
+          ctx.chart.data.datasets.forEach((dataset) => {
+            if (dataset.data[ctx.dataIndex] !== undefined) {
+              datasetArray.push(dataset.data[ctx.dataIndex]);
+            }
+          });
+          console.log({ datasetArray });
+          const total = datasetArray.reduce((a, b) => a + b, 0);
+          if (ctx.datasetIndex === datasetArray.length - 1) {
+            return total;
+          }
+          return null;
         },
+        textAlign: 'center',
       },
       legend: {
         display: true,
@@ -165,6 +147,7 @@ export default function BalancePanel({ movements, members }) {
         xAlign: 'center',
         yAlign: 'center',
         callbacks: {
+          title: (item) => item[0].dataset.label,
           label: (item) => `${item.formattedValue} €`,
         },
       },
