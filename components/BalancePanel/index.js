@@ -43,43 +43,42 @@ const getBarColor = (context) => {
 };
 
 export default function BalancePanel({ movements, members }) {
-  const datasets = members.map((member, idx) => {
-    const { name, id } = member;
-    // Calculate member balance
-    const balance = movements.reduce((acc, movement) => {
-      const { member, participants, amount } = movement;
-      const actualMember = members.find((m) => m.id === member);
-      const isParticipant = participants.includes(id);
-      const isPayer = member === id;
-      console.log('Analizando movimiento pagado por:', actualMember.name);
-      console.log(
-        'En este movimiento participan',
-        participants.map((p) => members.find((m) => m.id === p).name).join(', ')
-      );
-      console.log('El movimiento ha costado', amount + '€');
-      console.log('El movimiento es deuda para ' + name + ':', isParticipant);
-      console.log(
-        'Para ' +
-          name +
-          ' el movimiento le cuesta: ' +
-          amount / participants.length
-      );
-      console.log('_---------------------_');
-      return isPayer
-        ? acc + amount
-        : isParticipant
-        ? acc - amount / participants.length
-        : acc;
-    }, 0);
+  // 2 movimientos:
+  // dfa paga 30€
+  // dfa paga 30€
+
+  // Los datasets tienen que ser:
+  // dfa:   [null, -20, -20]
+  // David: [20, null, null]
+  // Otro:  [20, null, null]
+
+  const datasets = members.map((memberRow, i) => {
+    const balance = members.map((memberCol, idx) => {
+      const { id } = memberCol;
+      const value = movements.reduce((acc, movement) => {
+        const { amount, member, participants } = movement;
+        if (member === id && participants.includes(id)) {
+          return acc + amount / participants.length;
+        }
+        if (member === memberRow.id && participants.includes(id)) {
+          return acc - amount / participants.length;
+        }
+        return acc;
+      }, 0);
+      const memberBalance = value || null;
+      return memberCol.id === memberRow.id ? null : memberBalance;
+    });
 
     return {
-      label: name,
+      label: memberRow.name,
       data: balance,
       backgroundColor: getBarColor,
     };
   });
 
-  console.log({ datasets });
+  const datasetsData = datasets.map((ds) => ds.data);
+
+  console.log({ data: datasetsData });
 
   // const chartLimit = calculateChartLimit(debidoDavid);
 
@@ -156,7 +155,7 @@ export default function BalancePanel({ movements, members }) {
   return (
     <div>
       <div className="p-4 bg-white">
-        {/* <Bar data={data} width={400} height={180} options={options} /> */}
+        <Bar data={data} width={400} height={180} options={options} />
       </div>
     </div>
   );
