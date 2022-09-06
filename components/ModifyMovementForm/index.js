@@ -8,6 +8,7 @@ import Select from '../Select';
 import { ArrowDownOnSquareIcon } from '@heroicons/react/24/outline';
 import { TrashIcon } from '@heroicons/react/24/solid';
 import movementTypes from '../../data/movementTypes';
+import MemberSelector from '../MemberSelector';
 
 export default function ModifyMovementForm({
   movement,
@@ -21,21 +22,25 @@ export default function ModifyMovementForm({
   const [member, setMember] = useState(movement.member);
   const [payedAt, setPayedAt] = useState(formatInputDate(movement.payedAt));
   const [type, setType] = useState(movement.type);
+  const [participants, setParticipants] = useState(movement.participants);
   const [changed, setChanged] = useState(false);
 
   useEffect(() => {
     if (
       (document.activeElement.nodeName.toLowerCase() === 'input' ||
-        document.activeElement.nodeName.toLowerCase() === 'select') &&
+        document.activeElement.nodeName.toLowerCase() === 'select' ||
+        document.activeElement.nodeName.toLowerCase() === 'button') &&
       (description !== movement.description ||
         amount !== movement.amount ||
         member !== movement.member ||
         payedAt !== formatInputDate(movement.payedAt) ||
+        participants.sort().join(',') !==
+          movement.participants.sort().join(',') ||
         type !== movement.type)
     ) {
       setChanged(true);
     }
-  }, [description, amount, member, payedAt, type, movement]);
+  }, [description, amount, member, participants, payedAt, type, movement]);
 
   const handleAmountChange = (e) => setAmount(Number(e.target.value));
   const handleDescriptionChange = (e) => setDescription(e.target.value);
@@ -53,6 +58,7 @@ export default function ModifyMovementForm({
       description,
       amount,
       member,
+      participants,
       payedAt,
       type,
     });
@@ -64,13 +70,14 @@ export default function ModifyMovementForm({
         pending: 'Actualizando gasto...',
       })
       .then((updatedMovement) => {
-        const { amount, description, id, member, payedAt, type } =
+        const { amount, description, id, member, participants, payedAt, type } =
           updatedMovement;
         onUpdate({
           amount,
           description,
           id,
           member,
+          participants,
           payedAt,
           type,
         });
@@ -83,7 +90,7 @@ export default function ModifyMovementForm({
 
   return (
     <form
-      className="flex flex-col justify-between h-full"
+      className="flex flex-col justify-between h-full text-white"
       onSubmit={handleSubmit}
     >
       <div className="grid grid-cols-2 gap-2">
@@ -124,6 +131,13 @@ export default function ModifyMovementForm({
           onChange={handlePayedAtChange}
           type="datetime-local"
           value={payedAt}
+        />
+        <MemberSelector
+          className="col-span-2"
+          label="Participantes"
+          members={members}
+          participants={participants}
+          onSelect={setParticipants}
         />
       </div>
 

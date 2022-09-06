@@ -13,6 +13,7 @@ export default function Movement({
   onChange,
   onDelete,
   open,
+  participants,
   payedAt,
   toggleMovement,
   type,
@@ -73,12 +74,24 @@ export default function Movement({
         </div>
       </button>
       <div
-        className={'transition-all overflow-hidden ' + (open ? 'h-44' : 'h-0')}
+        className={
+          'transition-all overflow-hidden duration-300 ' +
+          (open ? 'max-h-96' : 'max-h-0')
+        }
       >
         <div className="h-full p-2 text-black rounded-md bg-gradient-to-br from-zinc-700 via-zinc-900 to-zinc-800">
           <ModifyMovementForm
-            movement={{ amount, description, id, member, payedAt, type }}
+            movement={{
+              amount,
+              description,
+              id,
+              member,
+              participants,
+              payedAt,
+              type,
+            }}
             members={members}
+            participants={participants}
             onDelete={handleDelete}
             onUpdate={onChange}
           />

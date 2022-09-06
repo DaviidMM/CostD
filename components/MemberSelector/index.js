@@ -6,7 +6,7 @@ export default function MemberSelector({
   label,
   members,
   participants,
-  onSelect,
+  onSelect = () => {},
 }) {
   const [selected, setSelected] = useState(participants);
 
@@ -30,6 +30,7 @@ export default function MemberSelector({
           <MemberItem
             key={member.id}
             {...member}
+            canSelect={selected.length > 1 || !selected.includes(member.id)}
             onSelect={handleSelect}
             selected={selected.includes(member.id)}
           />

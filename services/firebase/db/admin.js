@@ -53,6 +53,7 @@ export const editMovement = async ({
   description,
   id,
   member,
+  participants,
   payedAt,
   type,
 }) => {
@@ -68,6 +69,7 @@ export const editMovement = async ({
     description,
     group: undefined,
     member,
+    participants,
     payedAt: payedAt ? Timestamp.fromDate(new Date(payedAt)) : undefined,
     type,
   };

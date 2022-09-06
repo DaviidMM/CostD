@@ -27,11 +27,19 @@ export const modifyMovement = async ({
   description,
   id,
   member,
+  participants,
   payedAt,
   type,
 }) => {
   return api
-    .put(`/movements/${id}`, { description, amount, member, payedAt, type })
+    .put(`/movements/${id}`, {
+      description,
+      amount,
+      member,
+      participants,
+      payedAt,
+      type,
+    })
     .then((res) => res.data);
 };
 

@@ -12,9 +12,18 @@ export default async function handler(req, res) {
     }
 
     const { id } = req.query;
-    const { amount, description, member, payedAt, type } = req.body;
+    const { amount, description, member, participants, payedAt, type } =
+      req.body;
 
-    return editMovement({ id, amount, description, member, payedAt, type })
+    return editMovement({
+      id,
+      amount,
+      description,
+      member,
+      participants,
+      payedAt,
+      type,
+    })
       .then((movement) => {
         res.status(200).json(movement);
       })

@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import Button from '../Button';
 import MemberItem from './MemberItem';
 
-export default function MemberSelector({
+export default function MemberPicker({
   members,
   onSelect = () => {},
   selected: initialSelected,
