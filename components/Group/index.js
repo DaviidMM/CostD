@@ -8,7 +8,7 @@ import Button from '../Button';
 import CategoryItem from '../CategorySelector/CategoryItem';
 import MovementsPanel from '../MovementsPanel';
 import GroupConfig from '../GroupConfig';
-import MemberSelector from '../MemberSelector';
+import MemberPicker from '../MemberPicker';
 import Tabs from '../Tabs';
 import Typed from '../Typed';
 
@@ -92,7 +92,7 @@ export default function Group(initialGroup) {
   return !userMember ? (
     <div>
       ¡No estás asociado a ningún miembro del grupo! 💀
-      <MemberSelector members={members} onSelect={handleBindUserToMember} />
+      <MemberPicker members={members} onSelect={handleBindUserToMember} />
     </div>
   ) : (
     <div className="relative p-4 mx-auto mt-10 border-2 border-orange-600 rounded-lg shadow-md h-fit">
@@ -155,7 +155,7 @@ export default function Group(initialGroup) {
           <p className="text-justify text-white">
             <Typed text={group.description} cursor="" typeSpeed={10} />
           </p>
-          <Tabs tabs={tabs} selectedIndex={1} />
+          <Tabs tabs={tabs} selectedIndex={0} />
         </div>
       )}
     </div>

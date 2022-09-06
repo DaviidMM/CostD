@@ -10,7 +10,6 @@ import {
 import { Bar } from 'react-chartjs-2';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import colors from 'tailwindcss/colors';
-import { useContext } from 'react';
 
 ChartJS.register(
   CategoryScale,
@@ -22,14 +21,6 @@ ChartJS.register(
   Legend
 );
 
-function getRandomColor() {
-  var letters = '0123456789ABCDEF'.split('');
-  var color = '#';
-  for (var i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
-  }
-  return color;
-}
 const calculateChartLimit = (values) => {
   const { max, min, abs } = Math;
   const maxValue = abs(max(...values));
@@ -38,58 +29,41 @@ const calculateChartLimit = (values) => {
   return limit;
 };
 
+const barColors = [
+  colors.red[500],
+  colors.blue[500],
+  colors.green[500],
+  colors.yellow[500],
+];
+
+const getBarColor = (context) => {
+  const { datasetIndex } = context;
+  const gradientIndex = ((datasetIndex - 1) % barColors.length) + 1;
+  return barColors[gradientIndex];
+};
+
 export default function BalancePanel({ movements, members }) {
-  const debidoDavid = [null, -34];
-  const debidoVictor = [34, null];
+  const datasets = members.map((member, idx) => {
+    const { name } = member;
+    let balances;
+    if (idx === 0) balances = [null, -34, 10];
+    if (idx === 1) balances = [34, null, 10];
+    if (idx === 2) balances = [-10, -10, null];
+    return {
+      label: name,
+      data: balances,
+      backgroundColor: getBarColor,
+    };
+  });
 
-  const chartLimit = calculateChartLimit(debidoDavid);
-
-  const tempLabels = ['David', 'Victor'];
+  // const chartLimit = calculateChartLimit(debidoDavid);
 
   const data = {
-    labels: tempLabels,
-    datasets: [
-      {
-        data: debidoDavid,
-        label: 'David',
-        backgroundColor: getRandomColor(),
-      },
-      {
-        data: debidoVictor,
-        label: 'Victor',
-        backgroundColor: getRandomColor(),
-      },
-    ],
+    labels: members.map((m) => m.name),
+    datasets,
   };
 
   const options = {
-    // backgroundColor: (context) => {
-    //   const { ctx } = context.chart;
-    //   const positiveGradient = ctx.createLinearGradient(
-    //     ctx.canvas.width / 2,
-    //     0,
-    //     ctx.canvas.width,
-    //     0
-    //   );
-    //   positiveGradient.addColorStop(0, colors.green[600]);
-    //   positiveGradient.addColorStop(0.5, colors.green[700]);
-    //   positiveGradient.addColorStop(1, colors.green[700]);
-    //   const negativeGradient = ctx.createLinearGradient(
-    //     ctx.canvas.width / 2,
-    //     0,
-    //     0,
-    //     0
-    //   );
-    //   negativeGradient.addColorStop(0, colors.rose[600]);
-    //   negativeGradient.addColorStop(0.5, colors.red[700]);
-    //   negativeGradient.addColorStop(1, colors.red[700]);
-    //   return debidoDavid.map((val) =>
-    //     val > 0 ? positiveGradient : val < 0 ? negativeGradient : 'yellow'
-    //   );
-    // },
-    // hoverBackgroundColor: debidoDavid.map((val) =>
-    //   val > 0 ? colors.green[800] : colors.red[700]
-    // ),
     borderWidth: 0,
     borderRadius: 6,
     barThickness: 40,
@@ -101,8 +75,8 @@ export default function BalancePanel({ movements, members }) {
         ticks: {
           display: true,
         },
-        suggestedMin: -chartLimit,
-        suggestedMax: chartLimit,
+        // suggestedMin: -chartLimit,
+        // suggestedMax: chartLimit,
         stacked: true,
       },
       y: {

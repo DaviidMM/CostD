@@ -5,6 +5,7 @@ export const createMovement = async ({
   description,
   group,
   member,
+  participants,
   payedAt,
   type,
 }) => {
@@ -14,6 +15,7 @@ export const createMovement = async ({
       description,
       group,
       member,
+      participants,
       payedAt,
       type,
     })

@@ -8,12 +8,14 @@ export default async function handler(req, res) {
       return res.status(401).json({ error: 'Unauthorized' });
     }
 
-    const { amount, description, group, member, payedAt, type } = req.body;
+    const { amount, description, group, member, participants, payedAt, type } =
+      req.body;
     return addMovement({
       amount: Number(amount),
       description,
       group,
       member,
+      participants,
       payedAt,
       type,
     })

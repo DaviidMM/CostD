@@ -28,6 +28,7 @@ export const addMovement = async ({
   description,
   group,
   member,
+  participants,
   payedAt,
   type,
 }) => {
@@ -36,6 +37,7 @@ export const addMovement = async ({
     description,
     group,
     member,
+    participants,
     payedAt: Timestamp.fromDate(new Date(payedAt)),
     type,
     createdAt: Timestamp.fromDate(new Date()),

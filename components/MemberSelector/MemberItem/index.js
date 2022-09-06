@@ -1,33 +1,25 @@
-import { useEffect, useState } from 'react';
+import ColoredBorder from '../../ColoredBorder';
 
-export default function MemberItem({
-  id,
-  name,
-  onSelect = () => {},
-  selected: initialSelected = false,
-}) {
-  const [selected, setSelected] = useState(initialSelected);
-
-  useEffect(() => {
-    setSelected(initialSelected);
-  }, [initialSelected]);
-
-  const handleClick = () => {
-    setSelected(true);
+export default function MemberItem({ id, name, selected, onSelect }) {
+  const handleSelect = (e) => {
     onSelect(id);
   };
 
   return (
-    <button
-      onClick={handleClick}
-      className={
-        (selected
-          ? 'bg-blue-500 hover:bg-blue-600 '
-          : 'bg-orange-600 hover:bg-orange-700 ') +
-        'p-1 text-white  rounded-md w-fit '
-      }
+    <ColoredBorder
+      className="inline-block mr-2 rounded-full w-fit"
+      color="orange"
     >
-      {name}
-    </button>
+      <button
+        type="button"
+        onClick={handleSelect}
+        className={
+          'select-none px-2 py-1 rounded-full hover:bg-transparent w-fit transition-colors font-semibold hover:text-black ' +
+          (selected ? 'bg-transparent text-black' : 'bg-black text-white')
+        }
+      >
+        {name}
+      </button>
+    </ColoredBorder>
   );
 }

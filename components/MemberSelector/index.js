@@ -1,33 +1,40 @@
-import { useState } from 'react';
-import { toast } from 'react-toastify';
-import Button from '../Button';
+import { useEffect, useState } from 'react';
 import MemberItem from './MemberItem';
 
 export default function MemberSelector({
+  className,
+  label,
   members,
-  onSelect = () => {},
-  selected: initialSelected,
+  participants,
+  onSelect,
 }) {
-  const [selected, setSelected] = useState(initialSelected);
+  const [selected, setSelected] = useState(participants);
 
-  const handleSelect = (id) => setSelected(id);
-
-  const handleSubmit = () => {
-    if (!selected) return toast.error('Selecciona un miembro');
+  useEffect(() => {
     onSelect(selected);
+  }, [selected, onSelect]);
+
+  const handleSelect = (id) => {
+    if (selected.includes(id)) {
+      setSelected(selected.filter((memberId) => memberId !== id));
+    } else {
+      setSelected([...selected, id]);
+    }
   };
 
   return (
-    <div className="flex flex-col gap-2">
-      {members.map((member) => (
-        <MemberItem
-          key={member.id}
-          {...member}
-          onSelect={handleSelect}
-          selected={selected === member.id}
-        />
-      ))}
-      <Button onClick={handleSubmit}>¡Soy el miembro seleccionado!</Button>
+    <div className={(className ? className + ' ' : '') + 'flex flex-col gap-2'}>
+      <label>{label}</label>
+      <div>
+        {members.map((member) => (
+          <MemberItem
+            key={member.id}
+            {...member}
+            onSelect={handleSelect}
+            selected={selected.includes(member.id)}
+          />
+        ))}
+      </div>
     </div>
   );
 }

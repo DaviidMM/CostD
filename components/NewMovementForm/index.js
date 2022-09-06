@@ -8,6 +8,7 @@ import Button from '../Button';
 import Input from '../Input';
 import Select from '../Select';
 import movementTypes from '../../data/movementTypes';
+import MemberSelector from '../MemberSelector';
 
 export default function NewMovementForm({
   closeForm = () => {},
@@ -27,6 +28,7 @@ export default function NewMovementForm({
   );
   const [payedAt, setPayedAt] = useState(formatInputDate(new Date()));
   const [type, setType] = useState('expense');
+  const [participants, setParticipants] = useState(members.map((m) => m.id));
 
   const handleAmountChange = (e) => setAmount(e.target.value);
   const handleDescriptionChange = (e) => setDescription(e.target.value);
@@ -37,7 +39,13 @@ export default function NewMovementForm({
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!amount || !description || !member || !payedAt) {
+    if (
+      !amount ||
+      !description ||
+      !member ||
+      !payedAt ||
+      !participants.length
+    ) {
       return toast.warning('Rellena todos los campos');
     }
 
@@ -46,6 +54,7 @@ export default function NewMovementForm({
       description,
       group,
       member,
+      participants,
       payedAt,
       type,
     });
@@ -110,6 +119,13 @@ export default function NewMovementForm({
           onChange={handlePayedAtChange}
           type="datetime-local"
           value={payedAt}
+        />
+        <MemberSelector
+          className="col-span-2"
+          label="Participantes"
+          members={members}
+          participants={participants}
+          onSelect={setParticipants}
         />
       </div>
       <div className="flex flex-row gap-4 mt-4">
