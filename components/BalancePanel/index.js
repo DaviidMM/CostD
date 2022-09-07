@@ -43,42 +43,48 @@ const getBarColor = (context) => {
 };
 
 export default function BalancePanel({ movements, members }) {
-  // 2 movimientos:
-  // dfa paga 30€
-  // dfa paga 30€
-
   // Los datasets tienen que ser:
-  // dfa:   [null, -20, -20]
-  // David: [20, null, null]
-  // Otro:  [20, null, null]
+  // David:  [0, -10, 0]
+  // Victor: [10, 0, 10]
+  // Sandra: [0, -10, 0]
 
-  const datasets = members.map((memberRow, i) => {
-    const balance = members.map((memberCol, idx) => {
-      const { id } = memberCol;
-      const value = movements.reduce((acc, movement) => {
-        const { amount, member, participants } = movement;
-        if (member === id && participants.includes(id)) {
-          return acc + amount / participants.length;
-        }
-        if (member === memberRow.id && participants.includes(id)) {
-          return acc - amount / participants.length;
-        }
-        return acc;
-      }, 0);
-      const memberBalance = value || null;
-      return memberCol.id === memberRow.id ? null : memberBalance;
-    });
+  const balanceTotal = Object.fromEntries(
+    members.map((member) => {
+      return [
+        member.id,
+        movements.reduce((acc, movement) => {
+          const { participants, member: payer, amount } = movement;
+          if (payer === member.id) {
+            return (
+              acc + (amount / participants.length) * (participants.length - 1)
+            );
+          }
+          if (participants.includes(member.id)) {
+            return acc - amount / participants.length;
+          }
+          return acc;
+        }, 0),
+      ];
+    })
+  );
+
+  console.log({ balanceTotal });
+
+  const datasets = members.map((memberRow, idxMemberRow) => {
+    let data = [];
+
+    console.log('data', data);
+
+    if (idxMemberRow === 0) data = [0, -10, 0];
+    if (idxMemberRow === 1) data = [10, 0, 10];
+    if (idxMemberRow === 2) data = [0, -10, 0];
 
     return {
       label: memberRow.name,
-      data: balance,
+      data,
       backgroundColor: getBarColor,
     };
   });
-
-  const datasetsData = datasets.map((ds) => ds.data);
-
-  console.log({ data: datasetsData });
 
   // const chartLimit = calculateChartLimit(debidoDavid);
 
@@ -101,6 +107,7 @@ export default function BalancePanel({ movements, members }) {
         },
         // suggestedMin: -chartLimit,
         // suggestedMax: chartLimit,
+        grace: '10%',
         stacked: true,
       },
       y: {
