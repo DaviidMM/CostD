@@ -1,12 +1,14 @@
 const { forwardRef } = require('react');
 
 const bgClasses = {
+  black: 'bg-gradient-to-r from-slate-800 to-slate-700 hover:to-slate-800',
   blue: 'bg-gradient-to-br from-blue-700 via-blue-900 to-blue-700 bg-size-200 bg-pos-0 hover:bg-pos-100',
+  green:
+    'bg-gradient-to-br from-green-500 via-green-700 to-green-600 bg-size-200 bg-pos-0 hover:bg-pos-100',
   orange:
     'bg-gradient-to-br from-yellow-400 via-orange-500 to-rose-500 bg-size-200 bg-pos-0 hover:bg-pos-100',
   red: 'bg-gradient-to-br from-red-500 via-red-700 to-red-600 bg-size-200 bg-pos-0 hover:bg-pos-100',
   white: 'bg-slate-200 hover:bg-slate-300',
-  black: 'bg-gradient-to-r from-slate-800 to-slate-700 hover:to-slate-800',
 };
 
 const borderClasses = {
@@ -16,11 +18,12 @@ const borderClasses = {
 };
 
 const textClasses = {
+  black: 'text-white',
   blue: 'text-white',
+  green: 'text-black hover:text-white',
+  orange: 'text-black hover:text-white',
   red: 'text-white',
   white: 'text-black',
-  black: 'text-white',
-  orange: 'text-black hover:text-white',
 };
 
 const Button = forwardRef(function Button(

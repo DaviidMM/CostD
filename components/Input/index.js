@@ -1,6 +1,7 @@
 import ColoredBorder from '../ColoredBorder';
 
 export default function Input({
+  color = 'orange',
   className = '',
   label,
   name,
@@ -13,7 +14,7 @@ export default function Input({
   const handleFocus = (e) => e.target.select();
 
   return (
-    <ColoredBorder color="orange" className="rounded-full">
+    <ColoredBorder color={color} className="rounded-full">
       <div
         className={
           (className ? className + ' ' : '') +

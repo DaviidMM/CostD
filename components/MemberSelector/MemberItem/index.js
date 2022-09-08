@@ -3,6 +3,7 @@ import ColoredBorder from '../../ColoredBorder';
 
 export default function MemberItem({
   canSelect,
+  color = 'orange',
   id,
   name,
   selected,
@@ -16,7 +17,7 @@ export default function MemberItem({
   return (
     <ColoredBorder
       className="inline-block mr-2 rounded-full w-fit"
-      color="orange"
+      color={color}
     >
       <button
         type="button"

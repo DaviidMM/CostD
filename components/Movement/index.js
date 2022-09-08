@@ -4,6 +4,13 @@ import { deleteMovement } from '../../services/movements';
 import { normalizeLongDate, normalizeShortDate } from '../../utils/dates';
 import ModifyMovementForm from '../ModifyMovementForm';
 
+const backgrounds = {
+  expense:
+    'text-black bg-gradient-to-br from-yellow-400 via-orange-500 to-rose-500 bg-size-200 bg-pos-0 hover:bg-pos-100 hover:text-white',
+  refund:
+    'text-black bg-gradient-to-br from-green-500 via-green-700 to-green-600 bg-size-200 bg-pos-0 hover:bg-pos-100 hover:text-white',
+};
+
 export default function Movement({
   amount,
   description,
@@ -55,7 +62,10 @@ export default function Movement({
     <div className="flex flex-col gap-2">
       <button
         onClick={handleClick}
-        className={`flex flex-row justify-between w-full p-2 rounded-md text-black duration-300 bg-gradient-to-br from-yellow-400 via-orange-500 to-rose-500 bg-size-200 bg-pos-0 hover:bg-pos-100 transition-all hover:text-white`}
+        className={
+          `flex flex-row justify-between w-full p-2 rounded-md  duration-300  transition-all ` +
+          backgrounds[type]
+        }
       >
         <div className="flex flex-col text-left">
           <span>
@@ -81,6 +91,13 @@ export default function Movement({
       >
         <div className="h-full p-2 text-black rounded-md bg-gradient-to-br from-zinc-700 via-zinc-900 to-zinc-800">
           <ModifyMovementForm
+            color={
+              type === 'expense'
+                ? 'orange'
+                : type === 'refund'
+                ? 'green'
+                : 'blue'
+            }
             movement={{
               amount,
               description,

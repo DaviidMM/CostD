@@ -11,6 +11,7 @@ import movementTypes from '../../data/movementTypes';
 import MemberSelector from '../MemberSelector';
 
 export default function ModifyMovementForm({
+  color = 'orange',
   movement,
   members = [],
   onDelete,
@@ -95,6 +96,7 @@ export default function ModifyMovementForm({
     >
       <div className="grid grid-cols-2 gap-2">
         <Select
+          color={color}
           label="Tipo"
           name="type"
           onChange={handleTypeAtChange}
@@ -106,11 +108,13 @@ export default function ModifyMovementForm({
           value={type}
         />
         <Input
+          color={color}
           label="Descripción"
           onChange={handleDescriptionChange}
           value={description}
         />
         <Input
+          color={color}
           label="Cantidad"
           onChange={handleAmountChange}
           selectAllOnFocus
@@ -119,6 +123,7 @@ export default function ModifyMovementForm({
           value={amount}
         />
         <Select
+          color={color}
           label="Pagado por"
           name="type"
           onChange={handleMemberChange}
@@ -127,12 +132,14 @@ export default function ModifyMovementForm({
           value={member}
         />
         <Input
+          color={color}
           label="Fecha de pago"
           onChange={handlePayedAtChange}
           type="datetime-local"
           value={payedAt}
         />
         <MemberSelector
+          color={color}
           className="col-span-2"
           label="Participantes"
           members={members}
@@ -149,7 +156,7 @@ export default function ModifyMovementForm({
         <Button
           disabled={!changed}
           className="px-2 py-1 w-fit"
-          color="orange"
+          color={color}
           type="submit"
         >
           <ArrowDownOnSquareIcon className="w-4 h-4" />

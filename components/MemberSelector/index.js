@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import MemberItem from './MemberItem';
 
 export default function MemberSelector({
+  color = 'orange',
   className,
   label,
   members,
@@ -28,6 +29,7 @@ export default function MemberSelector({
       <div>
         {members.map((member) => (
           <MemberItem
+            color={color}
             key={member.id}
             {...member}
             canSelect={selected.length > 1 || !selected.includes(member.id)}

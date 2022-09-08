@@ -1,6 +1,7 @@
 import ColoredBorder from '../ColoredBorder';
 
 export default function Select({
+  color = 'orange',
   className,
   label,
   name,
@@ -10,7 +11,7 @@ export default function Select({
   value,
 }) {
   return (
-    <ColoredBorder color="orange" className="rounded-full">
+    <ColoredBorder color={color} className="rounded-full">
       <div
         className={
           (className ? className + ' ' : '') +
