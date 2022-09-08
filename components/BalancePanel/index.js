@@ -21,19 +21,13 @@ ChartJS.register(
   Legend
 );
 
-const calculateChartLimit = (values) => {
-  const { max, min, abs } = Math;
-  const maxValue = abs(max(...values));
-  const minValue = abs(min(...values));
-  const limit = max(maxValue, minValue);
-  return limit;
-};
-
 const barColors = [
   colors.red[500],
   colors.blue[500],
   colors.green[500],
   colors.yellow[500],
+  colors.purple[500],
+  colors.rose[900],
 ];
 
 const getBarColor = (context) => {
@@ -43,53 +37,148 @@ const getBarColor = (context) => {
 };
 
 export default function BalancePanel({ movements, members }) {
-  // Los datasets tienen que ser:
-  // David:  [0, -10, 0]
-  // Victor: [10, 0, 10]
-  // Sandra: [0, -10, 0]
-
+  console.clear();
   const balanceTotal = Object.fromEntries(
     members.map((member) => {
       return [
         member.id,
-        movements.reduce((acc, movement) => {
-          const { participants, member: payer, amount } = movement;
-          if (payer === member.id) {
-            return (
-              acc + (amount / participants.length) * (participants.length - 1)
-            );
-          }
-          if (participants.includes(member.id)) {
-            return acc - amount / participants.length;
-          }
-          return acc;
-        }, 0),
+        Number(
+          movements
+            .reduce((acc, movement) => {
+              const { participants, member: payer, amount, type } = movement;
+              if (payer === member.id) {
+                if (type === 'refund') return acc + amount;
+                return (
+                  acc +
+                  (amount / participants.length) * (participants.length - 1)
+                );
+              }
+              if (participants.includes(member.id)) {
+                return acc - amount / participants.length;
+              }
+              return acc;
+            }, 0)
+            .toFixed(2)
+        ),
       ];
     })
   );
 
-  console.log({ balanceTotal });
+  const deudores = Object.entries(balanceTotal)
+    .filter(([, balance]) => balance < 0)
+    .map(([id, balance]) => {
+      return {
+        id,
+        balance,
+      };
+    });
+  const acreedores = Object.entries(balanceTotal)
+    .filter(([, balance]) => balance > 0)
+    .map(([id, balance]) => {
+      return {
+        id,
+        balance,
+      };
+    });
 
-  const datasets = members.map((memberRow, idxMemberRow) => {
-    let data = [];
+  const neutros = Object.entries(balanceTotal)
+    .filter(([, balance]) => balance === 0)
+    .map(([id, balance]) => {
+      return {
+        id,
+        balance,
+      };
+    });
 
-    console.log('data', data);
+  // sort balanceTotal array by deudores and acreedores
+  const membersBalance = [...acreedores, ...deudores, ...neutros];
 
-    if (idxMemberRow === 0) data = [0, -10, 0];
-    if (idxMemberRow === 1) data = [10, 0, 10];
-    if (idxMemberRow === 2) data = [0, -10, 0];
+  // console.table(membersBalance);
+
+  const auxiliar = Array.from(Array(members.length), () => []);
+
+  const datasets = membersBalance.map((memberRow, idxMemberRow) => {
+    // console.log('EMPEZANDO NUEVA FILA ======================');
+    // console.table(memberRow);
+    const deudorRow = deudores.some((deudor) => deudor.id === memberRow.id);
+    const acreedorRow = acreedores.some(
+      (acreedor) => acreedor.id === memberRow.id
+    );
+    let remainingBalance = membersBalance.find(
+      (m) => m.id === memberRow.id
+    ).balance;
+    // console.log('remainingBalance', remainingBalance);
+
+    membersBalance.map((memberColumn, idxMemberCol) => {
+      // console.table(membersBalance);
+      if (memberRow.id === memberColumn.id) {
+        auxiliar[idxMemberRow][idxMemberCol] = null;
+        return;
+      }
+      if (acreedorRow) {
+        if (remainingBalance === 0) {
+          auxiliar[idxMemberRow][idxMemberCol] = null;
+          return;
+        }
+        const deudor = deudores.find((deudor) => deudor.id === memberColumn.id);
+        if (deudor) {
+          const { balance } = deudor;
+          const acreedorIndex = membersBalance.findIndex(
+            (m) => m.id === memberRow.id
+          );
+          const deudorIndex = membersBalance.findIndex(
+            (m) => m.id === memberColumn.id
+          );
+
+          const result = remainingBalance + balance;
+          if (result === 0) {
+            remainingBalance = 0;
+            membersBalance[acreedorIndex].balance = 0;
+            membersBalance[deudorIndex].balance = 0;
+            auxiliar[idxMemberRow][idxMemberCol] = balance.toFixed(2);
+            return;
+          }
+          if (result > 0) {
+            remainingBalance = result;
+            membersBalance[acreedorIndex].balance = result;
+            membersBalance[deudorIndex].balance = 0;
+            auxiliar[idxMemberRow][idxMemberCol] = balance.toFixed(2);
+            return;
+          }
+          if (result < 0) {
+            membersBalance[deudorIndex].balance +=
+              membersBalance[acreedorIndex].balance;
+            auxiliar[idxMemberRow][idxMemberCol] = -remainingBalance;
+            remainingBalance = 0;
+            membersBalance[acreedorIndex].balance = remainingBalance;
+            return;
+          }
+        }
+        auxiliar[idxMemberRow][idxMemberCol] = null;
+        return;
+      }
+      if (deudorRow) {
+        auxiliar[idxMemberRow][idxMemberCol] =
+          -auxiliar[idxMemberCol][idxMemberRow] || null;
+        return;
+      }
+      auxiliar[idxMemberRow][idxMemberCol] = null;
+      return;
+    });
 
     return {
-      label: memberRow.name,
-      data,
+      label: members.find((m) => m.id === memberRow.id).name,
+      data: auxiliar[idxMemberRow],
       backgroundColor: getBarColor,
     };
   });
 
   // const chartLimit = calculateChartLimit(debidoDavid);
 
+  // console.table(auxiliar);
+
   const data = {
-    labels: members.map((m) => m.name),
+    labels: membersBalance.map((_) => members.find((m) => m.id === _.id).name),
     datasets,
   };
 
