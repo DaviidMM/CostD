@@ -24,16 +24,20 @@ export const getGroups = async () => {
       );
       const movementsRef = await getDocs(movementsQuery);
 
-      const movements = movementsRef.docs.map((movement) => {
-        const data = movement.data();
-        const id = movement.id;
-        return {
-          id,
-          ...data,
-          createdAt: data.createdAt.toDate(),
-          payedAt: data.payedAt.toDate(),
-        };
-      });
+      const movements = movementsRef.docs
+        .map((movement) => {
+          const data = movement.data();
+          const id = movement.id;
+          return {
+            id,
+            ...data,
+            createdAt: data.createdAt.toDate(),
+            payedAt: data.payedAt.toDate(),
+          };
+        })
+        .sort((a, b) => {
+          return b.createdAt - a.createdAt;
+        });
 
       return normalizeGroup({
         id: groupId,
@@ -52,11 +56,15 @@ export const getGroup = async (id) => {
     const data = groupSnap.data();
     const movementsQuery = query(movementsCollection, where('group', '==', id));
     const movementsRef = await getDocs(movementsQuery);
-    const movements = movementsRef.docs.map((movement) => {
-      const data = movement.data();
-      const id = movement.id;
-      return normalizeMovement({ id, data });
-    });
+    const movements = movementsRef.docs
+      .map((movement) => {
+        const data = movement.data();
+        const id = movement.id;
+        return normalizeMovement({ id, data });
+      })
+      .sort((a, b) => {
+        return b.createdAt - a.createdAt;
+      });
 
     return normalizeGroup({ id, data: { ...data, movements } });
   }
