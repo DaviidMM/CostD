@@ -36,6 +36,7 @@ const Button = forwardRef(function Button(
     onClick = () => {},
     onMouseEnter = () => {},
     onMouseLeave = () => {},
+    title = '',
     type = 'button',
   },
   ref
@@ -52,6 +53,7 @@ const Button = forwardRef(function Button(
       onClick={onClick}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
+      title={title}
       type={type}
     >
       {children}

@@ -35,14 +35,11 @@ export default function Movement({
   const handleClick = () => toggleMovement(id);
 
   const handleDelete = (movement) => {
-    console.log('handleDelete', { movement });
-
     if (!confirm('¿Estás seguro de que quieres eliminar este gasto?')) {
       return;
     }
 
     const promise = deleteMovement(movement);
-
     toast
       .promise(promise, {
         success: 'Se ha eliminado el gasto',

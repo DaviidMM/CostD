@@ -9,7 +9,7 @@ import useGroup from '../../hooks/useGroup';
 export default function GroupPage() {
   const { status } = useAuth();
   const router = useRouter();
-  const group = useGroup(router.query.id);
+  const group = useGroup();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

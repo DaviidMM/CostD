@@ -19,7 +19,7 @@ const getBarColor = (context) => {
 const barChartOptions = {
   borderWidth: 0,
   borderRadius: 6,
-  barThickness: 40,
+  barThickness: 30,
   maxBarThickness: 60,
   indexAxis: 'y',
   responsive: true,
@@ -39,6 +39,8 @@ const barChartOptions = {
         lineWidth: 0.3,
         color: 'gray',
       },
+      suggestedMin: -10,
+      suggestedMax: 10,
     },
     y: {
       display: true,
@@ -112,9 +114,7 @@ const barChartOptions = {
   },
 };
 
-export const getBarChartOptions = () => {
-  return barChartOptions;
-};
+export const getBarChartOptions = () => barChartOptions;
 
 export const getMembersBalance = ({ movements, members }) => {
   const balanceTotal = Object.fromEntries(
@@ -214,14 +214,15 @@ export const getMembersBalance = ({ movements, members }) => {
             remainingBalance = 0;
             membersBalance[acreedorIndex].balance = 0;
             membersBalance[deudorIndex].balance = 0;
-            auxiliar[idxMemberRow][idxMemberCol] = balance.toFixed(2);
+            auxiliar[idxMemberRow][idxMemberCol] = Number(balance.toFixed(2));
             return;
           }
           if (result > 0) {
             remainingBalance = result;
             membersBalance[acreedorIndex].balance = result;
             membersBalance[deudorIndex].balance = 0;
-            auxiliar[idxMemberRow][idxMemberCol] = balance.toFixed(2);
+            auxiliar[idxMemberRow][idxMemberCol] =
+              balance === 0 ? null : Number(balance.toFixed(2));
             return;
           }
           if (result < 0) {
@@ -258,7 +259,7 @@ export const getMembersBalance = ({ movements, members }) => {
   };
 };
 
-export const getDatasets = ({ movements, members }) => {
+export const calculateDatasets = ({ movements, members }) => {
   const { membersBalance } = getMembersBalance({
     movements,
     members,

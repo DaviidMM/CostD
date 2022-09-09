@@ -85,7 +85,7 @@ export default function Group(initialGroup) {
     {
       label: 'Saldo',
       Component: BalancePanel,
-      data: { movements: group.movements, members },
+      data: { movements: group.movements, members, onMovementUpdate },
     },
   ];
 

@@ -25,7 +25,7 @@ export default function Tabs({ tabs, selectedIndex = 0 }) {
           return (
             <Tab.Panel
               key={label}
-              className="p-3 bg-gradient-to-br from-zinc-700 via-zinc-900 to-zinc-800 rounded-lg shadow-[0_0_10px_0] shadow-black/60"
+              className="p-3 focus-visible:outline-none bg-gradient-to-br from-zinc-700 via-zinc-900 to-zinc-800 rounded-lg shadow-[0_0_10px_0] shadow-black/60"
             >
               <Component {...data} />
             </Tab.Panel>
