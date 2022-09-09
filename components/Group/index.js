@@ -155,7 +155,7 @@ export default function Group(initialGroup) {
           <p className="text-justify text-white">
             <Typed text={group.description} cursor="" typeSpeed={10} />
           </p>
-          <Tabs tabs={tabs} selectedIndex={1} />
+          <Tabs tabs={tabs} selectedIndex={0} />
         </div>
       )}
     </div>
