@@ -6,7 +6,8 @@ const barColors = [
   colors.green[500],
   colors.yellow[500],
   colors.purple[500],
-  colors.rose[900],
+  colors.red[800],
+  colors.orange[600],
 ];
 
 const getBarColor = (context) => {
@@ -26,15 +27,35 @@ const barChartOptions = {
     x: {
       ticks: {
         display: true,
+        color: 'white',
+        font: {
+          weight: 700,
+          color: 'white',
+        },
       },
-      // suggestedMin: -chartLimit,
-      // suggestedMax: chartLimit,
       grace: '10%',
       stacked: true,
+      grid: {
+        lineWidth: 0.3,
+        color: 'gray',
+      },
     },
     y: {
       display: true,
       stacked: true,
+      grid: {
+        lineWidth: 0.3,
+        color: 'gray',
+      },
+      font: {
+        size: 16,
+      },
+      ticks: {
+        color: 'white',
+        font: {
+          weight: 700,
+        },
+      },
     },
   },
   maxTicksLimit: 10,
@@ -65,8 +86,18 @@ const barChartOptions = {
     },
     legend: {
       display: true,
+      labels: {
+        font: {
+          weight: 700,
+        },
+        color: 'white',
+      },
       title: {
         display: true,
+        font: {
+          weight: 700,
+        },
+        color: 'white',
         text: 'Debido a:',
       },
     },
@@ -112,7 +143,7 @@ export const getMembersBalance = ({ movements, members }) => {
     })
   );
 
-  const deudores = Object.entries(balanceTotal)
+  const debtors = Object.entries(balanceTotal)
     .filter(([, balance]) => balance < 0)
     .map(([id, balance]) => {
       return {
@@ -120,7 +151,7 @@ export const getMembersBalance = ({ movements, members }) => {
         balance,
       };
     });
-  const acreedores = Object.entries(balanceTotal)
+  const creditors = Object.entries(balanceTotal)
     .filter(([, balance]) => balance > 0)
     .map(([id, balance]) => {
       return {
@@ -138,18 +169,18 @@ export const getMembersBalance = ({ movements, members }) => {
       };
     });
 
-  // sort balanceTotal array by deudores and acreedores
-  const membersBalance = [...acreedores, ...deudores, ...neutros];
+  // sort balanceTotal array by creditors and debtors
+  const membersBalance = [...creditors, ...debtors, ...neutros];
 
   // console.table(membersBalance);
 
   const auxiliar = Array.from(Array(members.length), () => []);
 
-  return membersBalance.map((memberRow, idxMemberRow) => {
+  const datasets = membersBalance.map((memberRow, idxMemberRow) => {
     // console.log('EMPEZANDO NUEVA FILA ======================');
     // console.table(memberRow);
-    const deudorRow = deudores.some((deudor) => deudor.id === memberRow.id);
-    const acreedorRow = acreedores.some(
+    const deudorRow = debtors.some((deudor) => deudor.id === memberRow.id);
+    const acreedorRow = creditors.some(
       (acreedor) => acreedor.id === memberRow.id
     );
     let remainingBalance = membersBalance.find(
@@ -168,7 +199,7 @@ export const getMembersBalance = ({ movements, members }) => {
           auxiliar[idxMemberRow][idxMemberCol] = null;
           return;
         }
-        const deudor = deudores.find((deudor) => deudor.id === memberColumn.id);
+        const deudor = debtors.find((deudor) => deudor.id === memberColumn.id);
         if (deudor) {
           const { balance } = deudor;
           const acreedorIndex = membersBalance.findIndex(
@@ -216,18 +247,29 @@ export const getMembersBalance = ({ movements, members }) => {
 
     return {
       label: members.find((m) => m.id === memberRow.id).name,
+      id: memberRow.id,
       data: auxiliar[idxMemberRow],
     };
   });
+  return {
+    debtors,
+    creditors,
+    membersBalance: datasets,
+  };
 };
 
 export const getDatasets = ({ movements, members }) => {
-  const membersBalance = getMembersBalance({ movements, members });
-  return membersBalance.map(({ label, data }) => {
+  const { membersBalance } = getMembersBalance({
+    movements,
+    members,
+  });
+  const datasets = membersBalance.map(({ label, data }) => {
     return {
       label,
       data,
       backgroundColor: getBarColor,
     };
   });
+
+  return { datasets, membersBalance };
 };

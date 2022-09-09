@@ -12,7 +12,7 @@ export default function MovementsPanel({
   const [showNewMovementForm, setShowNewMovementForm] = useState(false);
 
   const addMovement = (movement) => {
-    onMovementUpdate([...movements, movement]);
+    onMovementUpdate([movement, ...movements]);
   };
 
   const removeMovement = (movement) => {
