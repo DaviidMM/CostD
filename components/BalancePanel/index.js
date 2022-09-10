@@ -16,6 +16,7 @@ import { toast } from 'react-toastify';
 import useGroup from '../../hooks/useGroup';
 import Spinner from '../Loading/Spinner';
 import Dots from '../Loading/Dots';
+import useAuth from '../../hooks/useAuth';
 
 ChartJS.register(
   CategoryScale,
@@ -33,6 +34,8 @@ export default function BalancePanel({
   onMovementUpdate = () => {},
 }) {
   const group = useGroup();
+  const { user } = useAuth();
+  const userId = user.id;
   const { datasets, membersBalance } = calculateDatasets({
     movements,
     members,
@@ -72,30 +75,75 @@ export default function BalancePanel({
   const options = getBarChartOptions();
 
   const individualDebts = membersBalance.reduce((acc, { data, id }) => {
-    const memberDebts = data.reduce((debtAcc, curr, idx) => {
-      if (curr < 0)
-        debtAcc.push({ from: membersBalance[idx].id, to: id, amount: curr });
+    const memberDebts = data.reduce((debtAcc, debtAmount, idx) => {
+      if (debtAmount < 0)
+        debtAcc.push({
+          from: members.find((m) => m.id === membersBalance[idx].id),
+          to: members.find((m) => m.id === id),
+          amount: Number(debtAmount.toFixed(2)),
+        });
       return debtAcc;
     }, []);
     return [...acc, ...memberDebts];
   }, []);
 
+  console.log({ individualDebts });
+
+  const myDebts = individualDebts.filter(
+    (debt) => debt.from.uid === userId || debt.to.uid === userId
+  );
+  const otherDebts = individualDebts.filter(
+    (debt) => debt.from.uid !== userId && debt.to.uid !== userId
+  );
+
   return (
-    <div>
+    <div className="flex flex-col gap-4">
+      {individualDebts.length === 0 && (
+        <h1 className="text-3xl font-semibold text-center">
+          Todo el grupo está cuadrado
+        </h1>
+      )}
       <div className="p-4">
         <Bar data={data} width={400} height={200} options={options} />
       </div>
-      <div className="grid grid-cols-2 gap-2 p-4">
-        {individualDebts.map((debt, idx) => (
-          <Debt
-            amount={debt.amount}
-            from={members.find((m) => m.id === debt.from)}
-            key={idx}
-            onPay={payMovement}
-            to={members.find((m) => m.id === debt.to)}
-          />
-        ))}
-      </div>
+      {individualDebts.length !== 0 && (
+        <>
+          <div>
+            <h3 className="mb-2 text-xl">Mis deudas</h3>
+            {myDebts.length === 0 ? (
+              <p>No tengo deudas pendientes 👍</p>
+            ) : (
+              myDebts.map((debt, idx) => (
+                <Debt
+                  amount={debt.amount}
+                  from={debt.from}
+                  key={idx}
+                  onPay={payMovement}
+                  to={debt.to}
+                />
+              ))
+            )}
+          </div>
+          <div>
+            <h3 className="mb-2 text-xl">Deudas de otros</h3>
+            <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
+              {otherDebts.length === 0 ? (
+                <p>Nadie tiene deudas pendientes 👍</p>
+              ) : (
+                otherDebts.map((debt, idx) => (
+                  <Debt
+                    amount={debt.amount}
+                    from={debt.from}
+                    key={idx}
+                    onPay={payMovement}
+                    to={debt.to}
+                  />
+                ))
+              )}
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }
