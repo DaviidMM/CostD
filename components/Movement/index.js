@@ -42,9 +42,9 @@ export default function Movement({
     const promise = deleteMovement(movement);
     toast
       .promise(promise, {
-        success: 'Se ha eliminado el gasto',
-        error: 'Ha ocurrido un error eliminando el gasto',
-        pending: 'Eliminando gasto...',
+        success: 'Se ha eliminado el movimiento',
+        error: 'Ha ocurrido un error eliminando el movimiento',
+        pending: 'Eliminando movimiento...',
       })
       .then(() => onDelete(movement))
       .catch((err) => {
