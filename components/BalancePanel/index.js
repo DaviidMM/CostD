@@ -87,8 +87,6 @@ export default function BalancePanel({
     return [...acc, ...memberDebts];
   }, []);
 
-  console.log({ individualDebts });
-
   const myDebts = individualDebts.filter(
     (debt) => debt.from.uid === userId || debt.to.uid === userId
   );
@@ -103,30 +101,32 @@ export default function BalancePanel({
           Todo el grupo está cuadrado
         </h1>
       )}
-      <div className="p-4">
-        <Bar data={data} width={400} height={200} options={options} />
+      <div className="p-4 h-[500px]">
+        <Bar data={data} options={options} />
       </div>
       {individualDebts.length !== 0 && (
         <>
           <div>
             <h3 className="mb-2 text-xl">Mis deudas</h3>
-            {myDebts.length === 0 ? (
-              <p>No tengo deudas pendientes 👍</p>
-            ) : (
-              myDebts.map((debt, idx) => (
-                <Debt
-                  amount={debt.amount}
-                  from={debt.from}
-                  key={idx}
-                  onPay={payMovement}
-                  to={debt.to}
-                />
-              ))
-            )}
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+              {myDebts.length === 0 ? (
+                <p>No tengo deudas pendientes 👍</p>
+              ) : (
+                myDebts.map((debt, idx) => (
+                  <Debt
+                    amount={debt.amount}
+                    from={debt.from}
+                    key={idx}
+                    onPay={payMovement}
+                    to={debt.to}
+                  />
+                ))
+              )}
+            </div>
           </div>
           <div>
             <h3 className="mb-2 text-xl">Deudas de otros</h3>
-            <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               {otherDebts.length === 0 ? (
                 <p>Nadie tiene deudas pendientes 👍</p>
               ) : (

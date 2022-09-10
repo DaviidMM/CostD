@@ -5,10 +5,12 @@ import { normalizeLongDate, normalizeShortDate } from '../../utils/dates';
 import ModifyMovementForm from '../ModifyMovementForm';
 
 const backgrounds = {
-  expense:
-    'text-black bg-gradient-to-br from-yellow-400 via-orange-500 to-rose-500 bg-size-200 bg-pos-0 hover:bg-pos-100 hover:text-white',
-  refund:
-    'text-black bg-gradient-to-br from-green-500 via-green-700 to-green-600 bg-size-200 bg-pos-0 hover:bg-pos-100 hover:text-white',
+  expense: (open) =>
+    'bg-gradient-to-br from-yellow-400 via-orange-500 to-rose-500 bg-size-200 bg-pos-0 md:hover:bg-pos-100 md:hover:text-white ' +
+    (open ? 'bg-pos-100 text-white' : 'text-black'),
+  refund: (open) =>
+    'bg-gradient-to-br from-green-500 via-green-700 to-green-600 bg-size-200 bg-pos-0 md:hover:bg-pos-100 md:hover:text-white ' +
+    (open ? 'bg-pos-100 text-white' : 'text-black'),
 };
 
 export default function Movement({
@@ -60,8 +62,8 @@ export default function Movement({
       <button
         onClick={handleClick}
         className={
-          `flex flex-row justify-between w-full p-2 rounded-md  duration-300  transition-all ` +
-          backgrounds[type]
+          `flex flex-row justify-between w-full p-2 rounded-md duration-300 transition-all focus-visible:outline-none ` +
+          backgrounds[type](open)
         }
       >
         <div className="flex flex-col text-left">
@@ -83,7 +85,7 @@ export default function Movement({
       <div
         className={
           'transition-all overflow-hidden duration-300 ' +
-          (open ? 'max-h-96' : 'max-h-0')
+          (open ? 'max-h-screen' : 'max-h-0')
         }
       >
         <div className="h-full p-2 text-black rounded-md bg-gradient-to-br from-zinc-700 via-zinc-900 to-zinc-800">

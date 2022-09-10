@@ -23,7 +23,7 @@ export default function MemberItem({
         type="button"
         onClick={handleSelect}
         className={
-          'select-none px-2 py-1 rounded-full hover:bg-transparent w-fit transition-colors font-semibold hover:text-black ' +
+          'select-none px-2 py-1 rounded-full md:hover:bg-transparent w-fit transition-colors font-semibold md:hover:text-black ' +
           (selected ? 'bg-transparent text-black' : 'bg-black text-white')
         }
       >

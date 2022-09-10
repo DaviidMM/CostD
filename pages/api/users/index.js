@@ -10,7 +10,7 @@ export default async function handler(req, res) {
 
     const { picture: avatar, name: displayName, email, uid: id } = user;
 
-    return storeDbUser({ avatar, displayName, email, id })
+    return storeDbUser({ avatar, displayName, email: email || '', id })
       .then((storedUser) => {
         res.status(200).json(storedUser);
       })

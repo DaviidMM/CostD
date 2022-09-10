@@ -94,7 +94,7 @@ export default function ModifyMovementForm({
       className="flex flex-col justify-between h-full text-white"
       onSubmit={handleSubmit}
     >
-      <div className="grid grid-cols-2 gap-2">
+      <div className="flex flex-col gap-2 md:grid md:grid-cols-2">
         <Select
           color={color}
           label="Tipo"
@@ -148,7 +148,7 @@ export default function ModifyMovementForm({
         />
       </div>
 
-      <div className="flex flex-row justify-end gap-2">
+      <div className="flex flex-row justify-end gap-2 mt-4">
         <Button color="red" className="py-1" onClick={handleDelete}>
           <TrashIcon className="w-4 h-4" />
           Eliminar

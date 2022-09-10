@@ -120,7 +120,9 @@ export const editGroup = async ({
   const updatedValues = {
     category,
     description,
-    members: members.map((m) => ({ id: m.id, name: m.name, uid: m.uid || '' })),
+    members: members
+      ? members.map((m) => ({ id: m.id, name: m.name, uid: m.uid || '' }))
+      : undefined,
     name,
   };
 

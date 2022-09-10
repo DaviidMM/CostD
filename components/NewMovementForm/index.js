@@ -80,7 +80,7 @@ export default function NewMovementForm({
       <h1>
         Nuevo {movementTypes.find((mT) => mT.id === type).name.toLowerCase()}
       </h1>
-      <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
+      <div className="flex flex-col gap-2 md:grid md:grid-cols-2">
         <Select
           label="Tipo"
           name="type"

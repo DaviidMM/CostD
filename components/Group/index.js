@@ -95,16 +95,25 @@ export default function Group(initialGroup) {
       <MemberPicker members={members} onSelect={handleBindUserToMember} />
     </div>
   ) : (
-    <div className="relative p-4 mx-auto mt-10 border-2 border-orange-600 rounded-lg shadow-md h-fit">
-      <header className="relative pb-8 mb-4 border-b-2 border-orange-600">
+    <div className="relative p-4 mx-auto border-2 border-orange-600 rounded-lg shadow-md h-fit">
+      <header className="relative pb-2 mb-4 border-b-2 border-orange-600">
         <div className="absolute top-0 left-0 flex flex-col w-1/5 max-w-xs">
-          <CategoryItem category={group.category} selected />
-          <small className="overflow-hidden whitespace-nowrap text-ellipsis">
+          <CategoryItem
+            category={group.category}
+            className="hidden md:block"
+            selected
+          />
+          <CategoryItem
+            category={group.category.substring(0, 2)}
+            className="block md:hidden"
+            selected
+          />
+          <small className="hidden overflow-hidden md:block whitespace-nowrap text-ellipsis">
             Registrado como{' '}
             <b>{members.find((m) => m.id === userMember).name}</b>
           </small>
         </div>
-        <h1 className="mx-auto text-3xl font-semibold text-center w-fit">
+        <h1 className="mx-auto text-2xl font-semibold text-center md:text-3xl w-fit">
           <Typed
             gradientColor
             color="orange"
@@ -139,6 +148,9 @@ export default function Group(initialGroup) {
             }
           />
         </Button>
+        <p className="mt-8 text-justify text-white">
+          <Typed text={group.description} cursor="" typeSpeed={10} />
+        </p>
       </header>
 
       {showConfig ? (
@@ -151,10 +163,7 @@ export default function Group(initialGroup) {
           updateMembers={updateMembers}
         />
       ) : (
-        <div className="flex flex-col gap-4">
-          <p className="text-justify text-white">
-            <Typed text={group.description} cursor="" typeSpeed={10} />
-          </p>
+        <div className="flex flex-col justify-between">
           <Tabs tabs={tabs} selectedIndex={0} />
         </div>
       )}

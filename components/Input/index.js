@@ -14,32 +14,37 @@ export default function Input({
   const handleFocus = (e) => e.target.select();
 
   return (
-    <ColoredBorder color={color} className="rounded-full">
-      <div
-        className={
-          (className ? className + ' ' : '') +
-          'rounded-full items-center overflow-hidden flex flex-row text-black font-semibold'
-        }
-      >
-        {label && (
-          <label
-            className="px-2 leading-loose bg-transparent select-none whitespace-nowrap"
-            htmlFor={label.toLowerCase()}
-          >
-            {label}
-          </label>
-        )}
-        <input
-          className="w-full h-8 px-2 py-1 text-white bg-black focus:outline-none"
-          id={name}
-          type={type}
-          value={value}
-          onChange={onChange}
-          onFocus={selectAllOnFocus ? handleFocus : () => {}}
-          step={type === 'datetime-local' ? '60' : step}
-          name={name}
-        />
-      </div>
-    </ColoredBorder>
+    <div className={className}>
+      {label && (
+        <label
+          className="block mb-1 bg-transparent select-none whitespace-nowrap md:hidden"
+          htmlFor={name}
+        >
+          {label}
+        </label>
+      )}
+      <ColoredBorder color={color} className="h-10 rounded-full md:h-full">
+        <div className="flex flex-row items-center w-full h-full overflow-hidden font-semibold text-black rounded-full">
+          {label && (
+            <label
+              className="hidden px-2 leading-loose bg-transparent select-none whitespace-nowrap md:block"
+              htmlFor={name}
+            >
+              {label}
+            </label>
+          )}
+          <input
+            className="w-full h-full px-2 py-1 text-white bg-black focus:outline-none"
+            id={name}
+            type={type}
+            value={value}
+            onChange={onChange}
+            onFocus={selectAllOnFocus ? handleFocus : () => {}}
+            step={type === 'datetime-local' ? '60' : step}
+            name={name}
+          />
+        </div>
+      </ColoredBorder>
+    </div>
   );
 }

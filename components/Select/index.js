@@ -11,38 +11,43 @@ export default function Select({
   value,
 }) {
   return (
-    <ColoredBorder color={color} className="rounded-full">
-      <div
-        className={
-          (className ? className + ' ' : '') +
-          'items-center overflow-hidden h-full rounded-full flex flex-row text-black font-semibold'
-        }
-      >
-        {label && (
-          <label
-            className="px-2 leading-loose bg-transparent select-none whitespace-nowrap"
-            htmlFor={label.toLowerCase()}
-          >
-            {label}
-          </label>
-        )}
-        <select
-          className="w-full h-full px-2 py-1 text-white bg-black rounded-none hover:bg-slate-900/80 focus:outline-none"
-          id={name}
-          name={name}
-          onChange={onChange}
-          value={value || ''}
+    <div className={className}>
+      {label && (
+        <label
+          className="block mb-1 bg-transparent select-none whitespace-nowrap md:hidden"
+          htmlFor={name}
         >
-          <option value="" disabled>
-            {placeholder}
-          </option>
-          {options.map((opt) => (
-            <option key={opt.value} value={opt.value}>
-              {opt.label}
+          {label}
+        </label>
+      )}
+      <ColoredBorder color={color} className="h-10 rounded-full md:h-auto">
+        <div className="flex flex-row items-center h-full overflow-hidden font-semibold text-black rounded-full">
+          {label && (
+            <label
+              className="hidden px-2 leading-loose bg-transparent select-none md:block whitespace-nowrap"
+              htmlFor={label.toLowerCase()}
+            >
+              {label}
+            </label>
+          )}
+          <select
+            className="w-full h-full px-2 py-1 text-white bg-black rounded-none hover:bg-slate-900/80 focus:outline-none"
+            id={name}
+            name={name}
+            onChange={onChange}
+            value={value || ''}
+          >
+            <option value="" disabled>
+              {placeholder}
             </option>
-          ))}
-        </select>
-      </div>
-    </ColoredBorder>
+            {options.map((opt) => (
+              <option key={opt.value} value={opt.value}>
+                {opt.label}
+              </option>
+            ))}
+          </select>
+        </div>
+      </ColoredBorder>
+    </div>
   );
 }

@@ -41,6 +41,9 @@ module.exports = {
       rotate: {
         360: '360deg',
       },
+      screens: {
+        betterhover: { raw: '(hover: hover)' },
+      },
     },
   },
   plugins: [],

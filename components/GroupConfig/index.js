@@ -44,6 +44,7 @@ const Form = ({ group, onUpdate }) => {
       acc[key] = fields[key].value;
       return acc;
     }, {});
+
     const promise = updateGroup(group.id, { ...formValues, category });
 
     return toast
