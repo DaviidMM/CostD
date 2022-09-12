@@ -13,13 +13,13 @@ export default function NewGroupPage() {
   }
 
   return (
-    <div>
+    <div className="md:px-56">
       <h1 className="my-4 text-3xl font-semibold text-center">
         <Typed
           bold
           gradientColor
           color="orange"
-          text="Crear nuevo grupo"
+          texts={['Crear nuevo grupo']}
           cursor=""
         />
       </h1>

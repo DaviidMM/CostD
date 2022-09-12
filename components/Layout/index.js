@@ -18,7 +18,7 @@ export default function Layout({ children }) {
       <section className="flex flex-col min-h-screen bg-zinc-800 selection:bg-orange-400 selection:text-white">
         <ToastContainer theme="dark" />
         <Header />
-        <main className="flex flex-grow w-full max-w-5xl px-6 mx-auto">
+        <main className="flex flex-grow w-full px-6 mx-auto max-w-7xl">
           {status === authStatus.loading ? <Dots /> : children}
         </main>
       </section>

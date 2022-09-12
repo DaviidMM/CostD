@@ -14,13 +14,13 @@ export default function GroupsPage() {
   }
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 md:px-56">
       <h1 className="text-4xl font-semibold text-center ">
         <Typed
           bold
           gradientColor
           color="orange"
-          text="Grupos"
+          texts={['Grupos']}
           cursor=""
           className="w-full"
         />

@@ -13,27 +13,37 @@ export default function Typed({
   gradientColor = false,
   loop = false,
   loopDelay = 1000,
-  text,
+  texts,
   typeSpeed = 50,
 }) {
   const [shownLetters, setShownLetters] = useState('');
   const [counter, setCounter] = useState(1);
+  const [isWriting, setIsWriting] = useState(true);
+  const [textIndex, setTextIndex] = useState(0);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setShownLetters(text.substring(0, counter));
-      setCounter(counter + 1);
+      setShownLetters(texts[textIndex].substring(0, counter));
+      isWriting ? setCounter(counter + 1) : setCounter(counter - 1);
     }, typeSpeed);
 
-    if (counter > text.length) {
+    if (counter > texts[textIndex].length && isWriting) {
       clearTimeout(timer);
-      if (loop) {
+      if (loop || texts.length > 1) {
         setTimeout(() => {
-          setCounter(1);
+          setIsWriting(false);
         }, loopDelay);
       }
     }
-  }, [counter, text, typeSpeed, loopDelay, loop]);
+    if (!isWriting && counter < 0) {
+      clearTimeout(timer);
+      setTimeout(() => {
+        setTextIndex(textIndex === texts.length - 1 ? 0 : textIndex + 1);
+        setIsWriting(true);
+        setCounter(1);
+      }, loopDelay);
+    }
+  }, [counter, isWriting, texts, textIndex, typeSpeed, loopDelay, loop]);
 
   return (
     <span

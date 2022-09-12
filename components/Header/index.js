@@ -23,26 +23,12 @@ import { useRouter } from 'next/router';
 export default function Header() {
   const { pathname } = useRouter();
   const auth = useAuth();
-  const { user, status } = auth;
+  const { user, status, openLoginModal } = auth;
   const [showMenu, setShowMenu] = useState(false);
-  const [showLoginModal, setShowLoginModal] = useState(false);
 
   useEffect(() => setShowMenu(false), [pathname]);
 
   const handleLogout = () => logout();
-  const openModal = () => setShowLoginModal(true);
-  const closeModal = () => setShowLoginModal(false);
-
-  const handleLoginGoogle = () => {
-    loginWithGoogle()
-      .then(() => closeModal())
-      .catch((err) => console.error(err));
-  };
-  const handleLoginTwitter = () => {
-    loginWithTwitter()
-      .then(() => closeModal())
-      .catch((err) => console.log(err));
-  };
 
   return (
     <header className="flex flex-row items-center w-full h-20 gap-5 px-8 md:px-32 text-slate-200 place-content-between">
@@ -68,7 +54,7 @@ export default function Header() {
       </Navbar>
       {status !== authStatus.authenticated ? (
         <>
-          <Button bordered onClick={openModal} color="blue">
+          <Button bordered onClick={openLoginModal} color="blue">
             Iniciar sesión
           </Button>
         </>
@@ -108,12 +94,6 @@ export default function Header() {
           </Menu>
         </div>
       )}
-      <LoginModal
-        closeModal={closeModal}
-        isOpen={showLoginModal}
-        handleLoginGoogle={handleLoginGoogle}
-        handleLoginTwitter={handleLoginTwitter}
-      />
     </header>
   );
 }

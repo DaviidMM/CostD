@@ -95,7 +95,7 @@ export default function Group(initialGroup) {
       <MemberPicker members={members} onSelect={handleBindUserToMember} />
     </div>
   ) : (
-    <div className="relative p-4 mx-auto border-2 border-orange-600 rounded-lg shadow-md h-fit">
+    <div className="relative p-4 mx-auto border-2 border-orange-600 rounded-lg shadow-md md:mx-56 h-fit">
       <header className="relative pb-2 mb-4 border-b-2 border-orange-600">
         <div className="absolute top-0 left-0 flex flex-col w-1/5 max-w-xs">
           <CategoryItem
@@ -118,7 +118,7 @@ export default function Group(initialGroup) {
             gradientColor
             color="orange"
             bold
-            text={group.name}
+            texts={[group.name]}
             cursor=""
           />
         </h1>
@@ -149,7 +149,7 @@ export default function Group(initialGroup) {
           />
         </Button>
         <p className="mt-8 text-justify text-white">
-          <Typed text={group.description} cursor="" typeSpeed={10} />
+          <Typed texts={[group.description]} cursor="" typeSpeed={10} />
         </p>
       </header>
 

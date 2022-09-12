@@ -34,7 +34,7 @@ export default function Input({
             </label>
           )}
           <input
-            className="w-full h-full px-2 py-1 text-white bg-black focus:outline-none"
+            className="w-full h-full px-2 py-1 text-white bg-black md:h-auto focus:outline-none"
             id={name}
             type={type}
             value={value}
