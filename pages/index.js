@@ -3,9 +3,13 @@ import Button from '../components/Button';
 import ColoredText from '../components/ColoredText';
 import Typed from '../components/Typed';
 import useAuth from '../hooks/useAuth';
+import { useLoginModal } from '../hooks/useLoginModal';
 
 export default function HomePage({ groups }) {
   const { status } = useAuth();
+
+  const { openLoginModal } = useLoginModal();
+
   return (
     <div>
       <div className="flex flex-col items-center justify-between md:flex-row">
@@ -30,7 +34,12 @@ export default function HomePage({ groups }) {
               <Button className="px-8 py-4 text-4xl">Ir a grupos</Button>
             </Link>
           ) : (
-            <Button className="px-8 py-4 text-4xl">¡Comenzar!</Button>
+            <Button
+              className="px-8 py-4 text-4xl"
+              onClick={() => openLoginModal()}
+            >
+              ¡Comenzar!
+            </Button>
           )}
         </div>
         <div className="h-56 md:relative md:h-96">

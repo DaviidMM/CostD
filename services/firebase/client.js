@@ -39,20 +39,18 @@ const mapUserFromFirebase = (user) => {
   };
 };
 
-export const checkAuthState = (onChange, prev) => {
+export const checkAuthState = (onChange) => {
   return onAuthStateChanged(auth, async (user) => {
     const normalizedUser = mapUserFromFirebase({ user });
     if (normalizedUser) {
       storeUserInDb();
       return onChange({
-        ...prev,
         user: normalizedUser,
         status: authStatus.authenticated,
         token: await getIdToken(user),
       });
     }
     return onChange({
-      ...prev,
       user: null,
       status: authStatus.unauthenticated,
       token: null,

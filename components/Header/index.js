@@ -19,12 +19,14 @@ import {
   XMarkIcon,
 } from '@heroicons/react/24/solid';
 import { useRouter } from 'next/router';
+import { useLoginModal } from '../../hooks/useLoginModal';
 
 export default function Header() {
   const { pathname } = useRouter();
   const auth = useAuth();
-  const { user, status, openLoginModal } = auth;
+  const { user, status } = auth;
   const [showMenu, setShowMenu] = useState(false);
+  const { openLoginModal } = useLoginModal();
 
   useEffect(() => setShowMenu(false), [pathname]);
 

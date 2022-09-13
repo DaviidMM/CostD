@@ -1,13 +1,16 @@
 import Layout from '../components/Layout';
 import { AuthProvider } from '../context/auth';
+import { LoginModalProvider } from '../context/loginModal';
 import '../styles/globals.css';
 
 function MyApp({ Component, pageProps }) {
   return (
     <AuthProvider>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+      <LoginModalProvider>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </LoginModalProvider>
     </AuthProvider>
   );
 }
