@@ -8,6 +8,7 @@ const bgClasses = {
   orange:
     'bg-gradient-to-br from-yellow-400 via-orange-500 to-rose-500 bg-size-200 bg-pos-0 hover:bg-pos-100',
   red: 'bg-gradient-to-br from-red-500 via-red-700 to-red-600 bg-size-200 bg-pos-0 hover:bg-pos-100',
+  rose: 'bg-gradient-to-br from-orange-500 via-rose-600 to-rose-700 bg-size-200 bg-pos-0 hover:bg-pos-100',
   white: 'bg-slate-200 hover:bg-slate-300',
 };
 
