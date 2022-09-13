@@ -3,6 +3,7 @@ import ColoredText from '../ColoredText';
 
 const colorClasses = {
   black: 'text-black',
+  purple: 'text-violet-700',
 };
 
 export default function Typed({
@@ -59,7 +60,11 @@ export default function Typed({
         shownLetters
       )}
       {cursor ? (
-        <span className="transition-none animate-blink">{cursor}</span>
+        <span
+          className={'transition-none animate-blink ' + colorClasses[color]}
+        >
+          {cursor}
+        </span>
       ) : (
         ''
       )}
