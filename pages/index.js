@@ -14,7 +14,7 @@ export default function HomePage({ groups }) {
     <div>
       <div className="flex flex-col items-center justify-between md:flex-row">
         <div className="flex flex-col items-center">
-          <h1 className="text-5xl font-extrabold text-left md:text-7xl">
+          <h1 className="text-5xl font-bold text-left md:text-7xl">
             <ColoredText color="sky">Organiza</ColoredText>{' '}
             <ColoredText color="orange">gastos</ColoredText>
             <br />
@@ -23,7 +23,6 @@ export default function HomePage({ groups }) {
             <Typed
               className="block h-24"
               color="purple"
-              cursor=""
               gradientColor
               texts={['amigos', 'familiares', 'compañeros']}
               typeSpeed={100}
