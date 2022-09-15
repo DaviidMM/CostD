@@ -136,6 +136,16 @@ export default function HomePage({ groups }) {
             Funcional
           </ColoredText>
         </h2>
+        <div className="relative z-10 flex flex-row justify-center gap-12 p-4 group">
+          <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-rose-500 via-rose-700 to-rose-500 duration-500 bg-pos-0 group-hover:bg-pos-100 bg-size-200 -z-10 transition-all [transform:skew(-3deg)] group-hover:[transform:none]"></div>
+          <div className="w-full text-right">
+            <img className="w-11/12 ml-auto" src="/save-time.svg" alt="" />
+          </div>
+          <p className="w-full my-auto text-3xl font-semibold text-left">
+            Solo tienes que preocuparte de añadir gastos, ¡Cost<i>D</i> se
+            encarga de ahorrar tiempo!
+          </p>
+        </div>
       </section>
       <ol>
         <h1>TODOs</h1>
@@ -143,7 +153,8 @@ export default function HomePage({ groups }) {
           ✅ Simple: Solo tienes que meter gastos, la app lo hace todo por ti
         </li>
         <li>
-          Transparente: ¡Todos ven los gastos del grupo y pueden modificarlos!
+          ✅ Transparente: ¡Todos ven los gastos del grupo y pueden
+          modificarlos!
         </li>
         <li>Funcional: Texto de Ahorra tiempo con imagen</li>
         <li>Gratis: Costd es gratis</li>
