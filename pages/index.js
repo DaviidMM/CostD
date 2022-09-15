@@ -119,7 +119,8 @@ export default function HomePage({ groups }) {
             Transparente
           </ColoredText>
         </h2>
-        <div className="flex flex-row justify-center gap-12 p-4 bg-green-900 rounded-lg">
+        <div className="relative z-10 flex flex-row justify-center gap-12 p-4 group">
+          <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-green-600 via-green-700 to-green-600 duration-500 bg-pos-0 group-hover:bg-pos-100 bg-size-200 -z-10 transition-all [transform:skew(3deg)] group-hover:[transform:none]"></div>
           <p className="w-full my-auto text-3xl font-semibold text-right">
             ¡Todos los gastos que se añadan a un grupo los pueden ver y
             modificar todos los miembros!
