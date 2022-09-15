@@ -130,8 +130,8 @@ export default function HomePage({ groups }) {
           </div>
         </div>
       </section>
-      <section className="mb-12" id="">
-        <h2 className="mb-10 text-5xl text-center">
+      <section className="mb-12" id="functional">
+        <h2 className="mb-10 text-5xl text-left">
           <ColoredText bold color="rose">
             Funcional
           </ColoredText>
