@@ -23,10 +23,11 @@ export default function StepCard({
       ></div>
       <span
         className={
-          (step % 2 ? 'top-2 ' : 'bottom-2 ') + 'absolute left-2 text-xl'
+          (step % 2 ? 'top-16 ' : 'top-3 ') +
+          'absolute opacity-40 left-5 text-6xl'
         }
       >
-        Paso {step}
+        {step}
       </span>
       <h3 className="mb-8 text-2xl font-semibold text-center">{title}</h3>
       <p className="h-full text-justify">{description}</p>

@@ -56,7 +56,7 @@ export default function Header() {
       </Navbar>
       {status !== authStatus.authenticated ? (
         <>
-          <Button bordered onClick={openLoginModal} color="blue">
+          <Button onClick={openLoginModal} color="blue">
             Iniciar sesión
           </Button>
         </>

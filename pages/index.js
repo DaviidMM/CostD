@@ -16,8 +16,12 @@ const steps = [
     title: 'Crea un grupo o únete a uno',
     description: (
       <>
-        Es muy facil, ¡simplemente clica en el botón &quot;Compartir&quot; para
-        enviarselo a quien quieras!
+        ¡Puedes crear tu grupo para compartirlo o unirte a uno que otra persona
+        haya creado!
+        <br />
+        <br />
+        Para unirte a un grupo, solo necesitas que el creador o algún miembro lo
+        comparta contigo.
       </>
     ),
     image: { src: '/share-group.svg', alt: 'Compartir grupo' },
@@ -71,10 +75,13 @@ export default function HomePage({ groups }) {
               typeSpeed={100}
             />
           </h1>
+          <p className="self-start mb-12 text-3xl font-semibold">
+            Comparte gastos de la manera más <br /> simple posible
+          </p>
           {status === 'authenticated' ? (
             <Link href="/groups">
               <Button className="px-8 py-4 text-4xl rounded-3xl" color="rose">
-                Ir a grupos
+                Quiero ver mis grupos
               </Button>
             </Link>
           ) : (
@@ -88,14 +95,14 @@ export default function HomePage({ groups }) {
         </div>
         <div className="h-56 md:relative md:h-[26rem]">
           <img
-            src="/sharing_expenses.svg"
+            src="/sharing-expenses.svg"
             className="w-full h-full"
             alt="Group sharing expenses"
           />
         </div>
       </section>
-      <section className="mb-12">
-        <h2 className="mb-10 text-5xl text-center">
+      <section className="mb-12" id="simple">
+        <h2 className="mb-10 text-5xl text-left">
           <ColoredText bold color="sky">
             Simple
           </ColoredText>
@@ -106,17 +113,40 @@ export default function HomePage({ groups }) {
           ))}
         </div>
       </section>
+      <section className="mb-12" id="transparent">
+        <h2 className="mb-10 text-5xl text-right">
+          <ColoredText bold color="green">
+            Transparente
+          </ColoredText>
+        </h2>
+        <div className="flex flex-row justify-center gap-12 p-4 bg-green-900 rounded-lg">
+          <p className="w-full my-auto text-3xl font-semibold text-right">
+            ¡Todos los gastos que se añadan a un grupo los pueden ver y
+            modificar todos los miembros!
+          </p>
+          <div className="w-full">
+            <img className="w-11/12" src="/transparent.svg" alt="" />
+          </div>
+        </div>
+      </section>
+      <section className="mb-12" id="">
+        <h2 className="mb-10 text-5xl text-center">
+          <ColoredText bold color="rose">
+            Funcional
+          </ColoredText>
+        </h2>
+      </section>
       <ol>
         <h1>TODOs</h1>
-        <li>Paso a paso de como usar la app, de manera atractiva</li>
         <li>
-          Añadir subtitulo: Una aplicación para ayudarte a compartir gastos en
-          grupo
+          ✅ Simple: Solo tienes que meter gastos, la app lo hace todo por ti
         </li>
         <li>
-          Simple: Solo tienes que meter gastos, la app lo hace todo por ti
+          Transparente: ¡Todos ven los gastos del grupo y pueden modificarlos!
         </li>
-        <li>Todos ven los gastos de todos</li>
+        <li>Funcional: Texto de Ahorra tiempo con imagen</li>
+        <li>Gratis: Costd es gratis</li>
+        <li>Hacer diagonal en el header con fondo</li>
       </ol>
     </div>
   );
