@@ -52,7 +52,9 @@ export default function Header() {
       </div>
       <Navbar showMenu={showMenu}>
         <Navitem href="/">Inicio</Navitem>
-        <Navitem href="/groups">Grupos</Navitem>
+        {status === authStatus.authenticated && (
+          <Navitem href="/groups">Grupos</Navitem>
+        )}
       </Navbar>
       {status !== authStatus.authenticated ? (
         <>

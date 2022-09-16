@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Button from '../components/Button';
 import ColoredText from '../components/ColoredText';
+import Feature from '../components/Feature';
 import StepCard from '../components/StepCard';
 import Typed from '../components/Typed';
 import useAuth from '../hooks/useAuth';
@@ -81,7 +82,7 @@ export default function HomePage({ groups }) {
           {status === 'authenticated' ? (
             <Link href="/groups">
               <Button className="px-8 py-4 text-4xl rounded-3xl" color="rose">
-                Quiero ver mis grupos
+                Ver mis grupos
               </Button>
             </Link>
           ) : (
@@ -101,52 +102,50 @@ export default function HomePage({ groups }) {
           />
         </div>
       </section>
-      <section className="mb-12" id="simple">
-        <h2 className="mb-10 text-5xl text-left">
-          <ColoredText bold color="sky">
-            Simple
-          </ColoredText>
-        </h2>
+      <Feature color="darkorange" id="simple" title="Simple">
         <div className="flex flex-row gap-4">
           {steps.map((step, idx) => (
             <StepCard key={idx + 1} step={idx + 1} {...step} />
           ))}
         </div>
-      </section>
-      <section className="mb-12" id="transparent">
-        <h2 className="mb-10 text-5xl text-right">
-          <ColoredText bold color="green">
-            Transparente
-          </ColoredText>
-        </h2>
-        <div className="relative z-10 flex flex-row justify-center gap-12 p-4 group">
-          <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-green-600 via-green-700 to-green-600 duration-500 bg-pos-0 group-hover:bg-pos-100 bg-size-200 -z-10 transition-all [transform:skew(3deg)] group-hover:[transform:none]"></div>
-          <p className="w-full my-auto text-3xl font-semibold text-right">
-            ¡Todos los gastos que se añadan a un grupo los pueden ver y
-            modificar todos los miembros!
-          </p>
-          <div className="w-full">
-            <img className="w-11/12" src="/transparent.svg" alt="" />
-          </div>
+      </Feature>
+      <Feature color="green" id="transparent" title="Transparente" romboid>
+        <p className="w-full my-auto text-3xl font-semibold text-right text-green-900">
+          !Cualquier miembro puede{' '}
+          <span className="font-bold text-white">añadir</span>,{' '}
+          <span className="font-bold text-white">editar</span> o{' '}
+          <span className="font-bold text-white">eliminar</span> gastos del
+          grupo!
+        </p>
+        <div className="w-full">
+          <img className="w-11/12 h-64" src="/transparent.svg" alt="" />
         </div>
-      </section>
-      <section className="mb-12" id="functional">
-        <h2 className="mb-10 text-5xl text-left">
-          <ColoredText bold color="rose">
-            Funcional
-          </ColoredText>
-        </h2>
-        <div className="relative z-10 flex flex-row justify-center gap-12 p-4 group">
-          <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-rose-500 via-rose-700 to-rose-500 duration-500 bg-pos-0 group-hover:bg-pos-100 bg-size-200 -z-10 transition-all [transform:skew(-3deg)] group-hover:[transform:none]"></div>
-          <div className="w-full text-right">
-            <img className="w-11/12 ml-auto" src="/save-time.svg" alt="" />
-          </div>
-          <p className="w-full my-auto text-3xl font-semibold text-left">
-            Solo tienes que preocuparte de añadir gastos, ¡Cost<i>D</i> se
-            encarga de ahorrar tiempo!
-          </p>
+      </Feature>
+      <Feature color="rose" id="functional" title="Funcional" romboid>
+        <div className="w-full text-right">
+          <img className="w-11/12 h-64 ml-auto" src="/save-time.svg" alt="" />
         </div>
-      </section>
+        <p className="w-full my-auto text-3xl font-semibold text-left">
+          Añade gastos y olvídate del resto.
+          <br />
+          <br />
+          ¡Cost<i>D</i> calculará cuánto debe cada miembro sin que tu tengas que
+          hacer nada!
+        </p>
+      </Feature>
+      <Feature color="sky" id="efficient" title="Eficiente" romboid>
+        <p className="w-full my-auto text-3xl font-semibold text-right">
+          Cost<i>D</i> minimizará las transacciones para que todos paguen lo
+          justo el mínimo número de veces.
+        </p>
+        <div className="w-full">
+          <img
+            className="w-11/12 h-64"
+            src="/minimize-movements.svg"
+            alt="Minimizar movimientos"
+          />
+        </div>
+      </Feature>
       <ol>
         <h1>TODOs</h1>
         <li>
@@ -156,7 +155,7 @@ export default function HomePage({ groups }) {
           ✅ Transparente: ¡Todos ven los gastos del grupo y pueden
           modificarlos!
         </li>
-        <li>Funcional: Texto de Ahorra tiempo con imagen</li>
+        <li>✅ Funcional: Texto de Ahorra tiempo con imagen</li>
         <li>Gratis: Costd es gratis</li>
         <li>Hacer diagonal en el header con fondo</li>
       </ol>
