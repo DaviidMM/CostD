@@ -1,19 +1,19 @@
 const colors = {
   blue: 'from-blue-600 via-blue-500 to-blue-600',
-  darkorange: 'from-orange-700 to-orange-500',
+  darkorange: 'from-orange-400 to-orange-600',
   darkpurple: 'from-purple-800 to-purple-600',
   darkred: 'from-red-800 to-red-600',
-  green: 'from-green-600 via-green-400 to-green-500',
-  orange: 'from-orange-500 via-orange-600 to-rose-600',
-  purple: 'from-violet-400 via-purple-400 to-violet-600',
-  rose: 'from-rose-600 via-rose-400 to-rose-500',
-  sky: 'from-sky-500 via-sky-400 to-sky-300',
+  green: 'from-green-400 to-green-600',
+  orange: 'from-orange-500 to-rose-600',
+  purple: 'from-violet-300 to-violet-600',
+  rose: 'from-rose-400 to-rose-600',
+  sky: 'from-sky-300 to-sky-500',
 };
 
 export default function ColoredText({ bold, children, color }) {
   return (
     <span
-      className={`bg-gradient-to-r bg-clip-text text-transparent ${
+      className={`bg-gradient-to-b bg-clip-text text-transparent ${
         bold ? 'font-bold ' : ''
       }${colors[color]}`}
     >

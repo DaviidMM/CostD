@@ -5,6 +5,7 @@ import Dots from '../Loading/Dots';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import Head from 'next/head';
+import Footer from '../Footer';
 
 export default function Layout({ children }) {
   const auth = useAuth();
@@ -15,13 +16,14 @@ export default function Layout({ children }) {
       <Head>
         <title>CostD - ¡Comparte gastos!</title>
       </Head>
-      <section className="flex flex-col min-h-screen bg-zinc-800 selection:bg-orange-400 selection:text-white">
+      <Header />
+      <section className="flex flex-col min-h-screen">
         <ToastContainer theme="dark" />
-        <Header />
-        <main className="flex flex-grow w-full px-6 mx-auto max-w-7xl">
+        <main className="flex flex-grow w-full p-6 mx-auto max-w-7xl">
           {status === authStatus.loading ? <Dots /> : children}
         </main>
       </section>
+      <Footer />
     </>
   );
 }

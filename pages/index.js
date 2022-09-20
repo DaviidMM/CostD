@@ -103,62 +103,93 @@ export default function HomePage({ groups }) {
         </div>
       </section>
       <Feature color="darkorange" id="simple" title="Simple">
-        <div className="flex flex-row gap-4">
+        <div className="flex flex-col gap-4 md:flex-row">
           {steps.map((step, idx) => (
             <StepCard key={idx + 1} step={idx + 1} {...step} />
           ))}
         </div>
       </Feature>
-      <Feature color="green" id="transparent" title="Transparente" romboid>
-        <p className="w-full my-auto text-3xl font-semibold text-right text-green-900">
-          !Cualquier miembro puede{' '}
-          <span className="font-bold text-white">añadir</span>,{' '}
-          <span className="font-bold text-white">editar</span> o{' '}
-          <span className="font-bold text-white">eliminar</span> gastos del
-          grupo!
+      <Feature
+        color="green"
+        id="transparent"
+        img={{
+          src: '/transparent.svg',
+          alt: 'Transparente',
+        }}
+        title="Transparente"
+        romboid
+      >
+        <p className="w-full my-auto text-3xl font-semibold md:text-right [&_span]:text-green-300">
+          ¡Cualquier miembro puede <span>añadir</span>, <span>editar</span> o{' '}
+          <span>eliminar</span> gastos del grupo!
         </p>
-        <div className="w-full">
-          <img className="w-11/12 h-64" src="/transparent.svg" alt="" />
-        </div>
       </Feature>
-      <Feature color="rose" id="functional" title="Funcional" romboid>
-        <div className="w-full text-right">
-          <img className="w-11/12 h-64 ml-auto" src="/save-time.svg" alt="" />
-        </div>
-        <p className="w-full my-auto text-3xl font-semibold text-left">
-          Añade gastos y olvídate del resto.
+      <Feature
+        color="rose"
+        id="functional"
+        imagePosition="left"
+        img={{
+          src: '/save-time.svg',
+          alt: 'Ahorrar tiempo',
+        }}
+        title="Funcional"
+        romboid
+      >
+        <p className="w-full my-auto text-3xl font-semibold text-left [&>span]:text-rose-900">
+          Añade <span>gastos</span> y <span>olvídate</span> del resto.
+          <br />
+          <br />¡
+          <span>
+            Cost<i>D</i>
+          </span>{' '}
+          calculará cuánto debe cada miembro sin que tu tengas que hacer{' '}
+          <span>nada</span>!
+        </p>
+      </Feature>
+      <Feature
+        color="sky"
+        id="efficient"
+        img={{
+          src: '/minimize-movements.svg',
+          alt: 'Minimizar movimientos',
+        }}
+        title="Eficiente"
+        romboid
+      >
+        <p className="w-full my-auto text-3xl font-semibold md:text-right text-sky-900 [&>span]:text-sky-200">
+          Paga lo justo y <span>minimiza</span> las transacciones.
           <br />
           <br />
-          ¡Cost<i>D</i> calculará cuánto debe cada miembro sin que tu tengas que
-          hacer nada!
+          <span>
+            Cost<i>D</i>
+          </span>{' '}
+          <span>minimizará</span> las transacciones para que todos paguen lo
+          justo el <span>mínimo</span> número de veces.
         </p>
       </Feature>
-      <Feature color="sky" id="efficient" title="Eficiente" romboid>
-        <p className="w-full my-auto text-3xl font-semibold text-right">
-          Cost<i>D</i> minimizará las transacciones para que todos paguen lo
-          justo el mínimo número de veces.
+      <Feature
+        color="purple"
+        id="free"
+        imagePosition="left"
+        img={{
+          src: '/free.svg',
+          alt: 'Gratis',
+        }}
+        title="Gratis"
+        romboid
+      >
+        <p className="w-full my-auto text-3xl font-semibold text-white [&_span]:text-purple-400">
+          Cualquiera puede utilizar{' '}
+          <span>
+            Cost<i>D</i>
+          </span>{' '}
+          sin ningún tipo de restricción.
+          <br />
+          <br />
+          ¡Todas las <span>características</span> están disponibles para{' '}
+          <span>todos</span>!
         </p>
-        <div className="w-full">
-          <img
-            className="w-11/12 h-64"
-            src="/minimize-movements.svg"
-            alt="Minimizar movimientos"
-          />
-        </div>
       </Feature>
-      <ol>
-        <h1>TODOs</h1>
-        <li>
-          ✅ Simple: Solo tienes que meter gastos, la app lo hace todo por ti
-        </li>
-        <li>
-          ✅ Transparente: ¡Todos ven los gastos del grupo y pueden
-          modificarlos!
-        </li>
-        <li>✅ Funcional: Texto de Ahorra tiempo con imagen</li>
-        <li>Gratis: Costd es gratis</li>
-        <li>Hacer diagonal en el header con fondo</li>
-      </ol>
     </div>
   );
 }
