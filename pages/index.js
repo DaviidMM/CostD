@@ -81,13 +81,13 @@ export default function HomePage({ groups }) {
           </p>
           {status === 'authenticated' ? (
             <Link href="/groups">
-              <Button className="px-8 py-4 text-4xl rounded-3xl" color="rose">
+              <Button className="px-8 py-4 text-4xl !rounded-full" color="rose">
                 Ver mis grupos
               </Button>
             </Link>
           ) : (
             <Button
-              className="px-8 py-4 text-4xl rounded-3xl"
+              className="px-8 py-4 text-4xl !rounded-full"
               onClick={() => openLoginModal()}
             >
               ¡Comenzar!
