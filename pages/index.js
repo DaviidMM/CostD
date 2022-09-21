@@ -196,6 +196,10 @@ export default function HomePage({ groups }) {
           Añadir imagen de como queda una gráfica y explicando que la app te
           muestra gráficamente los saldos
         </li>
+        <li>
+          ¡Úsalo en cualquier dispositivo! Imagenes de un PC, tablet y móvil con
+          la web
+        </li>
       </ul>
     </div>
   );
