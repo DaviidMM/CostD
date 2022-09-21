@@ -10,6 +10,7 @@ export default function Feature({
   romboid = false,
 }) {
   const romboidBgs = {
+    blue: 'from-blue-500 via-blue-700 to-blue-500',
     green: 'from-green-600 via-green-700 to-green-600',
     purple: 'from-purple-600 via-purple-800 to-purple-600',
     rose: 'from-rose-500 via-rose-700 to-rose-500',
@@ -34,7 +35,7 @@ export default function Feature({
   );
 
   return (
-    <section
+    <article
       className="mb-12 md:[&:nth-child(odd)_div.romboid]:[transform:skew(-3deg)] md:[&:nth-child(even)_div.romboid]:[transform:skew(3deg)]"
       id={id}
     >
@@ -53,6 +54,6 @@ export default function Feature({
       ) : (
         <Content />
       )}
-    </section>
+    </article>
   );
 }
