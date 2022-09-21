@@ -190,6 +190,13 @@ export default function HomePage({ groups }) {
           <span>todos</span>!
         </p>
       </Feature>
+      <ul>
+        <h1>TODOs</h1>
+        <li>
+          Añadir imagen de como queda una gráfica y explicando que la app te
+          muestra gráficamente los saldos
+        </li>
+      </ul>
     </div>
   );
 }
