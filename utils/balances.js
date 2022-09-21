@@ -20,6 +20,7 @@ const barChartOptions = {
   borderWidth: 0,
   borderRadius: 6,
   barThickness: 30,
+  minBarLength: 30,
   maxBarThickness: 60,
   indexAxis: 'y',
   maintainAspectRatio: false,
@@ -43,7 +44,7 @@ const barChartOptions = {
       suggestedMax: 10,
     },
     y: {
-      display: true,
+      display: false,
       stacked: true,
       grid: {
         lineWidth: 0.3,
@@ -64,32 +65,80 @@ const barChartOptions = {
   plugins: {
     datalabels: {
       display: false,
-      anchor: 'start',
-      align: 'center',
       font: {
         size: 16,
         weight: '500',
       },
       labels: {
-        member: {
+        totalValue: {
           display: true,
-          color: 'white',
-          formatter: (value, context) => {
-            const datasetArray = [];
+          anchor: 'end',
+          backgroundColor: '#0000006F',
+          borderRadius: 5,
+          align: (context) => {
+            const datasetsArray = [];
             context.chart.data.datasets.forEach((dataset) => {
               if (dataset.data[context.dataIndex] !== undefined) {
-                datasetArray.push(dataset.data[context.dataIndex]);
+                datasetsArray.push(dataset.data[context.dataIndex]);
               }
             });
+            const sum = datasetsArray.reduce(
+              (total, datapoint) => total + datapoint,
+              0
+            );
 
-            const totalSum = (total, datapoint) => total + datapoint;
-            let sum = datasetArray.reduce(totalSum, 0);
-
-            console.log({ context });
-
-            if (context.datasetIndex === context.dataset.data.length - 1) {
-              return context.dataset.label;
+            if (context.datasetIndex === 0) {
+              return sum < 0 ? 'start' : 'end';
+            } else {
+              return null;
             }
+          },
+          color: 'white',
+          formatter: (_, context) => {
+            const datasetsArray = [];
+            context.chart.data.datasets.forEach((dataset) => {
+              if (dataset.data[context.dataIndex] !== undefined) {
+                datasetsArray.push(dataset.data[context.dataIndex]);
+              }
+            });
+            const sum = datasetsArray.reduce(
+              (total, datapoint) => total + datapoint,
+              0
+            );
+
+            if (context.datasetIndex === 0) {
+              return (sum < 0 ? '' : '+') + Number(sum.toFixed(2)) + '€';
+            } else {
+              return null;
+            }
+          },
+        },
+        member: {
+          display: true,
+          anchor: 'end',
+          align: (context) => {
+            const datasetsArray = [];
+            context.chart.data.datasets.forEach((dataset) => {
+              if (dataset.data[context.dataIndex] !== undefined) {
+                datasetsArray.push(dataset.data[context.dataIndex]);
+              }
+            });
+            const sum = datasetsArray.reduce(
+              (total, datapoint) => total + datapoint,
+              0
+            );
+
+            if (context.datasetIndex === 0) {
+              return sum < 0 ? 'end' : 'start';
+            } else {
+              return null;
+            }
+          },
+          color: 'white',
+          formatter: (_, context) => {
+            return context.datasetIndex === 0
+              ? context.chart.data.labels[context.dataIndex]
+              : null;
           },
         },
       },
