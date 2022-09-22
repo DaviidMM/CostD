@@ -1,59 +1,38 @@
 import ColoredText from '../ColoredText';
 
-export default function Feature({
-  color,
-  children,
-  id,
-  img = { src: '', alt: '' },
-  imagePosition = 'right',
-  title,
-  romboid = false,
-}) {
-  const romboidBgs = {
-    blue: 'from-blue-500 via-blue-700 to-blue-500',
-    green: 'from-green-600 via-green-700 to-green-600',
-    purple: 'from-purple-600 via-purple-800 to-purple-600',
-    rose: 'from-rose-500 via-rose-700 to-rose-500',
-    sky: 'from-sky-500 via-sky-700 to-sky-500',
-  };
+const colors = {
+  blue: 'bg-blue-500/30 text-blue-300',
+  green: 'bg-green-500/30 text-green-300',
+  purple: 'bg-violet-500/30 text-violet-300',
+  rose: 'bg-rose-500/30 text-rose-300',
+  sky: 'bg-sky-500/30 text-sky-300',
+};
 
-  const Content = () => (
-    <div
-      className={
-        'flex ' +
-        (imagePosition === 'right' ? 'md:flex-row' : 'md:flex-row-reverse') +
-        ' flex-col gap-12'
-      }
-    >
-      {children}
-      {img.src && (
-        <div className="image">
-          <img className="w-full h-64" src={img.src} alt={img.alt} />
-        </div>
-      )}
-    </div>
-  );
+const markColors = {
+  blue: '[&_mark]:text-blue-400',
+  green: '[&_mark]:text-green-400',
+  purple: '[&_mark]:text-violet-400',
+  rose: '[&_mark]:text-rose-400',
+  sky: '[&_mark]:text-sky-400',
+};
 
+export default function Feature({ color, children, Icon, id, title }) {
   return (
     <article
-      className="mb-12 md:[&:nth-child(odd)_div.romboid]:[transform:skew(-3deg)] md:[&:nth-child(even)_div.romboid]:[transform:skew(3deg)]"
+      className={`p-3 h-48 leading-7 transition-colors duration-300 rounded-3xl bg-zinc-700 hover:bg-zinc-600 group [&_mark]:bg-inherit [&_mark]:font-bold ${markColors[color]}`}
       id={id}
     >
-      <h2 className="mb-10 text-5xl text-center md:text-left">
+      <h2 className="flex flex-row items-center gap-2 mb-2 text-2xl text-center md:text-left">
+        <div
+          className={`p-2 transition-colors duration-300 rounded-full ${colors[color]}`}
+        >
+          <Icon className="w-5 h-5" />
+        </div>
         <ColoredText bold color={color}>
           {title}
         </ColoredText>
       </h2>
-      {romboid ? (
-        <div className="relative z-10 p-4 group">
-          <div
-            className={`romboid absolute inset-0 rounded-lg bg-gradient-to-r ${romboidBgs[color]} duration-500 bg-pos-0 md:group-hover:bg-pos-100 bg-size-200 -z-10 transition-all md:group-hover:[transform:none]`}
-          ></div>
-          <Content />
-        </div>
-      ) : (
-        <Content />
-      )}
+      {children}
     </article>
   );
 }

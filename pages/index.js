@@ -1,3 +1,10 @@
+import {
+  ArrowsPointingOutIcon,
+  ClockIcon,
+  Cog8ToothIcon,
+  CubeTransparentIcon,
+} from '@heroicons/react/24/solid';
+import { BsCurrencyDollar } from 'react-icons/bs';
 import Link from 'next/link';
 import Button from '../components/Button';
 import ColoredText from '../components/ColoredText';
@@ -77,7 +84,8 @@ export default function HomePage({ groups }) {
             />
           </h1>
           <p className="self-start mb-12 text-3xl font-semibold">
-            Comparte gastos de la manera más <br /> simple posible
+            Comparte gastos de la manera más <br />{' '}
+            <ColoredText color="orange">simple</ColoredText> posible
           </p>
           {status === 'authenticated' ? (
             <Link href="/groups">
@@ -102,113 +110,59 @@ export default function HomePage({ groups }) {
           />
         </div>
       </section>
-      <Feature color="darkorange" id="simple" title="Simple">
+      <section className="grid mb-24 md:gap-6 md:grid-cols-[repeat(auto-fit,minmax(320px,1fr))]">
+        <Feature
+          color="blue"
+          Icon={ArrowsPointingOutIcon}
+          id="multiplatform"
+          title="Multiplataforma"
+        >
+          <p>
+            Cost<i>D</i> se puede usar en <mark>cualquier</mark> dispositivo con
+            acceso a internet.
+          </p>
+        </Feature>
+        <Feature
+          color="green"
+          Icon={CubeTransparentIcon}
+          id="transparent"
+          title="Transparente"
+        >
+          <p>
+            Cualquier miembro puede <mark>añadir</mark>, <mark>editar</mark> o{' '}
+            <mark>eliminar</mark> gastos del grupo.
+          </p>
+        </Feature>
+        <Feature
+          color="rose"
+          Icon={Cog8ToothIcon}
+          id="functional"
+          title="Funcional"
+        >
+          <p>
+            Cost<i>D</i> calculará cuánto debe cada miembro{' '}
+            <mark>automáticamente</mark>.
+          </p>
+        </Feature>
+        <Feature color="sky" Icon={ClockIcon} id="efficient" title="Eficiente">
+          <p>
+            Cost<i>D</i> <mark>minimizará</mark> las transacciones para que
+            todos paguen lo <mark>justo</mark> el <mark>mínimo</mark> número de
+            veces.
+          </p>
+        </Feature>
+      </section>
+      <section id="simple">
+        <h2 className="mb-10 text-5xl text-center">
+          <ColoredText bold color="orange">
+            Cost<i>D</i> en 4 pasos
+          </ColoredText>
+        </h2>
         <div className="flex flex-col gap-4 md:flex-row">
           {steps.map((step, idx) => (
             <StepCard key={idx + 1} step={idx + 1} {...step} />
           ))}
         </div>
-      </Feature>
-      <section className="grid md:gap-12 md:grid-cols-1">
-        <Feature
-          color="blue"
-          id="multiplatform"
-          imagePosition="right"
-          img={{
-            src: '/multiplatform.svg',
-            alt: 'Multiplataforma',
-          }}
-          title="Multiplataforma"
-          romboid
-        >
-          <p className="w-full my-auto text-3xl font-semibold md:text-right [&_span]:text-green-300">
-            ¡Cost<i>D</i> se puede usar en cualquier dispositivo con acceso a
-            internet!
-          </p>
-        </Feature>
-        <Feature
-          color="green"
-          id="transparent"
-          imagePosition="left"
-          img={{
-            src: '/transparent.svg',
-            alt: 'Transparente',
-          }}
-          title="Transparente"
-          romboid
-        >
-          <p className="w-full my-auto text-3xl font-semibold md:text-left [&_span]:text-green-300">
-            ¡Cualquier miembro puede <span>añadir</span>, <span>editar</span> o{' '}
-            <span>eliminar</span> gastos del grupo!
-          </p>
-        </Feature>
-        <Feature
-          color="rose"
-          id="functional"
-          imagePosition="right"
-          img={{
-            src: '/save-time.svg',
-            alt: 'Ahorrar tiempo',
-          }}
-          title="Funcional"
-          romboid
-        >
-          <p className="w-full my-auto text-3xl font-semibold text-right [&>span]:text-rose-900">
-            Añade <span>gastos</span> y <span>olvídate</span> del resto.
-            <br />
-            <br />¡
-            <span>
-              Cost<i>D</i>
-            </span>{' '}
-            calculará cuánto debe cada miembro sin que tu tengas que hacer{' '}
-            <span>nada</span>!
-          </p>
-        </Feature>
-        <Feature
-          color="sky"
-          id="efficient"
-          imagePosition="left"
-          img={{
-            src: '/minimize-movements.svg',
-            alt: 'Minimizar movimientos',
-          }}
-          title="Eficiente"
-          romboid
-        >
-          <p className="w-full my-auto text-3xl font-semibold md:text-left text-sky-900 [&>span]:text-sky-200">
-            Paga lo justo y <span>minimiza</span> las transacciones.
-            <br />
-            <br />
-            <span>
-              Cost<i>D</i>
-            </span>{' '}
-            <span>minimizará</span> las transacciones para que todos paguen lo
-            justo el <span>mínimo</span> número de veces.
-          </p>
-        </Feature>
-        <Feature
-          color="purple"
-          id="free"
-          imagePosition="right"
-          img={{
-            src: '/free.svg',
-            alt: 'Gratis',
-          }}
-          title="Gratis"
-          romboid
-        >
-          <p className="w-full my-auto text-3xl font-semibold text-white [&_span]:text-purple-400">
-            Cualquiera puede utilizar{' '}
-            <span>
-              Cost<i>D</i>
-            </span>{' '}
-            sin ningún tipo de restricción.
-            <br />
-            <br />
-            ¡Todas las <span>características</span> están disponibles para{' '}
-            <span>todos</span>!
-          </p>
-        </Feature>
       </section>
     </div>
   );

@@ -10,7 +10,7 @@ const colors = {
   sky: 'from-sky-300 to-sky-500',
 };
 
-export default function ColoredText({ bold, children, color }) {
+export default function ColoredText({ bold, children, color = 'orange' }) {
   return (
     <span
       className={`bg-gradient-to-b bg-clip-text text-transparent ${
