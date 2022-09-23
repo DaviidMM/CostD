@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import ColoredBorder from '../../ColoredBorder';
 
 export default function MemberItem({
   id,
@@ -12,22 +13,26 @@ export default function MemberItem({
     setSelected(initialSelected);
   }, [initialSelected]);
 
-  const handleClick = () => {
+  const handleSelect = () => {
     setSelected(true);
     onSelect(id);
   };
 
   return (
-    <button
-      onClick={handleClick}
-      className={
-        (selected
-          ? 'bg-blue-500 hover:bg-blue-600 '
-          : 'bg-orange-600 hover:bg-orange-700 ') +
-        'p-1 text-white rounded-md w-fit '
-      }
+    <ColoredBorder
+      className="inline-block mr-2 rounded-xl w-fit"
+      color="orange"
     >
-      {name}
-    </button>
+      <button
+        type="button"
+        onClick={handleSelect}
+        className={
+          'select-none px-2 py-1 rounded-xl md:hover:bg-transparent w-fit transition-colors font-semibold md:hover:text-black ' +
+          (selected ? 'bg-transparent text-black' : 'bg-black text-white')
+        }
+      >
+        {name}
+      </button>
+    </ColoredBorder>
   );
 }

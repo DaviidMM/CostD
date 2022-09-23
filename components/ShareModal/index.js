@@ -49,11 +49,7 @@ export default function ShareModal({ onClose, open, url, group }) {
                     data={{
                       text: `¡Accede al grupo "${group.name}" para compartir gastos en CostD!`,
                       url,
-                      title: (
-                        <>
-                          Compartir grupo de Cost<i>D</i>
-                        </>
-                      ),
+                      title: 'Compartir grupo de CostD',
                     }}
                     sites={['whatsapp', 'telegram', 'copy']}
                     onClick={() =>

@@ -18,15 +18,17 @@ export default function MemberPicker({
   };
 
   return (
-    <div className="flex flex-col gap-2">
-      {members.map((member) => (
-        <MemberItem
-          key={member.id}
-          {...member}
-          onSelect={handleSelect}
-          selected={selected === member.id}
-        />
-      ))}
+    <div className="flex flex-col gap-4">
+      <div className="flex flex-row flex-wrap gap-2">
+        {members.map((member) => (
+          <MemberItem
+            key={member.id}
+            {...member}
+            onSelect={handleSelect}
+            selected={selected === member.id}
+          />
+        ))}
+      </div>
       <Button onClick={handleSubmit}>¡Soy el miembro seleccionado!</Button>
     </div>
   );

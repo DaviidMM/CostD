@@ -98,12 +98,7 @@ export default function Group(initialGroup) {
     },
   ];
 
-  return !userMember ? (
-    <div>
-      ¡No estás asociado a ningún miembro del grupo! 💀
-      <MemberPicker members={members} onSelect={handleBindUserToMember} />
-    </div>
-  ) : (
+  return (
     <>
       <ShareModal
         group={group}
@@ -111,7 +106,7 @@ export default function Group(initialGroup) {
         onClose={closeShareModal}
         url={typeof windows !== undefined && window.location.href}
       />
-      <div className="relative z-20 p-4 mx-auto border-2 border-orange-600 rounded-lg shadow-md md:mx-56 h-fit">
+      <div className="relative z-20 p-4 mx-auto border-2 border-orange-600 rounded-lg shadow-md xl:mx-56 h-fit">
         <header className="relative pb-2 mb-4 border-b-2 border-orange-600">
           <div className="absolute top-0 left-0 flex flex-col w-1/5 max-w-xs">
             <CategoryItem
@@ -124,10 +119,18 @@ export default function Group(initialGroup) {
               className="block md:hidden"
               selected
             />
-            <small className="hidden overflow-hidden md:block whitespace-nowrap text-ellipsis">
-              Registrado como{' '}
-              <b>{members.find((m) => m.id === userMember).name}</b>
-            </small>
+            {userMember && (
+              <small
+                className="hidden overflow-hidden md:block whitespace-nowrap text-ellipsis"
+                title={
+                  'Registrado como ' +
+                  members.find((m) => m.id === userMember).name
+                }
+              >
+                Registrado como{' '}
+                <b>{members.find((m) => m.id === userMember).name}</b>
+              </small>
+            )}
           </div>
           <h1 className="mx-auto text-2xl font-semibold text-center md:text-3xl w-fit">
             <Typed
@@ -174,7 +177,12 @@ export default function Group(initialGroup) {
           </p>
         </header>
 
-        {showConfig ? (
+        {!userMember ? (
+          <div>
+            <h2 className="mb-4 text-xl font-semibold">¿Quién eres?</h2>
+            <MemberPicker members={members} onSelect={handleBindUserToMember} />
+          </div>
+        ) : showConfig ? (
           <GroupConfig
             bindUserToMember={handleBindUserToMember}
             group={group}

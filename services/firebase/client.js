@@ -10,6 +10,7 @@ import {
   getIdToken,
 } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
+import { getMessaging, getToken, onMessage } from 'firebase/messaging';
 import authStatus from '../../context/auth/status';
 import api from '../api';
 
@@ -27,6 +28,59 @@ const firebaseConfig = {
 export const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 export const db = getFirestore(app);
+
+export const firebaseCloudMessaging = {
+  tokenInLocalStorage: async () => {
+    const token = await window.localStorage.getItem('fcm_token');
+    console.log('fcm_token tokenInLocalStorage', token);
+    return token;
+  },
+  onMessage: async () => {
+    const messaging = getMessaging();
+    onMessage(messaging, (payload) => {
+      console.log('Message received. ', payload);
+      alert('Notificacion');
+    });
+  },
+  init: async function () {
+    try {
+      if ((await this.tokenInLocalStorage()) !== null) {
+        console.log('it already exists');
+        return false;
+      }
+      console.log('it is creating it.');
+      const messaging = getMessaging(app);
+      await Notification.requestPermission();
+      getToken(messaging, {
+        vapidKey:
+          'BEbfgAHxsrrsJ-YdVsoTNARDNfot75nrj8YiA4B6hdZXuLICS4w2wSWdZUQcgY9xFtqMlLr4rGsWJ6JpQR2tELo',
+      })
+        .then((currentToken) => {
+          console.log('current Token', currentToken);
+          if (currentToken) {
+            // Send the token to your server and update the UI if necessary
+            // save the token in your database
+            window.localStorage.setItem('fcm_token', currentToken);
+            console.log('fcm_token', currentToken);
+          } else {
+            // Show permission request UI
+            console.log(
+              'NOTIFICACION, No registration token available. Request permission to generate one.'
+            );
+            // ...
+          }
+        })
+        .catch((err) => {
+          console.log(
+            'NOTIFICACIONAn error occurred while retrieving token . '
+          );
+          console.log(err);
+        });
+    } catch (error) {
+      console.error(error);
+    }
+  },
+};
 
 const mapUserFromFirebase = (user) => {
   if (!user.user) return null;

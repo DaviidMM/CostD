@@ -1,3 +1,4 @@
+import { PlusIcon } from '@heroicons/react/24/solid';
 import Link from 'next/link';
 import useGroups from '../../hooks/useGroups';
 import Button from '../Button';
@@ -19,8 +20,9 @@ export default function GroupContainer() {
         </p>
       )}
       <Link href="/groups/new">
-        <Button color="orange" className="w-fit">
-          ➕ Crear grupo nuevo
+        <Button color="orange" className="gap-0.5 w-fit">
+          <PlusIcon className="w-6 h-6" />
+          Crear grupo nuevo
         </Button>
       </Link>
     </div>
