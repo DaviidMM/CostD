@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import useGroups from '../../hooks/useGroups';
 import Button from '../Button';
-import GroupItem from '../Group/GroupItem';
+import GroupItem from '../GroupItem';
 import Spinner from '../Loading/Spinner';
 
 export default function GroupContainer() {

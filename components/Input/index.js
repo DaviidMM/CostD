@@ -23,8 +23,8 @@ export default function Input({
           {label}
         </label>
       )}
-      <ColoredBorder color={color} className="h-10 rounded-full md:h-full">
-        <div className="flex flex-row items-center w-full h-full overflow-hidden font-semibold text-black rounded-full">
+      <ColoredBorder color={color} className="h-10 rounded-xl md:h-full">
+        <div className="flex flex-row items-center w-full h-full overflow-hidden font-semibold text-black rounded-xl">
           {label && (
             <label
               className="hidden px-2 leading-loose bg-transparent select-none whitespace-nowrap md:block"

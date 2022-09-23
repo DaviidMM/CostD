@@ -15,15 +15,12 @@ export default function MemberItem({
   };
 
   return (
-    <ColoredBorder
-      className="inline-block mr-2 rounded-full w-fit"
-      color={color}
-    >
+    <ColoredBorder className="inline-block mr-2 rounded-xl w-fit" color={color}>
       <button
         type="button"
         onClick={handleSelect}
         className={
-          'select-none px-2 py-1 rounded-full md:hover:bg-transparent w-fit transition-colors font-semibold md:hover:text-black ' +
+          'select-none px-2 py-1 rounded-xl md:hover:bg-transparent w-fit transition-colors font-semibold md:hover:text-black ' +
           (selected ? 'bg-transparent text-black' : 'bg-black text-white')
         }
       >

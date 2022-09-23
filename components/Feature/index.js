@@ -1,38 +1,19 @@
-import ColoredText from '../ColoredText';
-
-const colors = {
-  blue: 'bg-blue-500/30 text-blue-300',
-  green: 'bg-green-500/30 text-green-300',
-  purple: 'bg-violet-500/30 text-violet-300',
-  rose: 'bg-rose-500/30 text-rose-300',
-  sky: 'bg-sky-500/30 text-sky-300',
-};
-
-const markColors = {
-  blue: '[&_mark]:text-blue-400',
-  green: '[&_mark]:text-green-400',
-  purple: '[&_mark]:text-violet-400',
-  rose: '[&_mark]:text-rose-400',
-  sky: '[&_mark]:text-sky-400',
-};
-
-export default function Feature({ color, children, Icon, id, title }) {
+export default function Feature({
+  title,
+  description,
+  img = { src: '', alt: '' },
+}) {
   return (
-    <article
-      className={`p-3 h-48 leading-7 transition-colors duration-300 rounded-3xl bg-zinc-700 hover:bg-zinc-600 group [&_mark]:bg-inherit [&_mark]:font-bold ${markColors[color]}`}
-      id={id}
-    >
-      <h2 className="flex flex-row items-center gap-2 mb-2 text-2xl text-center md:text-left">
-        <div
-          className={`p-2 transition-colors duration-300 rounded-full ${colors[color]}`}
-        >
-          <Icon className="w-5 h-5" />
+    <div className="flex flex-col gap-12 p-4 text-center transition-colors duration-300 w-[530px] bg-zinc-700 md:hover:bg-zinc-600 rounded-3xl">
+      <div>
+        <h2 className="mb-4 text-5xl font-semibold">{title}</h2>
+        <p className="text-xl font-light">{description}</p>
+      </div>
+      {img.src && (
+        <div className="mx-auto">
+          <img className="h-72" src={img.src} alt={img.alt} />
         </div>
-        <ColoredText bold color={color}>
-          {title}
-        </ColoredText>
-      </h2>
-      {children}
-    </article>
+      )}
+    </div>
   );
 }

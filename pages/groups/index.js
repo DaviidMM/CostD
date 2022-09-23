@@ -4,6 +4,7 @@ import Typed from '../../components/Typed';
 import GroupContainer from '../../components/GroupsContainer';
 import authStatus from '../../context/auth/status';
 import useAuth from '../../hooks/useAuth';
+import QRCode from 'react-qr-code';
 
 export default function GroupsPage() {
   const { status } = useAuth();

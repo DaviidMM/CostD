@@ -35,3 +35,33 @@ a {
     background: black;
   }
 }
+
+section[role='dialog'] > header.rws-header {
+  color: black;
+}
+
+section[role='dialog'] > div.rws-icons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+section[role='dialog'] > div.rws-icons > button {
+  height: 70px;
+  width: 70px;
+  opacity: 0.8;
+  transition: opacity 0.3s ease-in-out;
+}
+
+section[role='dialog'] > div.rws-icons > button:hover {
+  opacity: 1;
+}
+
+section[role='dialog'] > button.rws-close {
+  background: #f97316;
+  transition: background 0.3s ease-in-out;
+}
+
+section[role='dialog'] > button.rws-close:hover {
+  background: #ea580c;
+}

@@ -63,7 +63,7 @@ export default function Movement({
     <div className="flex flex-col gap-2">
       <div
         className={
-          `flex flex-row relative justify-between w-full p-2 rounded-md duration-300 transition-all focus-visible:outline-none overflow-hidden ` +
+          `flex flex-row relative justify-between w-full p-2 rounded-2xl duration-300 transition-all focus-visible:outline-none overflow-hidden ` +
           backgrounds[type](open)
         }
       >

@@ -12,13 +12,13 @@ export default function CategoryItem({
     <ColoredBorder
       className={
         (className ? className + ' ' : '') +
-        'inline-block mr-2 rounded-full w-fit'
+        'inline-block mr-2 rounded-xl w-fit'
       }
       color="orange"
     >
       <button
         className={
-          'select-none px-2 py-1 rounded-full hover:bg-transparent w-fit transition-colors font-semibold hover:text-black ' +
+          'select-none px-2 py-1 rounded-xl hover:bg-transparent w-fit transition-colors font-semibold hover:text-black ' +
           (selected ? 'bg-transparent text-black' : 'bg-black text-white')
         }
         type="button"

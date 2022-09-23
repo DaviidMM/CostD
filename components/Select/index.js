@@ -20,8 +20,8 @@ export default function Select({
           {label}
         </label>
       )}
-      <ColoredBorder color={color} className="h-full rounded-full md:h-full">
-        <div className="flex flex-row items-center h-full overflow-hidden font-semibold text-black rounded-full">
+      <ColoredBorder color={color} className="h-full rounded-xl md:h-full">
+        <div className="flex flex-row items-center h-full overflow-hidden font-semibold text-black rounded-xl">
           {label && (
             <label
               className="hidden px-2 leading-loose bg-transparent select-none md:block whitespace-nowrap"

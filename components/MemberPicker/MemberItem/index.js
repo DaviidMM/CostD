@@ -24,7 +24,7 @@ export default function MemberItem({
         (selected
           ? 'bg-blue-500 hover:bg-blue-600 '
           : 'bg-orange-600 hover:bg-orange-700 ') +
-        'p-1 text-white  rounded-md w-fit '
+        'p-1 text-white rounded-md w-fit '
       }
     >
       {name}

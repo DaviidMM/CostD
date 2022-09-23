@@ -18,7 +18,7 @@ export default function StepCard({
           (step % 2
             ? 'md:mt-12 md:[transform:perspective(900px)_rotateX(5deg)_translateZ(0)] '
             : 'md:mb-12 md:[transform:perspective(900px)_rotateX(-5deg)_translateZ(0)] ') +
-          'absolute inset-0 transition-all -z-10 md:group-hover:transform-none rounded-lg duration-500 bg-gradient-to-br from-orange-600 via-orange-800 to-orange-600 bg-size-200 bg-pos-0 md:group-hover:bg-pos-100'
+          'absolute inset-0 transition-all -z-10 md:group-hover:transform-none rounded-3xl duration-500 bg-gradient-to-br from-orange-600 via-orange-800 to-orange-600 bg-size-200 bg-pos-0 md:group-hover:bg-pos-100'
         }
       ></div>
       <span

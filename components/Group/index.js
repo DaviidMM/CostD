@@ -1,4 +1,8 @@
-import { ArrowLeftIcon, Cog8ToothIcon } from '@heroicons/react/24/solid';
+import {
+  ArrowLeftIcon,
+  Cog8ToothIcon,
+  ShareIcon,
+} from '@heroicons/react/24/solid';
 import { useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
 import useAuth from '../../hooks/useAuth';
@@ -11,6 +15,8 @@ import GroupConfig from '../GroupConfig';
 import MemberPicker from '../MemberPicker';
 import Tabs from '../Tabs';
 import Typed from '../Typed';
+import useShareModal from '../../hooks/useShareModal';
+import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
 
 export default function Group(initialGroup) {
   const {
@@ -29,6 +35,9 @@ export default function Group(initialGroup) {
   const [userMember, setUserMember] = useState(
     members.find((m) => m.uid === userId)?.id
   );
+
+  const { closeShareModal, openShareModal, shareModalOpen, ShareModal } =
+    useShareModal();
 
   const onUpdate = (updatedGroup) => {
     setGroup({ ...group, ...updatedGroup });
@@ -95,78 +104,91 @@ export default function Group(initialGroup) {
       <MemberPicker members={members} onSelect={handleBindUserToMember} />
     </div>
   ) : (
-    <div className="relative p-4 mx-auto border-2 border-orange-600 rounded-lg shadow-md md:mx-56 h-fit">
-      <header className="relative pb-2 mb-4 border-b-2 border-orange-600">
-        <div className="absolute top-0 left-0 flex flex-col w-1/5 max-w-xs">
-          <CategoryItem
-            category={group.category}
-            className="hidden md:block"
-            selected
-          />
-          <CategoryItem
-            category={group.category.substring(0, 2)}
-            className="block md:hidden"
-            selected
-          />
-          <small className="hidden overflow-hidden md:block whitespace-nowrap text-ellipsis">
-            Registrado como{' '}
-            <b>{members.find((m) => m.id === userMember).name}</b>
-          </small>
-        </div>
-        <h1 className="mx-auto text-2xl font-semibold text-center md:text-3xl w-fit">
-          <Typed
-            gradientColor
-            color="orange"
-            bold
-            texts={[group.name]}
-            cursor=""
-          />
-        </h1>
-        <Button
-          className="absolute top-0 right-0"
-          color="orange"
-          onClick={toggleConfig}
-          onMouseEnter={toggleAnimation}
-          onMouseLeave={toggleAnimation}
-        >
-          <ArrowLeftIcon
-            className={
-              'w-5 h-5 transition-transform absolute' +
-              ' ' +
-              (!showConfig ? 'scale-0' : 'scale-100') +
-              ' ' +
-              (animateIcon ? '-translate-x-0.5' : 'translate-x-0')
-            }
-          />
-          <Cog8ToothIcon
-            className={
-              'w-5 h-5 transition-transform' +
-              ' ' +
-              (showConfig ? 'scale-0' : 'scale-100') +
-              ' ' +
-              (animateIcon ? 'rotate-360' : 'rotate-0')
-            }
-          />
-        </Button>
-        <p className="mt-8 text-justify text-white">
-          <Typed texts={[group.description]} cursor="" typeSpeed={10} />
-        </p>
-      </header>
+    <>
+      <ShareModal
+        group={group}
+        open={shareModalOpen}
+        onClose={closeShareModal}
+        url={typeof windows !== undefined && window.location.href}
+      />
+      <div className="relative z-20 p-4 mx-auto border-2 border-orange-600 rounded-lg shadow-md md:mx-56 h-fit">
+        <header className="relative pb-2 mb-4 border-b-2 border-orange-600">
+          <div className="absolute top-0 left-0 flex flex-col w-1/5 max-w-xs">
+            <CategoryItem
+              category={group.category}
+              className="hidden md:block"
+              selected
+            />
+            <CategoryItem
+              category={group.category.substring(0, 2)}
+              className="block md:hidden"
+              selected
+            />
+            <small className="hidden overflow-hidden md:block whitespace-nowrap text-ellipsis">
+              Registrado como{' '}
+              <b>{members.find((m) => m.id === userMember).name}</b>
+            </small>
+          </div>
+          <h1 className="mx-auto text-2xl font-semibold text-center md:text-3xl w-fit">
+            <Typed
+              gradientColor
+              color="orange"
+              bold
+              texts={[group.name]}
+              cursor=""
+            />
+          </h1>
+          <div className="absolute top-0 right-0 flex flex-row gap-2">
+            <Button color="orange" onClick={openShareModal}>
+              <ArrowTopRightOnSquareIcon className="w-5 h-5" />
+              <span className="hidden md:block">Compartir</span>
+            </Button>
+            <Button
+              color="orange"
+              onClick={toggleConfig}
+              onMouseEnter={toggleAnimation}
+              onMouseLeave={toggleAnimation}
+            >
+              <ArrowLeftIcon
+                className={
+                  'w-5 h-5 transition-transform absolute' +
+                  ' ' +
+                  (!showConfig ? 'scale-0' : 'scale-100') +
+                  ' ' +
+                  (animateIcon ? '-translate-x-0.5' : 'translate-x-0')
+                }
+              />
+              <Cog8ToothIcon
+                className={
+                  'w-5 h-5 transition-transform' +
+                  ' ' +
+                  (showConfig ? 'scale-0' : 'scale-100') +
+                  ' ' +
+                  (animateIcon ? 'rotate-360' : 'rotate-0')
+                }
+              />
+            </Button>
+          </div>
+          <p className="mt-8 text-justify text-white">
+            <Typed texts={[group.description]} cursor="" typeSpeed={10} />
+          </p>
+        </header>
 
-      {showConfig ? (
-        <GroupConfig
-          bindUserToMember={handleBindUserToMember}
-          group={group}
-          members={members}
-          onUpdate={onUpdate}
-          setMembers={setMembers}
-          updateMembers={updateMembers}
-        />
-      ) : (
-        <div className="flex flex-col justify-between">
-          <Tabs tabs={tabs} selectedIndex={0} />
-        </div>
-      )}
-    </div>
+        {showConfig ? (
+          <GroupConfig
+            bindUserToMember={handleBindUserToMember}
+            group={group}
+            members={members}
+            onUpdate={onUpdate}
+            setMembers={setMembers}
+            updateMembers={updateMembers}
+          />
+        ) : (
+          <div className="flex flex-col justify-between">
+            <Tabs tabs={tabs} selectedIndex={0} />
+          </div>
+        )}
+      </div>
+    </>
   );
 }

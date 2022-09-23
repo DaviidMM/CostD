@@ -1,5 +1,5 @@
 const colors = {
-  blue: 'from-blue-600 via-blue-500 to-blue-600',
+  blue: 'from-blue-400 to-blue-600',
   darkorange: 'from-orange-400 to-orange-600',
   darkpurple: 'from-purple-800 to-purple-600',
   darkred: 'from-red-800 to-red-600',
@@ -8,6 +8,7 @@ const colors = {
   purple: 'from-violet-300 to-violet-600',
   rose: 'from-rose-400 to-rose-600',
   sky: 'from-sky-300 to-sky-500',
+  yellow: 'from-yellow-400 to-yellow-600',
 };
 
 export default function ColoredText({ bold, children, color = 'orange' }) {

@@ -1,67 +1,19 @@
-import {
-  ArrowsPointingOutIcon,
-  ClockIcon,
-  Cog8ToothIcon,
-  CubeTransparentIcon,
-} from '@heroicons/react/24/solid';
-import { BsCurrencyDollar } from 'react-icons/bs';
 import Link from 'next/link';
 import Button from '../components/Button';
 import ColoredText from '../components/ColoredText';
-import Feature from '../components/Feature';
+import Card from '../components/Card';
 import StepCard from '../components/StepCard';
 import Typed from '../components/Typed';
 import useAuth from '../hooks/useAuth';
 import { useLoginModal } from '../hooks/useLoginModal';
+import useFeatures from '../hooks/useFeatures';
+import useSteps from '../hooks/useSteps';
+import Feature from '../components/Feature';
 
-const steps = [
-  {
-    title: 'Inicia sesión',
-    description: 'Inicia sesión con tu cuenta de Google o Twitter.',
-    image: { src: '/login.svg', alt: 'Iniciar sesión' },
-  },
-  {
-    title: 'Crea un grupo o únete a uno',
-    description: (
-      <>
-        ¡Puedes crear tu grupo para compartirlo o unirte a uno que otra persona
-        haya creado!
-        <br />
-        <br />
-        Para unirte a un grupo, solo necesitas que el creador o algún miembro lo
-        comparta contigo.
-      </>
-    ),
-    image: { src: '/share-group.svg', alt: 'Compartir grupo' },
-  },
-  {
-    title: 'Añade gastos',
-    description: (
-      <>
-        Añade gastos a tu grupo. <br />
-        ¡Puedes decidir quien es parte de ese gasto!
-      </>
-    ),
-    image: { src: '/add-expense.svg', alt: 'Añadir gasto' },
-  },
-  {
-    title: (
-      <>
-        Deja que Cost<i>D</i> haga el resto
-      </>
-    ),
-    description: (
-      <>
-        Cost<i>D</i> ajustará los gastos de cada miembro del grupo y minimizará
-        las transacciones, de tal manera que todos paguen lo justo.
-      </>
-    ),
-    image: { src: '/calculator-0.svg', alt: 'Calculadora a 0' },
-  },
-];
-
-export default function HomePage({ groups }) {
+export default function HomePage() {
   const { status } = useAuth();
+  const features = useFeatures();
+  const steps = useSteps();
 
   const { openLoginModal } = useLoginModal();
 
@@ -85,17 +37,18 @@ export default function HomePage({ groups }) {
           </h1>
           <p className="self-start mb-12 text-3xl font-semibold">
             Comparte gastos de la manera más <br />{' '}
-            <ColoredText color="orange">simple</ColoredText> posible
+            <ColoredText color="orange">simple</ColoredText> posible.
           </p>
           {status === 'authenticated' ? (
             <Link href="/groups">
-              <Button className="px-8 py-4 text-4xl !rounded-full" color="rose">
+              <Button className="px-8 py-4 text-4xl !rounded-3xl" color="rose">
                 Ver mis grupos
               </Button>
             </Link>
           ) : (
             <Button
-              className="px-8 py-4 text-4xl !rounded-full"
+              color="rose"
+              className="px-8 py-4 text-4xl !rounded-3xl"
               onClick={() => openLoginModal()}
             >
               ¡Comenzar!
@@ -111,48 +64,13 @@ export default function HomePage({ groups }) {
         </div>
       </section>
       <section className="grid mb-24 md:gap-6 md:grid-cols-[repeat(auto-fit,minmax(320px,1fr))]">
-        <Feature
-          color="blue"
-          Icon={ArrowsPointingOutIcon}
-          id="multiplatform"
-          title="Multiplataforma"
-        >
-          <p>
-            Cost<i>D</i> se puede usar en <mark>cualquier</mark> dispositivo con
-            acceso a internet.
-          </p>
-        </Feature>
-        <Feature
-          color="green"
-          Icon={CubeTransparentIcon}
-          id="transparent"
-          title="Transparente"
-        >
-          <p>
-            Cualquier miembro puede <mark>añadir</mark>, <mark>editar</mark> o{' '}
-            <mark>eliminar</mark> gastos del grupo.
-          </p>
-        </Feature>
-        <Feature
-          color="rose"
-          Icon={Cog8ToothIcon}
-          id="functional"
-          title="Funcional"
-        >
-          <p>
-            Cost<i>D</i> calculará cuánto debe cada miembro{' '}
-            <mark>automáticamente</mark>.
-          </p>
-        </Feature>
-        <Feature color="sky" Icon={ClockIcon} id="efficient" title="Eficiente">
-          <p>
-            Cost<i>D</i> <mark>minimizará</mark> las transacciones para que
-            todos paguen lo <mark>justo</mark> el <mark>mínimo</mark> número de
-            veces.
-          </p>
-        </Feature>
+        {features.map((feature) => (
+          <Card key={feature.id} {...feature}>
+            {feature.description}
+          </Card>
+        ))}
       </section>
-      <section id="simple">
+      <section className="mb-24" id="simple">
         <h2 className="mb-10 text-5xl text-center">
           <ColoredText bold color="orange">
             Cost<i>D</i> en 4 pasos
@@ -164,6 +82,66 @@ export default function HomePage({ groups }) {
           ))}
         </div>
       </section>
+      <section className="flex flex-row justify-center gap-8 mb-24">
+        <Feature
+          description={
+            <>
+              Cost<i>D</i> está disponible en tu móvil, tablet, ordenador...
+              <br />
+              ¡en cualquier dispositivo con navegador web!
+            </>
+          }
+          img={{
+            src: '/multiplatform.svg',
+            alt: 'Multiplatforma',
+          }}
+          title={
+            <>
+              Utiliza Cost<i>D</i>
+              <br />
+              <ColoredText color="blue">donde tú quieras</ColoredText>
+            </>
+          }
+        />
+        <Feature
+          description={
+            <>
+              Cost<i>D</i> facilita compartir gastos en un grupo
+              <br />
+              haciendo todos los cálculos de quien debe qué por ti.
+            </>
+          }
+          img={{
+            src: '/anyone-can-use.svg',
+            alt: 'Cualquiera puede usarlo',
+          }}
+          title={
+            <>
+              Haz que compartir
+              <br />
+              gastos sea <ColoredText color="orange">fácil</ColoredText>
+            </>
+          }
+        />
+      </section>
+      {status === 'authenticated' ? (
+        <Link href="/groups">
+          <Button
+            className="mx-auto px-8 py-4 text-4xl !rounded-3xl"
+            color="rose"
+          >
+            Ver mis grupos
+          </Button>
+        </Link>
+      ) : (
+        <Button
+          color="rose"
+          className="mx-auto px-8 py-4 text-4xl !rounded-3xl"
+          onClick={() => openLoginModal()}
+        >
+          ¡Comenzar!
+        </Button>
+      )}
     </div>
   );
 }

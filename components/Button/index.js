@@ -45,7 +45,7 @@ const Button = forwardRef(function Button(
   return (
     <button
       ref={ref}
-      className={`${className} w-fit flex flex-row gap-2 items-center p-2 rounded-md focus:outline-none font-semibold transition-all duration-500 ${
+      className={`${className} w-fit flex flex-row gap-2 items-center p-2 rounded-xl focus:outline-none font-semibold transition-all duration-500 ${
         textClasses[color]
       } ${bordered ? `ring-2 ${borderClasses[color]}` : bgClasses[color]} ${
         disabled ? 'opacity-60 pointer-events-none' : ''

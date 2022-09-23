@@ -6,8 +6,8 @@ import ColoredBorder from '../ColoredBorder';
 
 export default function Debt({ amount, from, onPay, to }) {
   return (
-    <ColoredBorder color="orange" className="overflow-visible rounded-md">
-      <div className="flex flex-row items-center justify-between p-2 rounded-md bg-zinc-900">
+    <ColoredBorder color="orange" className="overflow-visible rounded-3xl">
+      <div className="flex flex-row items-center justify-between px-4 py-2 rounded-3xl bg-zinc-900">
         <div className="flex flex-col w-1/5">
           <span className="font-semibold text-sky-500">{from.name}</span>
           <small>debe a</small>
@@ -16,7 +16,7 @@ export default function Debt({ amount, from, onPay, to }) {
         <span className="text-4xl font-semibold text-red-500">{amount}€</span>
         <Menu as="div" className="relative inline-block text-left">
           <div>
-            <Menu.Button className="inline-flex flex-row items-center justify-center gap-2 p-2 font-semibold text-black transition-all duration-500 rounded-md w-fit focus:outline-none hover:text-white bg-gradient-to-br from-yellow-400 via-orange-500 to-rose-500 bg-size-200 bg-pos-0 hover:bg-pos-100">
+            <Menu.Button className="inline-flex flex-row items-center justify-center gap-2 p-2 font-semibold text-black transition-all duration-500 rounded-xl w-fit focus:outline-none hover:text-white bg-gradient-to-br from-yellow-400 via-orange-500 to-rose-500 bg-size-200 bg-pos-0 hover:bg-pos-100">
               Opciones
               <ChevronDownIcon className="w-5 h-5" aria-hidden="true" />
             </Menu.Button>
