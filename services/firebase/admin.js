@@ -5,6 +5,7 @@ import admin from 'firebase-admin';
 import { applicationDefault, initializeApp, getApp } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
 import { getAuth } from 'firebase-admin/auth';
+import { getMessaging } from 'firebase-admin/messaging';
 
 const createOrLoadApp = (appName) => {
   if (!admin.apps.find((app) => app.name_ === appName)) {
@@ -19,9 +20,7 @@ const createOrLoadApp = (appName) => {
 };
 
 const app = createOrLoadApp('adminApp');
-
 export const db = getFirestore(app);
-
 const auth = getAuth(app);
 
 export const extractUser = (authorization) => {
@@ -34,4 +33,27 @@ export const extractUser = (authorization) => {
       console.error(err);
       return false;
     });
+};
+
+export const sendNotification = () => {
+  const message = {
+    notification: {
+      title: 'Title',
+      body: 'Body',
+    },
+    topic: 'Grupazo',
+  };
+
+  getMessaging(app)
+    .send(message)
+    .then((response) => {
+      console.log('Successfully sent message:', response);
+    })
+    .catch((error) => {
+      console.log('Error sending message:', error);
+    });
+};
+
+export const subscribeTopic = async (tokens, topic) => {
+  return await getMessaging(app).subscribeToTopic(tokens, topic);
 };
