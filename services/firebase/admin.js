@@ -35,13 +35,10 @@ export const extractUser = (authorization) => {
     });
 };
 
-export const sendNotification = () => {
+export const sendNotification = ({ body, image, title, token }) => {
   const message = {
-    notification: {
-      title: 'Title',
-      body: 'Body',
-    },
-    topic: 'Grupazo',
+    data: { body, image, title },
+    token,
   };
 
   getMessaging(app)

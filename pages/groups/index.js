@@ -4,7 +4,7 @@ import Typed from '../../components/Typed';
 import GroupContainer from '../../components/GroupsContainer';
 import authStatus from '../../context/auth/status';
 import useAuth from '../../hooks/useAuth';
-import QRCode from 'react-qr-code';
+import Dots from '../../components/Loading/Dots';
 
 export default function GroupsPage() {
   const { status } = useAuth();
@@ -14,7 +14,9 @@ export default function GroupsPage() {
     router.push('/');
   }
 
-  return (
+  return status !== authStatus.authenticated ? (
+    <Dots />
+  ) : (
     <div className="flex flex-col gap-4 xl:px-56">
       <h1 className="text-4xl font-semibold text-center ">
         <Typed

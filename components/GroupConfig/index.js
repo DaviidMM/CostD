@@ -99,6 +99,11 @@ export default function GroupConfig({
         Component: MembersPanel,
         data: { bindUserToMember, members, setMembers, updateMembers },
       },
+      {
+        label: 'Notificaciones',
+        Component: () => <></>,
+        data: {},
+      },
     ],
     [members] // eslint-disable-line
   );

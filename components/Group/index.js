@@ -19,6 +19,7 @@ import useShareModal from '../../hooks/useShareModal';
 import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
 
 export default function Group(initialGroup) {
+  console.log('Group render');
   const {
     user: { id: userId },
   } = useAuth();

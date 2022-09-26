@@ -7,6 +7,7 @@ import useAuth from '../../hooks/useAuth';
 import useGroup from '../../hooks/useGroup';
 
 export default function GroupPage() {
+  console.log('GroupPage render');
   const { status } = useAuth();
   const router = useRouter();
   const group = useGroup();
@@ -17,9 +18,7 @@ export default function GroupPage() {
     if (group === null) router.push('/');
   }, [group, router]);
 
-  if (status === authStatus.unauthenticated) {
-    router.push('/');
-  }
+  if (status === authStatus.unauthenticated) router.push('/');
 
   return loading ? <Dots /> : <Group {...group} />;
 }

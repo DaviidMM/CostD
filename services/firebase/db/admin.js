@@ -1,7 +1,7 @@
 import { db } from '../admin';
 import normalizeGroup from '../../../utils/normalizeGroup';
 import normalizeMovement from '../../../utils/normalizeMovement';
-import { Timestamp } from 'firebase-admin/firestore';
+import { Timestamp, FieldValue } from 'firebase-admin/firestore';
 
 export const addGroup = async (group) => {
   const doc = await db.collection('groups').add({
@@ -171,12 +171,13 @@ export const bindUserToMember = async ({ group, user, member }) => {
 };
 
 export const storeDbUser = async ({ avatar, displayName, email, id }) => {
-  const docRef = await db.collection('users').doc(id);
+  const docRef = db.collection('users').doc(id);
+  const prevData = (await docRef.get()).data();
   await docRef.set({
+    ...prevData,
     avatar,
     displayName,
     email,
-    id,
     lastLogin: Timestamp.fromDate(new Date()),
   });
 
@@ -186,4 +187,24 @@ export const storeDbUser = async ({ avatar, displayName, email, id }) => {
     ...addedDoc.data(),
     id: docRef.id,
   };
+};
+
+export const addDeviceToUser = async ({ id, token }) => {
+  const docRef = db.collection('users').doc(id);
+
+  const prevData = (await docRef.get()).data();
+  const { devices: existingDevices } = prevData;
+
+  if (existingDevices && existingDevices.some((eD) => eD.token === token)) {
+    return true;
+  }
+
+  await docRef.update({
+    devices: FieldValue.arrayUnion({
+      token,
+      registeredAt: Timestamp.fromDate(new Date()),
+    }),
+  });
+
+  return true;
 };

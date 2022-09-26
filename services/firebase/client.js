@@ -37,19 +37,14 @@ export const firebaseCloudMessaging = {
       const tokenInLocalForage = await localforage.getItem('fcm_token');
 
       // Return the token if it is alredy in our local storage
-      if (tokenInLocalForage !== null) {
-        return tokenInLocalForage;
-      }
+      if (tokenInLocalForage !== null) return tokenInLocalForage;
 
       // Request the push notification permission from browser
       const status = await Notification.requestPermission();
       if (status && status === 'granted') {
         // Get new token from Firebase
-        const fcm_token = getToken(messaging, {
-          vapidKey:
-            'BEbfgAHxsrrsJ-YdVsoTNARDNfot75nrj8YiA4B6hdZXuLICS4w2wSWdZUQcgY9xFtqMlLr4rGsWJ6JpQR2tELo',
-        });
-
+        const vapidKey = process.env.NEXT_PUBLIC_VAPID_KEY;
+        const fcm_token = await getToken(messaging, { vapidKey });
         // Set token in our local storage
         if (fcm_token) {
           localforage.setItem('fcm_token', fcm_token);
@@ -57,6 +52,7 @@ export const firebaseCloudMessaging = {
         }
       }
     } catch (error) {
+      console.log('error');
       console.error(error);
       return null;
     }
@@ -78,7 +74,7 @@ export const checkAuthState = (onChange) => {
   return onAuthStateChanged(auth, async (user) => {
     const normalizedUser = mapUserFromFirebase({ user });
     if (normalizedUser) {
-      storeUserInDb();
+      await storeUserInDb();
       return onChange({
         user: normalizedUser,
         status: authStatus.authenticated,
