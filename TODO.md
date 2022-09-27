@@ -1,6 +1,6 @@
 # Lista de cosas que hacer
 
-- Arreglar UserMenu
+- Añadir ajuste de notificaciones
 
 - Añadir imagen de como queda una gráfica y explicando que la app te muestra gráficamente los saldos
 - Gratuito

@@ -26,17 +26,17 @@ export default function UserMenu({ onLogout, user }) {
           <Menu.Items className="absolute right-0 z-20 w-56 p-1 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
             <Menu.Item>
               {({ active }) => (
-                <Link href="/settings">
-                  <button
-                    className={`${
-                      active
-                        ? 'bg-gradient-to-br from-orange-500 to-orange-800 text-white'
-                        : 'text-gray-900'
-                    } group flex gap-2 flex-row w-full font-semibold items-center rounded-md px-2 py-2 text-sm`}
-                  >
-                    <Cog8ToothIcon className="w-5 h-5" />
-                    Ajustes
-                  </button>
+                <Link
+                  href="/settings"
+                  className={`${
+                    active
+                      ? 'bg-gradient-to-br from-orange-500 to-orange-800 text-white'
+                      : 'text-gray-900'
+                  } flex gap-2 flex-row w-full font-semibold items-center rounded-md px-2 py-2 text-sm`}
+                  legacyBehavior={false}
+                >
+                  <Cog8ToothIcon className="w-5 h-5" />
+                  Ajustes
                 </Link>
               )}
             </Menu.Item>
@@ -47,7 +47,7 @@ export default function UserMenu({ onLogout, user }) {
                     active
                       ? 'bg-gradient-to-br from-orange-500 to-orange-800 text-white'
                       : 'text-gray-900'
-                  } group flex gap-2 flex-row w-full font-semibold items-center rounded-md px-2 py-2 text-sm`}
+                  } flex gap-2 flex-row w-full font-semibold items-center rounded-md px-2 py-2 text-sm`}
                   onClick={onLogout}
                 >
                   <ArrowLeftOnRectangleIcon className="w-5 h-5" />
