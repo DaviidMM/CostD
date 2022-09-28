@@ -37,7 +37,7 @@ export const extractUser = (authorization) => {
 
 export const sendNotification = ({ body, image, title, token }) => {
   const message = {
-    data: { body, image, title },
+    data: { body, image: image || '', title },
     token,
   };
 
