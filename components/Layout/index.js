@@ -17,7 +17,7 @@ export default function Layout({ children }) {
         <title>CostD - ¡Comparte gastos!</title>
       </Head>
       <Header />
-      <section className="flex flex-col min-h-screen">
+      <section className="flex flex-col grow">
         <ToastContainer theme="dark" />
         <main className="flex flex-grow w-full p-6 mx-auto max-w-[1400px]">
           {status === authStatus.loading ? <Dots /> : children}

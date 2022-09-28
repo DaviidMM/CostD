@@ -1,6 +1,6 @@
 # Lista de cosas que hacer
 
-- Añadir ajuste de notificaciones
+- Crear panel de ajustes
 
 - Añadir imagen de como queda una gráfica y explicando que la app te muestra gráficamente los saldos
 - Gratuito
