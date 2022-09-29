@@ -60,8 +60,9 @@ export const firebaseCloudMessaging = {
 };
 
 const mapUserFromFirebase = (user) => {
-  if (!user.user) return null;
-  const { displayName, email, photoURL, uid: id } = user.user;
+  if (!user) return null;
+  const { displayName, email, photoURL, uid: id } = user;
+  console.log({ user });
   return {
     avatar: photoURL,
     displayName,
@@ -72,7 +73,7 @@ const mapUserFromFirebase = (user) => {
 
 export const checkAuthState = (onChange) => {
   return onAuthStateChanged(auth, async (user) => {
-    const normalizedUser = mapUserFromFirebase({ user });
+    const normalizedUser = mapUserFromFirebase(user);
     if (normalizedUser) {
       await storeUserInDb();
       return onChange({

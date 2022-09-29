@@ -9,7 +9,7 @@ export default async function handler(req, res) {
     }
     // Register FCM token to user
     const { token } = req.body;
-    return addDeviceToUser({ id: uid, token })
+    return addDeviceToUser({ uid, token })
       .then((result) => res.status(200).json(result))
       .catch((err) => {
         console.error(err);

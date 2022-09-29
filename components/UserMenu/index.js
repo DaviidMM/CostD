@@ -27,7 +27,7 @@ export default function UserMenu({ onLogout, user }) {
             <Menu.Item>
               {({ active }) => (
                 <Link
-                  href="/settings"
+                  href="/preferences"
                   className={`${
                     active
                       ? 'bg-gradient-to-br from-orange-500 to-orange-800 text-white'
@@ -36,7 +36,7 @@ export default function UserMenu({ onLogout, user }) {
                   legacyBehavior={false}
                 >
                   <Cog8ToothIcon className="w-5 h-5" />
-                  Ajustes
+                  Preferencias
                 </Link>
               )}
             </Menu.Item>

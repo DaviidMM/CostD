@@ -17,6 +17,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => checkAuthState(setContextValue), []);
 
   useEffect(() => {
+    // When user is authenticated and FCM token is generated, add token to user's devices
     if (FCMToken && contextValue.status === authStatus.authenticated) {
       storeFCMToken(FCMToken).catch((err) => {
         console.error(err);

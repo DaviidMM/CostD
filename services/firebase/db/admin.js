@@ -189,8 +189,8 @@ export const storeDbUser = async ({ avatar, displayName, email, id }) => {
   };
 };
 
-export const addDeviceToUser = async ({ id, token }) => {
-  const docRef = db.collection('users').doc(id);
+export const addDeviceToUser = async ({ uid, token }) => {
+  const docRef = db.collection('users').doc(uid);
 
   const prevData = (await docRef.get()).data();
   const { devices: existingDevices } = prevData;
@@ -207,4 +207,37 @@ export const addDeviceToUser = async ({ id, token }) => {
   });
 
   return true;
+};
+
+export const getUserPreferences = async (uid) => {
+  const docRef = db.collection('users').doc(uid);
+  const doc = await docRef.get();
+  if (!doc.exists) {
+    const error = new Error('Usuario no encontrado');
+    error.status = 404;
+    throw error;
+  }
+
+  const { preferences } = doc.data();
+
+  return preferences;
+};
+
+export const updateUserPreference = async ({ uid, preference, value }) => {
+  const docRef = db.collection('users').doc(uid);
+  const prevData = (await docRef.get()).data();
+  await docRef.set({
+    ...prevData,
+    preferences: {
+      ...prevData.preferences,
+      [preference]: value,
+    },
+  });
+
+  const updatedDoc = await docRef.get();
+
+  return {
+    ...updatedDoc.data(),
+    id: docRef.id,
+  };
 };

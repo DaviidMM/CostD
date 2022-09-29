@@ -1,16 +1,12 @@
 import { ArrowLeftOnRectangleIcon } from '@heroicons/react/24/outline';
 import { useMemo, useState } from 'react';
-import { BsGearFill } from 'react-icons/bs';
 import Button from '../../components/Button';
-import UserSettings from '../../components/UserSettings';
+import UserPreferences from '../../components/UserPreferences';
 
 const tabs = [
   {
     name: 'General',
-    Container: UserSettings,
-    data: {
-      notifications: true,
-    },
+    Container: UserPreferences,
   },
   {
     name: 'Cuenta',
@@ -30,15 +26,10 @@ export default function SettigsPage() {
 
   const SelectedTab = useMemo(() => tabs[selectedTab].Container, [selectedTab]);
 
-  const switchTab = (e) => {
-    e.preventDefault();
-    setNotifications(!notifications);
-  };
-
   return (
     <div className="p-4 mx-auto xl:mx-56 h-fit">
       <h1 className="flex flex-row items-center justify-center gap-2 mb-8 text-5xl">
-        <BsGearFill className="w-9 h-9" /> Ajustes
+        Preferencias
       </h1>
       <div className="flex flex-row items-stretch h-full gap-8">
         <div className="flex flex-col gap-2">
