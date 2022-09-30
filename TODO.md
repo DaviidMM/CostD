@@ -1,7 +1,5 @@
 # Lista de cosas que hacer
 
-- Panel de preferencias de usuario con preferencias dinamicas
-
 - Añadir imagen de como queda una gráfica y explicando que la app te muestra gráficamente los saldos
 - Sistema de notificaciones
   - PUSH
