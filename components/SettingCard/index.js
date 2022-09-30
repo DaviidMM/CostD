@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import Switch from '../Switch';
 
 export default function SettingCard({
@@ -11,18 +10,21 @@ export default function SettingCard({
   setValue,
 }) {
   const handleClick = () => handleSave({ preference, value });
+  const handleChange = (value) => setValue(preference, value);
 
   return (
     <div className="flex flex-col gap-4 overflow-hidden bg-black border-2 border-zinc-500 rounded-xl">
       <div className="p-4">
         <h2 className="mb-4 text-xl font-semibold">{title}</h2>
         <div className="flex flex-row gap-2">
-          {type === 'toggle' && (
+          {type === 'toggle' ? (
             <Switch
               checked={value}
               description={value ? 'Activado' : 'Desactivado'}
-              onChange={() => setValue(!value)}
+              onChange={() => handleChange(!value)}
             />
+          ) : (
+            <input type="text" onChange={(e) => handleChange(e.target.value)} />
           )}
         </div>
       </div>

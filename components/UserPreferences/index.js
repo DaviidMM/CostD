@@ -6,9 +6,7 @@ import SettingCard from '../SettingCard';
 import userPreferencesDict from '../../dict/userPreferences';
 
 export default function UserPreferences() {
-  const userPrefs = useUserPrefs();
-
-  const [notifications, setNotifications] = useState(true);
+  const [userPrefs, setUserPref] = useUserPrefs();
 
   const handleUpdatePref = async ({ preference, value }) => {
     updateUserPrefs({ preference, value })
@@ -21,22 +19,27 @@ export default function UserPreferences() {
       });
   };
 
-  return (
-    <div className="flex flex-col gap-4">
-      {Object.keys(userPreferencesDict).map((pref) => {
-        return (
-          <SettingCard
-            key={pref.preference}
-            description={pref.description}
-            handleSave={handleUpdatePref}
-            preference={pref.preference}
-            title={pref.title}
-            value={userPrefs[pref.preference]}
-          />
-        );
-      })}
+  console.log({ userPrefs });
 
-      <SettingCard
+  return (
+    userPrefs !== null && (
+      <div className="flex flex-col gap-4">
+        {Object.keys(userPreferencesDict).map((pref) => {
+          return (
+            <SettingCard
+              key={pref}
+              description={userPreferencesDict[pref].description}
+              handleSave={handleUpdatePref}
+              preference={pref}
+              setValue={setUserPref}
+              title={userPreferencesDict[pref].title}
+              type={userPreferencesDict[pref].type}
+              value={userPrefs[pref] || false}
+            />
+          );
+        })}
+
+        {/* <SettingCard
         description="Habilitar las notificaciones de actualizaciones en grupos"
         handleSave={handleUpdatePref}
         preference="notifications"
@@ -44,7 +47,8 @@ export default function UserPreferences() {
         title="Notificaciones"
         type="toggle"
         value={notifications}
-      />
-    </div>
+      /> */}
+      </div>
+    )
   );
 }

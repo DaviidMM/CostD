@@ -4,11 +4,15 @@ import useAuth from './useAuth';
 
 export default function useUserPrefs() {
   const { user } = useAuth();
-  const [userPrefs, setUserPrefs] = useState({});
+  const [userPrefs, setUserPrefs] = useState(null);
 
   useEffect(() => {
     if (user) getUserPrefs().then(setUserPrefs);
   }, [user]);
 
-  return userPrefs;
+  const handlePrefChange = (preference, value) => {
+    setUserPrefs((prev) => ({ ...prev, [preference]: value }));
+  };
+
+  return [userPrefs, handlePrefChange];
 }
