@@ -8,17 +8,6 @@ const tabs = [
     name: 'General',
     Container: UserPreferences,
   },
-  {
-    name: 'Cuenta',
-    Container: () => {
-      return (
-        <>
-          <span className="text-xl font-semibold">Cambiar contraseña</span>
-          <Button>Ir</Button>
-        </>
-      );
-    },
-  },
 ];
 
 export default function SettigsPage() {
