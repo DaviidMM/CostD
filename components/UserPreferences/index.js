@@ -19,8 +19,6 @@ export default function UserPreferences() {
       });
   };
 
-  console.log({ userPrefs });
-
   return (
     userPrefs !== null && (
       <div className="flex flex-col gap-4">
@@ -38,16 +36,6 @@ export default function UserPreferences() {
             />
           );
         })}
-
-        {/* <SettingCard
-        description="Habilitar las notificaciones de actualizaciones en grupos"
-        handleSave={handleUpdatePref}
-        preference="notifications"
-        setValue={setNotifications}
-        title="Notificaciones"
-        type="toggle"
-        value={notifications}
-      /> */}
       </div>
     )
   );
