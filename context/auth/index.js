@@ -19,6 +19,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     // When user is authenticated and FCM token is generated, add token to user's devices
     if (FCMToken && contextValue.status === authStatus.authenticated) {
+      console.log({ FCMToken });
       storeFCMToken(FCMToken).catch((err) => {
         console.error(err);
         toast.error('Ha ocurrido un error en el servidor');

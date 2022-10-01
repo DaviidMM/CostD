@@ -1,4 +1,8 @@
-import { extractUser } from '../../../services/firebase/admin';
+import {
+  db,
+  extractUser,
+  sendGroupNotification,
+} from '../../../services/firebase/admin';
 import { addMovement } from '../../../services/firebase/db/admin';
 
 export default async function handler(req, res) {
@@ -19,8 +23,26 @@ export default async function handler(req, res) {
       payedAt,
       type,
     })
-      .then((result) => {
-        res.status(200).json(result);
+      .then(async (result) => {
+        // Get group name
+        const groupName = await db
+          .collection('groups')
+          .doc(group)
+          .get()
+          .then((doc) => doc.data().name);
+
+        // Get member name
+        const memberName = (await db.collection('groups').doc(group).get())
+          .data()
+          .members.find((m) => m.id === member).name;
+
+        await sendGroupNotification({
+          body: `${memberName} ha añadido un gasto de ${amount}€`,
+          group,
+          title: `[${groupName}] Gasto añadido`,
+        });
+
+        return res.status(200).json(result);
       })
       .catch((err) => {
         console.error(err);

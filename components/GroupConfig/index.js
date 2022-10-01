@@ -7,7 +7,7 @@ import Input from '../Input';
 import MembersPanel from '../MembersPanel';
 import Tabs from '../Tabs';
 
-const Form = ({ group, onUpdate }) => {
+const GroupConfigForm = ({ group, onUpdate }) => {
   const [changed, setChanged] = useState(false);
   const [category, setCategory] = useState(group.category);
   const [fields, setFields] = useState({
@@ -91,7 +91,7 @@ export default function GroupConfig({
     () => [
       {
         label: 'Configuración',
-        Component: Form,
+        Component: GroupConfigForm,
         data: { group, onUpdate },
       },
       {
@@ -99,18 +99,9 @@ export default function GroupConfig({
         Component: MembersPanel,
         data: { bindUserToMember, members, setMembers, updateMembers },
       },
-      {
-        label: 'Notificaciones',
-        Component: () => <></>,
-        data: {},
-      },
     ],
     [members] // eslint-disable-line
   );
 
-  return (
-    <div>
-      <Tabs tabs={tabs} />
-    </div>
-  );
+  return <Tabs tabs={tabs} />;
 }

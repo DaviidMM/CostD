@@ -1,9 +1,5 @@
-import {
-  ArrowLeftIcon,
-  Cog8ToothIcon,
-  ShareIcon,
-} from '@heroicons/react/24/solid';
-import { useMemo, useState } from 'react';
+import { ArrowLeftIcon, Cog8ToothIcon } from '@heroicons/react/24/solid';
+import { useState } from 'react';
 import { toast } from 'react-toastify';
 import useAuth from '../../hooks/useAuth';
 import { bindUserToMember, updateGroup } from '../../services/groups';
@@ -17,6 +13,7 @@ import Tabs from '../Tabs';
 import Typed from '../Typed';
 import useShareModal from '../../hooks/useShareModal';
 import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
+import { FaHistory } from 'react-icons/fa';
 
 export default function Group(initialGroup) {
   const {
@@ -142,6 +139,10 @@ export default function Group(initialGroup) {
             />
           </h1>
           <div className="absolute top-0 right-0 flex flex-row gap-2">
+            <Button color="orange">
+              <FaHistory className="w-5 h-5" />
+              <span className="hidden md:block">Historial</span>
+            </Button>
             <Button color="orange" onClick={openShareModal}>
               <ArrowTopRightOnSquareIcon className="w-5 h-5" />
               <span className="hidden md:block">Compartir</span>

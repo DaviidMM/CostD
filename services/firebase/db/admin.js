@@ -1,4 +1,4 @@
-import { db } from '../admin';
+import { db, sendGroupNotification } from '../admin';
 import normalizeGroup from '../../../utils/normalizeGroup';
 import normalizeMovement from '../../../utils/normalizeMovement';
 import { Timestamp, FieldValue } from 'firebase-admin/firestore';

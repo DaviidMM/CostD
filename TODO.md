@@ -1,12 +1,19 @@
 # Lista de cosas que hacer
 
-- Añadir imagen de como queda una gráfica y explicando que la app te muestra gráficamente los saldos
-- Sistema de notificaciones
-  - PUSH
-    - Almacenar token de Cloud Messaging en la información de la BD del usuario
-    - Crear api para suscribir tokens a "topics". Un topic es una especie de agrupación. Se pueden mandar notificaciones a los topics y les llegarán a todos los tokens suscritos a ese topic.
-  - Correo
-- Añadir gasto total y mi gasto
+- Funcionalidad
+
+  - Añadir al documento de usuario sus grupos. Esos grupos son los que se listarán en `/groups`
+  - Cuando un usuario añada un movimiento, no le debe notificar a el mismo
+  - Usuario solo vea sus grupos
+  - Sistema de notificaciones
+    - PUSH
+      - Almacenar token de Cloud Messaging en la información de la BD del usuario
+      - Crear api para suscribir tokens a "topics". Un topic es una especie de agrupación. Se pueden mandar notificaciones a los topics y les llegarán a todos los tokens suscritos a ese topic.
+    - Correo
+
+- Visual:
+  - Añadir imagen de como queda una gráfica y explicando que la app te muestra gráficamente los saldos
+  - Añadir gasto total y mi gasto
 
 ## Futuras mejoras:
 
