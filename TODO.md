@@ -1,8 +1,7 @@
 # Lista de cosas que hacer
 
-- Funcionalidad
+- Funcionalidad:
 
-  - Añadir al documento de usuario sus grupos. Esos grupos son los que se listarán en `/groups`
   - Cuando un usuario añada un movimiento, no le debe notificar a el mismo
   - Usuario solo vea sus grupos
   - Sistema de notificaciones

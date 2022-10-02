@@ -1,11 +1,17 @@
-import { Dialog, Transition } from '@headlessui/react';
-import { Fragment } from 'react';
-import QRCode from 'react-qr-code';
-import { toast } from 'react-toastify';
-import { RWebShare } from 'react-web-share';
-import Button from '../Button';
+import { Dialog, Transition } from "@headlessui/react";
+import { Fragment } from "react";
+import QRCode from "react-qr-code";
+import { toast } from "react-toastify";
+import { RWebShare } from "react-web-share";
+import Button from "../Button";
 
 export default function ShareModal({ onClose, open, url, group }) {
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(url);
+    toast.success("¡Enlace copiado al portapapeles! 👍");
+    onClose();
+  };
+
   return (
     <Transition appear show={open} as={Fragment}>
       <Dialog as="div" className="relative z-50" onClose={onClose}>
@@ -44,22 +50,25 @@ export default function ShareModal({ onClose, open, url, group }) {
                 </Dialog.Description>
                 <div className="flex flex-row items-center justify-center gap-8">
                   <QRCode value={url} size={128} />
-                  <RWebShare
-                    closeText="Cerrar"
-                    data={{
-                      text: `¡Accede al grupo "${group.name}" para compartir gastos en CostD!`,
-                      url,
-                      title: 'Compartir grupo de CostD',
-                    }}
-                    sites={['whatsapp', 'telegram', 'copy']}
-                    onClick={() =>
-                      new Promise((resolve) =>
-                        resolve(toast.success('¡Compartido!'))
-                      ).then(onClose)
-                    }
-                  >
-                    <Button>Compartir enlace</Button>
-                  </RWebShare>
+                  <div className="flex flex-col gap-4">
+                    <RWebShare
+                      closeText="Cerrar"
+                      data={{
+                        text: `¡Accede al grupo "${group.name}" para compartir gastos en CostD!`,
+                        url,
+                        title: "Compartir grupo de CostD",
+                      }}
+                      sites={["whatsapp", "telegram", "copy"]}
+                      onClick={() =>
+                        new Promise((resolve) =>
+                          resolve(toast.success("¡Compartido!"))
+                        ).then(onClose)
+                      }
+                    >
+                      <Button>Compartir enlace</Button>
+                    </RWebShare>
+                    <Button onClick={copyToClipboard}>Copiar enlace 🔗</Button>
+                  </div>
                 </div>
               </Dialog.Panel>
             </Transition.Child>

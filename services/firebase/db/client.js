@@ -1,26 +1,37 @@
 import {
   collection,
   doc,
+  documentId,
   getDoc,
   getDocs,
   query,
   where,
-} from 'firebase/firestore';
-import normalizeMovement from '../../../utils/normalizeMovement';
-import normalizeGroup from '../../../utils/normalizeGroup';
-import { db } from '../client';
+} from "firebase/firestore";
+import normalizeMovement from "../../../utils/normalizeMovement";
+import normalizeGroup from "../../../utils/normalizeGroup";
+import { db, auth } from "../client";
 
-export const getGroups = async () => {
-  const groupsCollection = collection(db, 'groups');
-  const movementsCollection = collection(db, 'movements');
-  const groups = await getDocs(groupsCollection);
+export const getGroups = async (user) => {
+  const {
+    currentUser: { uid },
+  } = auth;
+  const userGroups = (await getDoc(doc(db, "users", uid))).data().groups || [];
+
+  if (!userGroups.length) return [];
+
+  const groupsCollection = collection(db, "groups");
+  const movementsCollection = collection(db, "movements");
+  const groups = await getDocs(
+    query(groupsCollection, where(documentId(), "in", userGroups))
+  );
+
   return await Promise.all(
     groups.docs.map(async (group) => {
       const groupData = group.data();
       const groupId = group.id;
       const movementsQuery = query(
         movementsCollection,
-        where('group', '==', groupId)
+        where("group", "==", groupId)
       );
       const movementsRef = await getDocs(movementsQuery);
 
@@ -48,13 +59,13 @@ export const getGroups = async () => {
 };
 
 export const getGroup = async (id) => {
-  const movementsCollection = collection(db, 'movements');
-  const groupRef = doc(db, 'groups', id);
+  const movementsCollection = collection(db, "movements");
+  const groupRef = doc(db, "groups", id);
   const groupSnap = await getDoc(groupRef);
 
   if (groupSnap.exists()) {
     const data = groupSnap.data();
-    const movementsQuery = query(movementsCollection, where('group', '==', id));
+    const movementsQuery = query(movementsCollection, where("group", "==", id));
     const movementsRef = await getDocs(movementsQuery);
     const movements = movementsRef.docs
       .map((movement) => {

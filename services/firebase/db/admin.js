@@ -1,17 +1,17 @@
-import { db, sendGroupNotification } from '../admin';
-import normalizeGroup from '../../../utils/normalizeGroup';
-import normalizeMovement from '../../../utils/normalizeMovement';
-import { Timestamp, FieldValue } from 'firebase-admin/firestore';
+import { db, sendGroupNotification } from "../admin";
+import normalizeGroup from "../../../utils/normalizeGroup";
+import normalizeMovement from "../../../utils/normalizeMovement";
+import { Timestamp, FieldValue } from "firebase-admin/firestore";
 
 export const addGroup = async (group) => {
-  const doc = await db.collection('groups').add({
+  const doc = await db.collection("groups").add({
     category: group.category,
     description: group.description,
     name: group.name,
     members: group.members.map((m) => ({
       id: m.id,
       name: m.name,
-      uid: m.uid || '',
+      uid: m.uid || "",
     })),
     createdAt: Timestamp.fromDate(new Date()),
   });
@@ -32,7 +32,7 @@ export const addMovement = async ({
   payedAt,
   type,
 }) => {
-  const doc = await db.collection('movements').add({
+  const doc = await db.collection("movements").add({
     amount,
     description,
     group,
@@ -57,9 +57,9 @@ export const editMovement = async ({
   payedAt,
   type,
 }) => {
-  const movement = await db.collection('movements').doc(id).get();
+  const movement = await db.collection("movements").doc(id).get();
   if (!movement.exists) {
-    const error = new Error('Gasto no encontrado');
+    const error = new Error("Gasto no encontrado");
     error.status = 404;
     throw error;
   }
@@ -79,9 +79,9 @@ export const editMovement = async ({
     if (updatedValues[key] === undefined) delete updatedValues[key];
   });
 
-  await db.collection('movements').doc(id).update(updatedValues);
+  await db.collection("movements").doc(id).update(updatedValues);
 
-  const updatedDoc = await db.collection('movements').doc(id).get();
+  const updatedDoc = await db.collection("movements").doc(id).get();
 
   return normalizeMovement({
     id,
@@ -90,14 +90,14 @@ export const editMovement = async ({
 };
 
 export const deleteMovement = async (id) => {
-  const movement = await db.collection('movements').doc(id).get();
+  const movement = await db.collection("movements").doc(id).get();
   if (!movement.exists) {
-    const error = new Error('Gasto no encontrado');
+    const error = new Error("Gasto no encontrado");
     error.status = 404;
     throw error;
   }
 
-  await db.collection('movements').doc(id).delete();
+  await db.collection("movements").doc(id).delete();
   return true;
 };
 
@@ -110,9 +110,9 @@ export const editGroup = async ({
   category,
   members,
 }) => {
-  const group = await db.collection('groups').doc(id).get();
+  const group = await db.collection("groups").doc(id).get();
   if (!group.exists) {
-    const error = new Error('Grupo no encontrado');
+    const error = new Error("Grupo no encontrado");
     error.status = 404;
     throw error;
   }
@@ -121,7 +121,7 @@ export const editGroup = async ({
     category,
     description,
     members: members
-      ? members.map((m) => ({ id: m.id, name: m.name, uid: m.uid || '' }))
+      ? members.map((m) => ({ id: m.id, name: m.name, uid: m.uid || "" }))
       : undefined,
     name,
   };
@@ -131,9 +131,9 @@ export const editGroup = async ({
     if (updatedValues[key] === undefined) delete updatedValues[key];
   });
 
-  await db.collection('groups').doc(id).update(updatedValues);
+  await db.collection("groups").doc(id).update(updatedValues);
 
-  const updatedDoc = await db.collection('groups').doc(id).get();
+  const updatedDoc = await db.collection("groups").doc(id).get();
 
   return normalizeGroup({
     id,
@@ -142,10 +142,18 @@ export const editGroup = async ({
 };
 
 export const bindUserToMember = async ({ group, user, member }) => {
-  const docRef = db.collection('groups').doc(group);
+  // Add group to user groups
+  await db
+    .collection("users")
+    .doc(user)
+    .update({
+      groups: FieldValue.arrayUnion(group),
+    });
+
+  const docRef = db.collection("groups").doc(group);
   const doc = await docRef.get();
   if (!doc.exists) {
-    const error = new Error('Grupo no encontrado');
+    const error = new Error("Grupo no encontrado");
     error.status = 404;
     throw error;
   }
@@ -156,7 +164,7 @@ export const bindUserToMember = async ({ group, user, member }) => {
     m.id === member
       ? { ...m, uid: user }
       : m.uid === user
-      ? { ...m, uid: '' }
+      ? { ...m, uid: "" }
       : m
   );
 
@@ -171,7 +179,7 @@ export const bindUserToMember = async ({ group, user, member }) => {
 };
 
 export const storeDbUser = async ({ avatar, displayName, email, id }) => {
-  const docRef = db.collection('users').doc(id);
+  const docRef = db.collection("users").doc(id);
   const prevData = (await docRef.get()).data();
   await docRef.set({
     ...prevData,
@@ -190,7 +198,7 @@ export const storeDbUser = async ({ avatar, displayName, email, id }) => {
 };
 
 export const addDeviceToUser = async ({ uid, token }) => {
-  const docRef = db.collection('users').doc(uid);
+  const docRef = db.collection("users").doc(uid);
 
   const prevData = (await docRef.get()).data();
   const { devices: existingDevices } = prevData;
@@ -210,10 +218,10 @@ export const addDeviceToUser = async ({ uid, token }) => {
 };
 
 export const getUserPreferences = async (uid) => {
-  const docRef = db.collection('users').doc(uid);
+  const docRef = db.collection("users").doc(uid);
   const doc = await docRef.get();
   if (!doc.exists) {
-    const error = new Error('Usuario no encontrado');
+    const error = new Error("Usuario no encontrado");
     error.status = 404;
     throw error;
   }
@@ -224,7 +232,7 @@ export const getUserPreferences = async (uid) => {
 };
 
 export const updateUserPreference = async ({ uid, preference, value }) => {
-  const docRef = db.collection('users').doc(uid);
+  const docRef = db.collection("users").doc(uid);
   const prevData = (await docRef.get()).data();
   await docRef.set({
     ...prevData,
