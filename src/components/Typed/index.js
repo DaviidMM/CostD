@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import ColoredText from '../ColoredText';
 
 const colorClasses = {
@@ -17,6 +17,7 @@ export default function Typed ({
   texts,
   typeSpeed = 50
 }) {
+  const ref = useRef();
   const [shownLetters, setShownLetters] = useState('');
   const [counter, setCounter] = useState(1);
   const [isWriting, setIsWriting] = useState(true);
@@ -47,10 +48,17 @@ export default function Typed ({
   }, [counter, isWriting, texts, textIndex, typeSpeed, loopDelay, loop]);
 
   // If texts change, restart counter
-  useEffect(() => setCounter(1), [texts]);
+  useEffect(() => {
+    if (ref.current.textContent !== texts[textIndex]) {
+      setCounter(1);
+      setIsWriting(true);
+      setTextIndex(0);
+    }
+  }, [texts, textIndex]);
 
   return (
     <span
+      ref={ref}
       className={
         (className ? className + ' ' : '') +
         (bold ? 'font-bold ' : '') +
