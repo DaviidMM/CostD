@@ -6,6 +6,7 @@
   - Sistema de notificaciones
     - PUSH:
       - Abrir enlace de grupo al clicar la notificación Toast (foreground)
+      - Limpiar devices de los usuarios cuando dejen de existir
     - Correo
 
 - Visual:
