@@ -7,7 +7,7 @@ import Input from '../Input';
 import MembersPanel from '../MembersPanel';
 import Tabs from '../Tabs';
 
-const GroupConfigForm = ({ group, onUpdate }) => {
+const GroupConfigForm = ({ group }) => {
   const [changed, setChanged] = useState(false);
   const [category, setCategory] = useState(group.category);
   const [fields, setFields] = useState({
@@ -53,10 +53,7 @@ const GroupConfigForm = ({ group, onUpdate }) => {
         error: '¡Ha ocurrido un error! ❌',
         pending: 'Actualizando grupo...'
       })
-      .then((updatedGroup) => {
-        onUpdate(updatedGroup);
-        setChanged(false);
-      });
+      .then(() => setChanged(false));
   };
 
   return (
@@ -84,7 +81,6 @@ export default function GroupConfig ({
   bindUserToMember,
   members,
   onUpdate,
-  setMembers,
   updateMembers
 }) {
   const tabs = useMemo(
@@ -97,7 +93,7 @@ export default function GroupConfig ({
       {
         label: 'Miembros',
         Component: MembersPanel,
-        data: { bindUserToMember, members, setMembers, updateMembers }
+        data: { bindUserToMember, members, updateMembers }
       }
     ],
     [members] // eslint-disable-line

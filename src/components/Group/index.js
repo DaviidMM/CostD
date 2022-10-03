@@ -14,15 +14,16 @@ import Typed from '../Typed';
 import useShareModal from '../../hooks/useShareModal';
 import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
 import { FaHistory } from 'react-icons/fa';
-import { listenGroup } from '../../../services/firebase/db/client';
+import Dots from '../Loading/Dots';
+import useGroup from '../../hooks/useGroup';
 
-export default function Group (initialGroup) {
+export default function Group () {
   const {
     user: { id: userId }
   } = useAuth();
-  const [group, setGroup] = useState(initialGroup);
+  const [group, setGroup] = useGroup();
   const [members, setMembers] = useState(
-    group.members.sort((a, b) => {
+    group?.members.sort((a, b) => {
       if (a.uid === userId) return -1;
       if (b.uid === userId) return 1;
       return 0;
@@ -30,11 +31,17 @@ export default function Group (initialGroup) {
   );
   const [showConfig, setShowConfig] = useState(false);
   const [userMember, setUserMember] = useState(
-    members.find((m) => m.uid === userId)?.id
+    members?.find((m) => m.uid === userId)?.id
   );
-
   const { closeShareModal, openShareModal, shareModalOpen, ShareModal } =
     useShareModal();
+
+  useEffect(() => {
+    if (group) {
+      setMembers(group.members);
+      if (members === undefined) setUserMember(group.members.find((m) => m.uid === userId)?.id);
+    }
+  }, [group, members, userId]);
 
   const onUpdate = (updatedGroup) => {
     setGroup({ ...group, ...updatedGroup });
@@ -49,8 +56,7 @@ export default function Group (initialGroup) {
         success: 'Se ha actualizado el grupo',
         error: 'No se ha podido actualizar el grupo',
         pending: 'Actualizando grupo...'
-      })
-      .then((updatedGroup) => setMembers(updatedGroup.members));
+      });
   };
 
   const handleBindUserToMember = (memberId) => {
@@ -85,30 +91,23 @@ export default function Group (initialGroup) {
     {
       label: 'Movimientos',
       Component: MovementsPanel,
-      data: { movements: group.movements, members, onMovementUpdate }
+      data: { movements: group?.movements, members, onMovementUpdate }
     },
     {
       label: 'Saldo',
       Component: BalancePanel,
-      data: { movements: group.movements, members, onMovementUpdate }
+      data: { movements: group?.movements, members, onMovementUpdate }
     }
   ];
 
-  useEffect(() => {
-    const unsubscribe = listenGroup(group.id, (updatedGroup) => {
-      setGroup((prevGroup) => ({ ...prevGroup, ...updatedGroup }));
-    });
-  }, [group.id]);
-
-  console.log({ group });
-
-  return (
-    <>
+  return group === null || members === undefined
+    ? <Dots />
+    : <>
       <ShareModal
         group={group}
         open={shareModalOpen}
         onClose={closeShareModal}
-        url={typeof window !== undefined && window.location.href}
+        url={typeof window !== 'undefined' && window.location.href}
       />
       <div className="relative z-20 p-4 mx-auto border-2 border-orange-600 rounded-lg shadow-md xl:mx-56 h-fit">
         <header className="relative pb-2 mb-4 border-b-2 border-orange-600">
@@ -198,6 +197,5 @@ export default function Group (initialGroup) {
           </div>
               )}
       </div>
-    </>
-  );
+    </>;
 }

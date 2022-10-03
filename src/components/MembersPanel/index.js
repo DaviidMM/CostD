@@ -1,15 +1,17 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import Button from '../Button';
 import MembersBox from '../MembersBox';
 
 export default function MembersPanel ({
   bindUserToMember,
-  members,
-  setMembers,
+  members: initialMembers,
   updateMembers
 }) {
   const [changed, setChanged] = useState(false);
+  const [members, setMembers] = useState(initialMembers);
+
+  useEffect(() => setMembers(initialMembers), [initialMembers]);
 
   const handleSetMembers = (members) => {
     setChanged(true);

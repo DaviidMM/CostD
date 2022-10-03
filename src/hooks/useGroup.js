@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { getGroup } from '../../services/firebase/db/client';
+import { listenGroup } from '../../services/firebase/db/client';
 
 export default function useGroup () {
   const router = useRouter();
@@ -9,16 +9,14 @@ export default function useGroup () {
 
   useEffect(() => {
     if (id) {
-      getGroup(id)
-        .then((group) => setGroup(group))
-        .catch((err) => {
-          console.log({ err });
-          setGroup(null);
-        });
+      listenGroup(id, (updatedGroup) => {
+        console.log({ updatedGroup });
+        setGroup((prevGroup) => ({ ...prevGroup, ...updatedGroup, id }));
+      });
     } else {
       setGroup(null);
     }
   }, [id]);
 
-  return group;
+  return [group, setGroup];
 }

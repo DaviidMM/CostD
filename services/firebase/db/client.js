@@ -86,10 +86,27 @@ export const getGroup = async (id) => {
 
 export const listenGroup = (id, onUpdate) => {
   const groupRef = doc(db, 'groups', id);
-  return onSnapshot(groupRef, (snap) => {
+  const movementsRef = collection(db, 'movements');
+
+  // Get movements which group is the same as the group id
+  const movementsQuery = query(movementsRef, where('group', '==', id));
+
+  return onSnapshot(groupRef, async (snap) => {
     if (snap.exists()) {
-      const data = snap.data();
-      onUpdate(data);
+      const groupData = snap.data();
+
+      const movementsRef = await getDocs(movementsQuery);
+      const movements = movementsRef.docs
+        .map((movement) => {
+          const data = movement.data();
+          const id = movement.id;
+          return normalizeMovement({ id, data });
+        })
+        .sort((a, b) => {
+          return b.createdAt - a.createdAt;
+        });
+
+      onUpdate({ ...groupData, movements });
     }
   });
 };
