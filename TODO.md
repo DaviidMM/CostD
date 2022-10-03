@@ -2,12 +2,8 @@
 
 - Funcionalidad:
 
-  - Cuando un usuario añada un movimiento, no le debe notificar a el mismo
-  - Usuario solo vea sus grupos
+  - Realtime updates de movimientos en grupos
   - Sistema de notificaciones
-    - PUSH
-      - Almacenar token de Cloud Messaging en la información de la BD del usuario
-      - Crear api para suscribir tokens a "topics". Un topic es una especie de agrupación. Se pueden mandar notificaciones a los topics y les llegarán a todos los tokens suscritos a ese topic.
     - Correo
 
 - Visual:
