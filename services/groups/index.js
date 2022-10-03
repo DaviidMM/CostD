@@ -5,7 +5,7 @@ export const createGroup = async ({ name, description, category, members }) => {
     name,
     description,
     category,
-    members,
+    members
   });
   return data;
 };

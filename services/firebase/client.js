@@ -34,7 +34,7 @@ export const firebaseCloudMessaging = {
   init: async () => {
     try {
       const messaging = getMessaging(app);
-      const tokenInLocalForage = await localforage.getItem('fcm_token');
+      const tokenInLocalForage = await localforage.getItem('fcmToken');
 
       // Return the token if it is alredy in our local storage
       if (tokenInLocalForage !== null) return tokenInLocalForage;
@@ -44,11 +44,11 @@ export const firebaseCloudMessaging = {
       if (status && status === 'granted') {
         // Get new token from Firebase
         const vapidKey = process.env.NEXT_PUBLIC_VAPID_KEY;
-        const fcm_token = await getToken(messaging, { vapidKey });
+        const fcmToken = await getToken(messaging, { vapidKey });
         // Set token in our local storage
-        if (fcm_token) {
-          localforage.setItem('fcm_token', fcm_token);
-          return fcm_token;
+        if (fcmToken) {
+          localforage.setItem('fcmToken', fcmToken);
+          return fcmToken;
         }
       }
     } catch (error) {

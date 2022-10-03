@@ -16,15 +16,15 @@ export const normalizeLongDate = (date) => {
 export const normalizeShortDate = (date) => {
   const dateObject = new Date(date);
   return `${dateObject.getDate()}/${dateObject.toLocaleDateString('default', {
-    month: '2-digit',
+    month: '2-digit'
   })}/${dateObject.getFullYear()}, ${dateObject.getHours()}:${dateObject.getMinutes()}`;
 };
 
 export const convertUTCToLocal = (date) => {
-  var newDate = new Date(date.getTime() + date.getTimezoneOffset() * 60 * 1000);
+  const newDate = new Date(date.getTime() + date.getTimezoneOffset() * 60 * 1000);
 
-  var offset = date.getTimezoneOffset() / 60;
-  var hours = date.getHours();
+  const offset = date.getTimezoneOffset() / 60;
+  const hours = date.getHours();
 
   newDate.setHours(hours - offset);
 

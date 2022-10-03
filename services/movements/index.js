@@ -7,7 +7,7 @@ export const createMovement = async ({
   member,
   participants,
   payedAt,
-  type,
+  type
 }) => {
   return api
     .post('/movements', {
@@ -17,7 +17,7 @@ export const createMovement = async ({
       member,
       participants,
       payedAt,
-      type,
+      type
     })
     .then((res) => res.data);
 };
@@ -29,7 +29,7 @@ export const modifyMovement = async ({
   member,
   participants,
   payedAt,
-  type,
+  type
 }) => {
   return api
     .put(`/movements/${id}`, {
@@ -38,7 +38,7 @@ export const modifyMovement = async ({
       member,
       participants,
       payedAt,
-      type,
+      type
     })
     .then((res) => res.data);
 };

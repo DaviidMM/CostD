@@ -1,5 +1,4 @@
 import {
-  ArrowsPointingOutIcon,
   ClockIcon,
   Cog8ToothIcon,
   CubeTransparentIcon,

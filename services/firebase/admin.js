@@ -25,7 +25,7 @@ const auth = getAuth(app);
 
 export const extractUser = (authorization) => {
   if (!authorization) return false;
-  const [_, token] = authorization.split(' ');
+  const token = authorization.split(' ')[1];
   return auth
     .verifyIdToken(token)
     .then((user) => user)

@@ -7,7 +7,7 @@ const barColors = [
   colors.yellow[500],
   colors.purple[500],
   colors.red[800],
-  colors.orange[600],
+  colors.orange[600]
 ];
 
 const getBarColor = (context) => {
@@ -31,35 +31,35 @@ const barChartOptions = {
         color: 'white',
         font: {
           weight: 700,
-          color: 'white',
-        },
+          color: 'white'
+        }
       },
       grace: '5%',
       stacked: true,
       grid: {
         lineWidth: 0.3,
-        color: 'gray',
+        color: 'gray'
       },
       suggestedMin: -10,
-      suggestedMax: 10,
+      suggestedMax: 10
     },
     y: {
       display: false,
       stacked: true,
       grid: {
         lineWidth: 0.3,
-        color: 'gray',
+        color: 'gray'
       },
       font: {
-        size: 16,
+        size: 16
       },
       ticks: {
         color: 'white',
         font: {
-          weight: 700,
-        },
-      },
-    },
+          weight: 700
+        }
+      }
+    }
   },
   maxTicksLimit: 10,
   plugins: {
@@ -67,7 +67,7 @@ const barChartOptions = {
       display: false,
       font: {
         size: 16,
-        weight: '500',
+        weight: '500'
       },
       labels: {
         totalValue: {
@@ -111,7 +111,7 @@ const barChartOptions = {
             } else {
               return null;
             }
-          },
+          }
         },
         member: {
           display: true,
@@ -139,37 +139,37 @@ const barChartOptions = {
             return context.datasetIndex === 0
               ? context.chart.data.labels[context.dataIndex]
               : null;
-          },
-        },
+          }
+        }
       },
-      textAlign: 'center',
+      textAlign: 'center'
     },
     legend: {
       display: true,
       labels: {
         font: {
-          weight: 700,
+          weight: 700
         },
-        color: 'white',
+        color: 'white'
       },
       title: {
         display: true,
         font: {
-          weight: 700,
+          weight: 700
         },
         color: 'white',
-        text: 'Debido a:',
-      },
+        text: 'Debido a:'
+      }
     },
     tooltip: {
       xAlign: 'center',
       yAlign: 'center',
       callbacks: {
         title: (item) => item[0].dataset.label,
-        label: (item) => `${item.formattedValue} €`,
-      },
-    },
-  },
+        label: (item) => `${item.formattedValue} €`
+      }
+    }
+  }
 };
 
 export const getBarChartOptions = () => barChartOptions;
@@ -196,7 +196,7 @@ export const getMembersBalance = ({ movements, members }) => {
               return acc;
             }, 0)
             .toFixed(2)
-        ),
+        )
       ];
     })
   );
@@ -206,7 +206,7 @@ export const getMembersBalance = ({ movements, members }) => {
     .map(([id, balance]) => {
       return {
         id,
-        balance,
+        balance
       };
     });
   const creditors = Object.entries(balanceTotal)
@@ -214,7 +214,7 @@ export const getMembersBalance = ({ movements, members }) => {
     .map(([id, balance]) => {
       return {
         id,
-        balance,
+        balance
       };
     });
 
@@ -223,7 +223,7 @@ export const getMembersBalance = ({ movements, members }) => {
     .map(([id, balance]) => {
       return {
         id,
-        balance,
+        balance
       };
     });
 
@@ -246,7 +246,7 @@ export const getMembersBalance = ({ movements, members }) => {
     ).balance;
     // console.log('remainingBalance', remainingBalance);
 
-    membersBalance.map((memberColumn, idxMemberCol) => {
+    membersBalance.forEach((memberColumn, idxMemberCol) => {
       // console.table(membersBalance);
       if (memberRow.id === memberColumn.id) {
         auxiliar[idxMemberRow][idxMemberCol] = null;
@@ -301,32 +301,31 @@ export const getMembersBalance = ({ movements, members }) => {
         return;
       }
       auxiliar[idxMemberRow][idxMemberCol] = null;
-      return;
     });
 
     return {
       label: members.find((m) => m.id === memberRow.id).name,
       id: memberRow.id,
-      data: auxiliar[idxMemberRow],
+      data: auxiliar[idxMemberRow]
     };
   });
   return {
     debtors,
     creditors,
-    membersBalance: datasets,
+    membersBalance: datasets
   };
 };
 
 export const calculateDatasets = ({ movements, members }) => {
   const { membersBalance } = getMembersBalance({
     movements,
-    members,
+    members
   });
   const datasets = membersBalance.map(({ label, data }) => {
     return {
       label,
       data,
-      backgroundColor: getBarColor,
+      backgroundColor: getBarColor
     };
   });
 
