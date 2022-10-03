@@ -1,10 +1,11 @@
 # Lista de cosas que hacer
 
-- Funcionalidad:
-
-  - Realtime updates de movimientos en grupos
-  - Añadir grupo creado a los grupos del usuario
+- Funcionalidad
+  - Agregar preferencia:
+    - Notificaciones por correo
   - Sistema de notificaciones
+    - PUSH:
+      - Abrir enlace de grupo al clicar la notificación Toast (foreground)
     - Correo
 
 - Visual:
