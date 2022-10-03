@@ -1,19 +1,20 @@
-import { ArrowLeftIcon, Cog8ToothIcon } from '@heroicons/react/24/solid';
-import { useState } from 'react';
-import { toast } from 'react-toastify';
-import useAuth from '../../hooks/useAuth';
-import { bindUserToMember, updateGroup } from '../../services/groups';
-import BalancePanel from '../BalancePanel';
-import Button from '../Button';
-import CategoryItem from '../CategorySelector/CategoryItem';
-import MovementsPanel from '../MovementsPanel';
-import GroupConfig from '../GroupConfig';
-import MemberPicker from '../MemberPicker';
-import Tabs from '../Tabs';
-import Typed from '../Typed';
-import useShareModal from '../../hooks/useShareModal';
-import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
-import { FaHistory } from 'react-icons/fa';
+import { ArrowLeftIcon, Cog8ToothIcon } from "@heroicons/react/24/solid";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import useAuth from "../../hooks/useAuth";
+import { bindUserToMember, updateGroup } from "../../services/groups";
+import BalancePanel from "../BalancePanel";
+import Button from "../Button";
+import CategoryItem from "../CategorySelector/CategoryItem";
+import MovementsPanel from "../MovementsPanel";
+import GroupConfig from "../GroupConfig";
+import MemberPicker from "../MemberPicker";
+import Tabs from "../Tabs";
+import Typed from "../Typed";
+import useShareModal from "../../hooks/useShareModal";
+import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
+import { FaHistory } from "react-icons/fa";
+import { listenGroup } from "../../services/firebase/db/client";
 
 export default function Group(initialGroup) {
   const {
@@ -28,7 +29,6 @@ export default function Group(initialGroup) {
     })
   );
   const [showConfig, setShowConfig] = useState(false);
-  const [animateIcon, setAnimateIcon] = useState(false);
   const [userMember, setUserMember] = useState(
     members.find((m) => m.uid === userId)?.id
   );
@@ -46,9 +46,9 @@ export default function Group(initialGroup) {
     const promise = updateGroup(group.id, { members });
     return toast
       .promise(promise, {
-        success: 'Se ha actualizado el grupo',
-        error: 'No se ha podido actualizar el grupo',
-        pending: 'Actualizando grupo...',
+        success: "Se ha actualizado el grupo",
+        error: "No se ha podido actualizar el grupo",
+        pending: "Actualizando grupo...",
       })
       .then((updatedGroup) => setMembers(updatedGroup.members));
   };
@@ -62,9 +62,9 @@ export default function Group(initialGroup) {
 
     toast
       .promise(promise, {
-        success: '¡Vinculado correctamente! 🔗',
-        error: '¡Ha ocurrido un error! ❌',
-        pending: 'Vinculando...',
+        success: "¡Vinculado correctamente! 🔗",
+        error: "¡Ha ocurrido un error! ❌",
+        pending: "Vinculando...",
       })
       .then((res) => res.data)
       .then((updatedGroup) => {
@@ -79,21 +79,28 @@ export default function Group(initialGroup) {
       });
   };
 
-  const toggleAnimation = () => setAnimateIcon(!animateIcon);
   const toggleConfig = () => setShowConfig(!showConfig);
 
   const tabs = [
     {
-      label: 'Movimientos',
+      label: "Movimientos",
       Component: MovementsPanel,
       data: { movements: group.movements, members, onMovementUpdate },
     },
     {
-      label: 'Saldo',
+      label: "Saldo",
       Component: BalancePanel,
       data: { movements: group.movements, members, onMovementUpdate },
     },
   ];
+
+  useEffect(() => {
+    const unsubscribe = listenGroup(group.id, (updatedGroup) => {
+      setGroup((prevGroup) => ({ ...prevGroup, ...updatedGroup }));
+    });
+  }, [group.id]);
+
+  console.log({ group });
 
   return (
     <>
@@ -120,11 +127,11 @@ export default function Group(initialGroup) {
               <small
                 className="hidden overflow-hidden md:block whitespace-nowrap text-ellipsis"
                 title={
-                  'Registrado como ' +
+                  "Registrado como " +
                   members.find((m) => m.id === userMember).name
                 }
               >
-                Registrado como{' '}
+                Registrado como{" "}
                 <b>{members.find((m) => m.id === userMember).name}</b>
               </small>
             )}
@@ -147,28 +154,17 @@ export default function Group(initialGroup) {
               <ArrowTopRightOnSquareIcon className="w-5 h-5" />
               <span className="hidden md:block">Compartir</span>
             </Button>
-            <Button
-              color="orange"
-              onClick={toggleConfig}
-              onMouseEnter={toggleAnimation}
-              onMouseLeave={toggleAnimation}
-            >
+            <Button color="orange" className="group" onClick={toggleConfig}>
               <ArrowLeftIcon
                 className={
-                  'w-5 h-5 transition-transform absolute' +
-                  ' ' +
-                  (!showConfig ? 'scale-0' : 'scale-100') +
-                  ' ' +
-                  (animateIcon ? '-translate-x-0.5' : 'translate-x-0')
+                  "w-5 h-5 absolute transition-transform group-hover:-translate-x-0.5 " +
+                  (!showConfig ? "scale-0" : "scale-100")
                 }
               />
               <Cog8ToothIcon
                 className={
-                  'w-5 h-5 transition-transform' +
-                  ' ' +
-                  (showConfig ? 'scale-0' : 'scale-100') +
-                  ' ' +
-                  (animateIcon ? 'rotate-360' : 'rotate-0')
+                  "w-5 h-5 transition-transform group-hover:rotate-360 " +
+                  (showConfig ? "scale-0" : "scale-100")
                 }
               />
             </Button>
