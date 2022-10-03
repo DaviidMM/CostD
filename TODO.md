@@ -8,6 +8,9 @@
     - Correo
 
 - Visual:
+  - Añadir en la home caracteristicas:
+    - ¡Actualizaciones en tiempo real!
+    - ¡Notificaciones!
   - Añadir imagen de como queda una gráfica y explicando que la app te muestra gráficamente los saldos
   - Añadir gasto total y mi gasto
 
