@@ -81,7 +81,7 @@ export const sendGroupNotification = async ({
   if (!tokens.length) return;
 
   const message = {
-    data: { body, image: image || '', title },
+    data: { body, image: image || '', title, url: `/groups/${group}` },
     tokens
   };
 

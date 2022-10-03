@@ -20,7 +20,14 @@ const messaging = firebase.messaging(); //eslint-disable-line
 messaging.onBackgroundMessage((payload) => {
   const { data } = payload;
   console.log('background notification', data);
-  const { title, body, image } = data;
-  const options = { body, icon: image };
+  const { title, body, image, url } = data;
+  const options = { body, data: { url }, image, actions: [{ action: 'open_url', title: '¡Echa un vistazo!' }] };
   return self.registration.showNotification(title, options);
 });
+
+self.addEventListener('notificationclick', function (event) {
+  console.log({ event });
+  clients.openWindow(event.notification.data.url); // eslint-disable-line
+  return event.notification.close();
+}
+, false);
