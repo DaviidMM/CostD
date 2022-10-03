@@ -1,6 +1,8 @@
 {
-  "extends": "next/core-web-vitals",
+  "extends": ["next/core-web-vitals", "standard"],
   "rules": {
-    "@next/next/no-img-element": "off"
+    "@next/next/no-img-element": "off",
+    "quotes": ["error", "single"],
+    "semi": ["error", "always"]
   }
 }
