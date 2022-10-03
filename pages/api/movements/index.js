@@ -2,14 +2,14 @@ import {
   db,
   extractUser,
   sendGroupNotification,
-} from '../../../services/firebase/admin';
-import { addMovement } from '../../../services/firebase/db/admin';
+} from "../../../services/firebase/admin";
+import { addMovement } from "../../../services/firebase/db/admin";
 
 export default async function handler(req, res) {
-  if (req.method === 'POST') {
+  if (req.method === "POST") {
     const user = await extractUser(req.headers.authorization);
     if (!user) {
-      return res.status(401).json({ error: 'Unauthorized' });
+      return res.status(401).json({ error: "Unauthorized" });
     }
 
     const { amount, description, group, member, participants, payedAt, type } =
@@ -26,19 +26,20 @@ export default async function handler(req, res) {
       .then(async (result) => {
         // Get group name
         const groupName = await db
-          .collection('groups')
+          .collection("groups")
           .doc(group)
           .get()
           .then((doc) => doc.data().name);
 
         // Get member name
-        const memberName = (await db.collection('groups').doc(group).get())
+        const memberName = (await db.collection("groups").doc(group).get())
           .data()
-          .members.find((m) => m.id === member).name;
+          .members.find((m) => m.uid === user.uid).name;
 
         await sendGroupNotification({
-          body: `${memberName} ha añadido un gasto de ${amount}€`,
+          body: `🧾 ${memberName} ha añadido un gasto de ${amount}€`,
           group,
+          sender: user.uid,
           title: `[${groupName}] Gasto añadido`,
         });
 
@@ -49,5 +50,5 @@ export default async function handler(req, res) {
         res.status(500).json({ error: err.message });
       });
   }
-  return res.status(405).json({ error: 'Method not allowed' });
+  return res.status(405).json({ error: "Method not allowed" });
 }
