@@ -3,6 +3,7 @@
 - Funcionalidad:
 
   - Realtime updates de movimientos en grupos
+  - Añadir grupo creado a los grupos del usuario
   - Sistema de notificaciones
     - Correo
 
