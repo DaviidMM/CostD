@@ -16,12 +16,14 @@ import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
 import { FaHistory } from 'react-icons/fa';
 import Dots from '../Loading/Dots';
 import useGroup from '../../hooks/useGroup';
+import useGroupMovements from '../../hooks/useGroupMovements';
 
 export default function Group () {
   const {
     user: { id: userId }
   } = useAuth();
   const [group, setGroup] = useGroup();
+  const [movements, setMovements] = useGroupMovements();
   const [members, setMembers] = useState(
     group?.members.sort((a, b) => {
       if (a.uid === userId) return -1;
@@ -47,7 +49,7 @@ export default function Group () {
     setGroup({ ...group, ...updatedGroup });
   };
 
-  const onMovementUpdate = (movements) => setGroup({ ...group, movements });
+  const onMovementUpdate = (movements) => setMovements(movements);
 
   const updateMembers = async (members) => {
     const promise = updateGroup(group.id, { members });
@@ -91,12 +93,12 @@ export default function Group () {
     {
       label: 'Movimientos',
       Component: MovementsPanel,
-      data: { movements: group?.movements, members, onMovementUpdate }
+      data: { movements, members, onMovementUpdate }
     },
     {
       label: 'Saldo',
       Component: BalancePanel,
-      data: { movements: group?.movements, members, onMovementUpdate }
+      data: { movements, members, onMovementUpdate }
     }
   ];
 

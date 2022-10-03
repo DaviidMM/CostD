@@ -9,14 +9,14 @@ export default function useGroup () {
 
   useEffect(() => {
     if (id) {
-      listenGroup(id, (updatedGroup) => {
-        console.log({ updatedGroup });
-        setGroup((prevGroup) => ({ ...prevGroup, ...updatedGroup, id }));
+      const unsubscribe = listenGroup(id, (updatedGroup) => {
+        setGroup({ ...updatedGroup, id });
       });
-    } else {
-      setGroup(null);
+      return () => unsubscribe();
     }
   }, [id]);
+
+  console.log({ group });
 
   return [group, setGroup];
 }
