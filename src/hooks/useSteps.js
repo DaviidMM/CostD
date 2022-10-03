@@ -1,4 +1,4 @@
 import steps from '../data/steps';
-export default function useSteps() {
+export default function useSteps () {
   return steps;
 }

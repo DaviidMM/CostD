@@ -6,24 +6,24 @@ import {
   getDocs,
   onSnapshot,
   query,
-  where,
-} from "firebase/firestore";
-import normalizeMovement from "../../../utils/normalizeMovement";
-import normalizeGroup from "../../../utils/normalizeGroup";
-import { db, auth } from "../client";
+  where
+} from 'firebase/firestore';
+import normalizeMovement from '../../../utils/normalizeMovement';
+import normalizeGroup from '../../../utils/normalizeGroup';
+import { db, auth } from '../client';
 
 export const getGroups = async (user) => {
   const {
-    currentUser: { uid },
+    currentUser: { uid }
   } = auth;
-  const userGroups = (await getDoc(doc(db, "users", uid))).data().groups || [];
+  const userGroups = (await getDoc(doc(db, 'users', uid))).data().groups || [];
 
   if (!userGroups.length) return [];
 
-  const groupsCollection = collection(db, "groups");
-  const movementsCollection = collection(db, "movements");
+  const groupsCollection = collection(db, 'groups');
+  const movementsCollection = collection(db, 'movements');
   const groups = await getDocs(
-    query(groupsCollection, where(documentId(), "in", userGroups))
+    query(groupsCollection, where(documentId(), 'in', userGroups))
   );
 
   return await Promise.all(
@@ -32,7 +32,7 @@ export const getGroups = async (user) => {
       const groupId = group.id;
       const movementsQuery = query(
         movementsCollection,
-        where("group", "==", groupId)
+        where('group', '==', groupId)
       );
       const movementsRef = await getDocs(movementsQuery);
 
@@ -44,7 +44,7 @@ export const getGroups = async (user) => {
             id,
             ...data,
             createdAt: data.createdAt.toDate(),
-            payedAt: data.payedAt.toDate(),
+            payedAt: data.payedAt.toDate()
           };
         })
         .sort((a, b) => {
@@ -53,20 +53,20 @@ export const getGroups = async (user) => {
 
       return normalizeGroup({
         id: groupId,
-        data: { ...groupData, movements },
+        data: { ...groupData, movements }
       });
     })
   );
 };
 
 export const getGroup = async (id) => {
-  const movementsCollection = collection(db, "movements");
-  const groupRef = doc(db, "groups", id);
+  const movementsCollection = collection(db, 'movements');
+  const groupRef = doc(db, 'groups', id);
   const groupSnap = await getDoc(groupRef);
 
   if (groupSnap.exists()) {
     const data = groupSnap.data();
-    const movementsQuery = query(movementsCollection, where("group", "==", id));
+    const movementsQuery = query(movementsCollection, where('group', '==', id));
     const movementsRef = await getDocs(movementsQuery);
     const movements = movementsRef.docs
       .map((movement) => {
@@ -85,7 +85,7 @@ export const getGroup = async (id) => {
 };
 
 export const listenGroup = (id, onUpdate) => {
-  const groupRef = doc(db, "groups", id);
+  const groupRef = doc(db, 'groups', id);
   return onSnapshot(groupRef, (snap) => {
     if (snap.exists()) {
       const data = snap.data();

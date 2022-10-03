@@ -6,6 +6,6 @@ export const useLoginModal = () => {
 
   return {
     openLoginModal,
-    closeLoginModal,
+    closeLoginModal
   };
 };

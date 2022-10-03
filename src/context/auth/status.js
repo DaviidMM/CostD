@@ -1,7 +1,7 @@
 const authStatus = {
   loading: 'loading',
   authenticated: 'authenticated',
-  unauthenticated: 'unauthenticated',
+  unauthenticated: 'unauthenticated'
 };
 
 export default authStatus;

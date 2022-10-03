@@ -2,7 +2,7 @@ const steps = [
   {
     title: 'Inicia sesión',
     description: 'Inicia sesión con tu cuenta de Google o Twitter.',
-    image: { src: '/login.svg', alt: 'Iniciar sesión' },
+    image: { src: '/login.svg', alt: 'Iniciar sesión' }
   },
   {
     title: 'Crea un grupo o únete a otro',
@@ -16,14 +16,14 @@ const steps = [
         comparta contigo.
       </>
     ),
-    image: { src: '/share-group.svg', alt: 'Compartir grupo' },
+    image: { src: '/share-group.svg', alt: 'Compartir grupo' }
   },
   {
     title: 'Añade gastos',
     description: (
       <>Ingresa en qué has gastado, cuanto ha costado y quien participa.</>
     ),
-    image: { src: '/add-expense.svg', alt: 'Añadir gasto' },
+    image: { src: '/add-expense.svg', alt: 'Añadir gasto' }
   },
   {
     title: (
@@ -37,8 +37,8 @@ const steps = [
         las transacciones, de tal manera que todos paguen lo justo.
       </>
     ),
-    image: { src: '/calculator-0.svg', alt: 'Calculadora a 0' },
-  },
+    image: { src: '/calculator-0.svg', alt: 'Calculadora a 0' }
+  }
 ];
 
 export default steps;

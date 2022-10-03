@@ -3,7 +3,7 @@ import {
   ClockIcon,
   Cog8ToothIcon,
   CubeTransparentIcon,
-  UserGroupIcon,
+  UserGroupIcon
 } from '@heroicons/react/24/solid';
 
 const features = [
@@ -17,7 +17,7 @@ const features = [
         Cualquier miembro puede <mark>añadir</mark>, <mark>editar</mark> o{' '}
         <mark>eliminar</mark> gastos del grupo.
       </p>
-    ),
+    )
   },
   {
     color: 'rose',
@@ -29,7 +29,7 @@ const features = [
         Cost<i>D</i> calculará cuánto debe cada miembro{' '}
         <mark>automáticamente</mark>.
       </p>
-    ),
+    )
   },
   {
     color: 'sky',
@@ -41,7 +41,7 @@ const features = [
         Cost<i>D</i> <mark>minimizará</mark> las transacciones para que todos
         paguen lo <mark>justo</mark> el <mark>mínimo</mark> número de veces.
       </p>
-    ),
+    )
   },
   {
     color: 'yellow',
@@ -53,8 +53,8 @@ const features = [
         Comparte grupos rápidamente mediante un <mark>código QR</mark> o un{' '}
         <mark>enlace</mark> a tus amigos.
       </p>
-    ),
-  },
+    )
+  }
 ];
 
 export default features;
