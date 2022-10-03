@@ -6,11 +6,11 @@ import UserPreferences from '../../components/UserPreferences';
 const tabs = [
   {
     name: 'General',
-    Container: UserPreferences,
-  },
+    Container: UserPreferences
+  }
 ];
 
-export default function SettigsPage() {
+export default function SettigsPage () {
   const [selectedTab, setSelectedTab] = useState(0);
 
   const SelectedTab = useMemo(() => tabs[selectedTab].Container, [selectedTab]);

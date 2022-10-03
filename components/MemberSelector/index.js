@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import MemberItem from './MemberItem';
 
-export default function MemberSelector({
+export default function MemberSelector ({
   color = 'orange',
   className,
   label,
   members,
   participants,
-  onSelect = () => {},
+  onSelect = () => {}
 }) {
   const [selected, setSelected] = useState(participants);
 

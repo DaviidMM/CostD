@@ -10,13 +10,13 @@ import Select from '../Select';
 import movementTypes from '../../data/movementTypes';
 import MemberSelector from '../MemberSelector';
 
-export default function NewMovementForm({
+export default function NewMovementForm ({
   closeForm = () => {},
   members = [],
-  onCreate = () => {},
+  onCreate = () => {}
 }) {
   const {
-    user: { id: userId },
+    user: { id: userId }
   } = useAuth();
   const router = useRouter();
   const group = router.query.id;
@@ -56,14 +56,14 @@ export default function NewMovementForm({
       member,
       participants,
       payedAt,
-      type,
+      type
     });
 
     toast
       .promise(promise, {
         success: 'Gasto añadido',
         error: 'Ha ocurrido un error añadiendo el gasto',
-        pending: 'Añadiendo gasto...',
+        pending: 'Añadiendo gasto...'
       })
       .then((movement) => {
         onCreate(movement);
@@ -87,7 +87,7 @@ export default function NewMovementForm({
           onChange={handleTypeChange}
           options={movementTypes.map((mT) => ({
             value: mT.id,
-            label: mT.name,
+            label: mT.name
           }))}
           value={type}
         />

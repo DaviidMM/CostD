@@ -4,6 +4,7 @@ import {
   documentId,
   getDoc,
   getDocs,
+  onSnapshot,
   query,
   where,
 } from "firebase/firestore";
@@ -81,4 +82,14 @@ export const getGroup = async (id) => {
   }
 
   return null;
+};
+
+export const listenGroup = (id, onUpdate) => {
+  const groupRef = doc(db, "groups", id);
+  return onSnapshot(groupRef, (snap) => {
+    if (snap.exists()) {
+      const data = snap.data();
+      onUpdate(data);
+    }
+  });
 };

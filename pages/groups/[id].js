@@ -6,7 +6,7 @@ import authStatus from '../../context/auth/status';
 import useAuth from '../../hooks/useAuth';
 import useGroup from '../../hooks/useGroup';
 
-export default function GroupPage() {
+export default function GroupPage () {
   console.log('GroupPage render');
   const { status } = useAuth();
   const router = useRouter();

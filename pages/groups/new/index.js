@@ -4,7 +4,7 @@ import Typed from '../../../components/Typed';
 import authStatus from '../../../context/auth/status';
 import useAuth from '../../../hooks/useAuth';
 
-export default function NewGroupPage() {
+export default function NewGroupPage () {
   const { status } = useAuth();
   const router = useRouter();
 

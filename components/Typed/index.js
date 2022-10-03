@@ -3,10 +3,10 @@ import ColoredText from '../ColoredText';
 
 const colorClasses = {
   black: 'text-black',
-  purple: 'text-violet-700',
+  purple: 'text-violet-700'
 };
 
-export default function Typed({
+export default function Typed ({
   bold = false,
   color = 'white',
   className,
@@ -15,7 +15,7 @@ export default function Typed({
   loop = false,
   loopDelay = 1000,
   texts,
-  typeSpeed = 50,
+  typeSpeed = 50
 }) {
   const [shownLetters, setShownLetters] = useState('');
   const [counter, setCounter] = useState(1);
@@ -46,6 +46,9 @@ export default function Typed({
     }
   }, [counter, isWriting, texts, textIndex, typeSpeed, loopDelay, loop]);
 
+  // If texts change, restart counter
+  useEffect(() => setCounter(1), [texts]);
+
   return (
     <span
       className={
@@ -54,20 +57,24 @@ export default function Typed({
         (!gradientColor ? colorClasses[color] : '')
       }
     >
-      {gradientColor ? (
+      {gradientColor
+        ? (
         <ColoredText color={color}>{shownLetters}</ColoredText>
-      ) : (
-        shownLetters
-      )}
-      {cursor ? (
+          )
+        : (
+            shownLetters
+          )}
+      {cursor
+        ? (
         <span
           className={'transition-none animate-blink ' + colorClasses[color]}
         >
           {cursor}
         </span>
-      ) : (
-        ''
-      )}
+          )
+        : (
+            ''
+          )}
     </span>
   );
 }

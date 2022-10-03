@@ -7,7 +7,7 @@ import { ToastContainer } from 'react-toastify';
 import Head from 'next/head';
 import Footer from '../Footer';
 
-export default function Layout({ children }) {
+export default function Layout ({ children }) {
   const auth = useAuth();
   const { status } = auth;
 

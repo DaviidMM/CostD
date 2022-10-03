@@ -1,24 +1,24 @@
-import { ArrowLeftIcon, Cog8ToothIcon } from "@heroicons/react/24/solid";
-import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
-import useAuth from "../../hooks/useAuth";
-import { bindUserToMember, updateGroup } from "../../services/groups";
-import BalancePanel from "../BalancePanel";
-import Button from "../Button";
-import CategoryItem from "../CategorySelector/CategoryItem";
-import MovementsPanel from "../MovementsPanel";
-import GroupConfig from "../GroupConfig";
-import MemberPicker from "../MemberPicker";
-import Tabs from "../Tabs";
-import Typed from "../Typed";
-import useShareModal from "../../hooks/useShareModal";
-import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
-import { FaHistory } from "react-icons/fa";
-import { listenGroup } from "../../services/firebase/db/client";
+import { ArrowLeftIcon, Cog8ToothIcon } from '@heroicons/react/24/solid';
+import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+import useAuth from '../../hooks/useAuth';
+import { bindUserToMember, updateGroup } from '../../services/groups';
+import BalancePanel from '../BalancePanel';
+import Button from '../Button';
+import CategoryItem from '../CategorySelector/CategoryItem';
+import MovementsPanel from '../MovementsPanel';
+import GroupConfig from '../GroupConfig';
+import MemberPicker from '../MemberPicker';
+import Tabs from '../Tabs';
+import Typed from '../Typed';
+import useShareModal from '../../hooks/useShareModal';
+import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
+import { FaHistory } from 'react-icons/fa';
+import { listenGroup } from '../../services/firebase/db/client';
 
-export default function Group(initialGroup) {
+export default function Group (initialGroup) {
   const {
-    user: { id: userId },
+    user: { id: userId }
   } = useAuth();
   const [group, setGroup] = useState(initialGroup);
   const [members, setMembers] = useState(
@@ -46,9 +46,9 @@ export default function Group(initialGroup) {
     const promise = updateGroup(group.id, { members });
     return toast
       .promise(promise, {
-        success: "Se ha actualizado el grupo",
-        error: "No se ha podido actualizar el grupo",
-        pending: "Actualizando grupo...",
+        success: 'Se ha actualizado el grupo',
+        error: 'No se ha podido actualizar el grupo',
+        pending: 'Actualizando grupo...'
       })
       .then((updatedGroup) => setMembers(updatedGroup.members));
   };
@@ -57,14 +57,14 @@ export default function Group(initialGroup) {
     const promise = bindUserToMember({
       group: group.id,
       user: userId,
-      member: memberId,
+      member: memberId
     });
 
     toast
       .promise(promise, {
-        success: "¡Vinculado correctamente! 🔗",
-        error: "¡Ha ocurrido un error! ❌",
-        pending: "Vinculando...",
+        success: '¡Vinculado correctamente! 🔗',
+        error: '¡Ha ocurrido un error! ❌',
+        pending: 'Vinculando...'
       })
       .then((res) => res.data)
       .then((updatedGroup) => {
@@ -83,15 +83,15 @@ export default function Group(initialGroup) {
 
   const tabs = [
     {
-      label: "Movimientos",
+      label: 'Movimientos',
       Component: MovementsPanel,
-      data: { movements: group.movements, members, onMovementUpdate },
+      data: { movements: group.movements, members, onMovementUpdate }
     },
     {
-      label: "Saldo",
+      label: 'Saldo',
       Component: BalancePanel,
-      data: { movements: group.movements, members, onMovementUpdate },
-    },
+      data: { movements: group.movements, members, onMovementUpdate }
+    }
   ];
 
   useEffect(() => {
@@ -127,11 +127,11 @@ export default function Group(initialGroup) {
               <small
                 className="hidden overflow-hidden md:block whitespace-nowrap text-ellipsis"
                 title={
-                  "Registrado como " +
+                  'Registrado como ' +
                   members.find((m) => m.id === userMember).name
                 }
               >
-                Registrado como{" "}
+                Registrado como{' '}
                 <b>{members.find((m) => m.id === userMember).name}</b>
               </small>
             )}
@@ -157,14 +157,14 @@ export default function Group(initialGroup) {
             <Button color="orange" className="group" onClick={toggleConfig}>
               <ArrowLeftIcon
                 className={
-                  "w-5 h-5 absolute transition-transform group-hover:-translate-x-0.5 " +
-                  (!showConfig ? "scale-0" : "scale-100")
+                  'w-5 h-5 absolute transition-transform group-hover:-translate-x-0.5 ' +
+                  (!showConfig ? 'scale-0' : 'scale-100')
                 }
               />
               <Cog8ToothIcon
                 className={
-                  "w-5 h-5 transition-transform group-hover:rotate-360 " +
-                  (showConfig ? "scale-0" : "scale-100")
+                  'w-5 h-5 transition-transform group-hover:rotate-360 ' +
+                  (showConfig ? 'scale-0' : 'scale-100')
                 }
               />
             </Button>
@@ -174,12 +174,15 @@ export default function Group(initialGroup) {
           </p>
         </header>
 
-        {!userMember ? (
+        {!userMember
+          ? (
           <div>
             <h2 className="mb-4 text-xl font-semibold">¿Quién eres?</h2>
             <MemberPicker members={members} onSelect={handleBindUserToMember} />
           </div>
-        ) : showConfig ? (
+            )
+          : showConfig
+            ? (
           <GroupConfig
             bindUserToMember={handleBindUserToMember}
             group={group}
@@ -188,11 +191,12 @@ export default function Group(initialGroup) {
             setMembers={setMembers}
             updateMembers={updateMembers}
           />
-        ) : (
+              )
+            : (
           <div className="flex flex-col justify-between">
             <Tabs tabs={tabs} selectedIndex={0} />
           </div>
-        )}
+              )}
       </div>
     </>
   );

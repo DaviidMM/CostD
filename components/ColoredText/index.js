@@ -8,10 +8,10 @@ const colors = {
   purple: 'from-violet-300 to-violet-600',
   rose: 'from-rose-400 to-rose-600',
   sky: 'from-sky-300 to-sky-500',
-  yellow: 'from-yellow-400 to-yellow-600',
+  yellow: 'from-yellow-400 to-yellow-600'
 };
 
-export default function ColoredText({ bold, children, color = 'orange' }) {
+export default function ColoredText ({ bold, children, color = 'orange' }) {
   return (
     <span
       className={`bg-gradient-to-b bg-clip-text text-transparent ${

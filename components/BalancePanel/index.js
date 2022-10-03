@@ -5,7 +5,7 @@ import {
   BarElement,
   Title,
   Tooltip,
-  Legend,
+  Legend
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
@@ -28,17 +28,17 @@ ChartJS.register(
   Legend
 );
 
-export default function BalancePanel({
+export default function BalancePanel ({
   movements,
   members,
-  onMovementUpdate = () => {},
+  onMovementUpdate = () => {}
 }) {
   const group = useGroup();
   const { user } = useAuth();
   const userId = user.id;
   const { datasets, membersBalance } = calculateDatasets({
     movements,
-    members,
+    members
   });
 
   const payMovement = (movement) => {
@@ -55,33 +55,34 @@ export default function BalancePanel({
       member: movement.from.id,
       participants: [movement.to.id],
       payedAt: new Date(),
-      type: 'refund',
+      type: 'refund'
     });
 
     toast
       .promise(promise, {
         success: '¡Reembolso realizado! 🥳',
         error: '¡Ha ocurrido un error! ❌',
-        pending: 'Pagando tus deudas...',
+        pending: 'Pagando tus deudas...'
       })
       .then((movement) => onMovementUpdate([movement, ...movements]));
   };
 
   const data = {
     labels: datasets.map((ds) => ds.label),
-    datasets,
+    datasets
   };
 
   const options = getBarChartOptions();
 
   const individualDebts = membersBalance.reduce((acc, { data, id }) => {
     const memberDebts = data.reduce((debtAcc, debtAmount, idx) => {
-      if (debtAmount < 0)
+      if (debtAmount < 0) {
         debtAcc.push({
           from: members.find((m) => m.id === membersBalance[idx].id),
           to: members.find((m) => m.id === id),
-          amount: Number(debtAmount.toFixed(2)),
+          amount: Number(debtAmount.toFixed(2))
         });
+      }
       return debtAcc;
     }, []);
     return [...acc, ...memberDebts];
@@ -109,10 +110,12 @@ export default function BalancePanel({
           <div>
             <h3 className="mb-2 text-xl">Mis deudas</h3>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-              {myDebts.length === 0 ? (
+              {myDebts.length === 0
+                ? (
                 <p>No tengo deudas pendientes 👍</p>
-              ) : (
-                myDebts.map((debt, idx) => (
+                  )
+                : (
+                    myDebts.map((debt, idx) => (
                   <Debt
                     amount={debt.amount}
                     from={debt.from}
@@ -120,17 +123,19 @@ export default function BalancePanel({
                     onPay={payMovement}
                     to={debt.to}
                   />
-                ))
-              )}
+                    ))
+                  )}
             </div>
           </div>
           <div>
             <h3 className="mb-2 text-xl">Deudas de otros</h3>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-              {otherDebts.length === 0 ? (
+              {otherDebts.length === 0
+                ? (
                 <p>Nadie tiene deudas pendientes 👍</p>
-              ) : (
-                otherDebts.map((debt, idx) => (
+                  )
+                : (
+                    otherDebts.map((debt, idx) => (
                   <Debt
                     amount={debt.amount}
                     from={debt.from}
@@ -138,8 +143,8 @@ export default function BalancePanel({
                     onPay={payMovement}
                     to={debt.to}
                   />
-                ))
-              )}
+                    ))
+                  )}
             </div>
           </div>
         </>

@@ -2,14 +2,14 @@ import { XMarkIcon } from '@heroicons/react/24/solid';
 import Button from '../../Button';
 import Input from '../../Input';
 
-export default function MemberItem({
+export default function MemberItem ({
   actions,
   id,
   name,
   isNew = false,
   onBind = () => {},
   onChange = () => {},
-  onDelete = () => {},
+  onDelete = () => {}
 }) {
   const handleChange = (e) => {
     const { value: name } = e.target;

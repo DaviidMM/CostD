@@ -1,13 +1,13 @@
 import Switch from '../Switch';
 
-export default function SettingCard({
+export default function SettingCard ({
   description,
   handleSave,
   preference,
   title,
   type,
   value,
-  setValue,
+  setValue
 }) {
   const handleClick = () => handleSave({ preference, value });
   const handleChange = (value) => setValue(preference, value);
@@ -17,15 +17,17 @@ export default function SettingCard({
       <div className="p-4">
         <h2 className="mb-4 text-xl font-semibold">{title}</h2>
         <div className="flex flex-row gap-2">
-          {type === 'toggle' ? (
+          {type === 'toggle'
+            ? (
             <Switch
               checked={value}
               description={value ? 'Activado' : 'Desactivado'}
               onChange={() => handleChange(!value)}
             />
-          ) : (
+              )
+            : (
             <input type="text" onChange={(e) => handleChange(e.target.value)} />
-          )}
+              )}
         </div>
       </div>
       <footer className="flex flex-row items-center justify-between px-6 py-3 bg-zinc-800 text-zinc-300">

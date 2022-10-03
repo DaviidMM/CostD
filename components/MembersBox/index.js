@@ -4,16 +4,16 @@ import useAuth from '../../hooks/useAuth';
 import Button from '../Button';
 import MemberItem from './MemberItem';
 
-export default function MembersBox({
+export default function MembersBox ({
   actions = true,
   bindUserToMember,
   className,
   label = '',
   members = [],
-  setMembers = () => {},
+  setMembers = () => {}
 }) {
   const {
-    user: { id: userId },
+    user: { id: userId }
   } = useAuth();
   const addMember = () => {
     setMembers([...members, { name: '', id: nanoid(), isNew: true }]);

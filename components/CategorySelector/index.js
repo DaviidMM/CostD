@@ -6,12 +6,12 @@ const categories = [
   '🏠 Casa',
   '🌍 Viaje',
   '😍 Pareja',
-  '🛠 Proyecto',
+  '🛠 Proyecto'
 ];
 
-export default function CategorySelector({
+export default function CategorySelector ({
   onChange,
-  selected: initialSelected,
+  selected: initialSelected
 }) {
   const [selected, setSelected] = useState(
     categories.includes(initialSelected) ? initialSelected : null

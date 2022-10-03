@@ -5,7 +5,7 @@ import { updateUserPrefs } from '../../services/users';
 import SettingCard from '../SettingCard';
 import userPreferencesDict from '../../dict/userPreferences';
 
-export default function UserPreferences() {
+export default function UserPreferences () {
   const [userPrefs, setUserPref] = useUserPrefs();
 
   const handleUpdatePref = async ({ preference, value }) => {

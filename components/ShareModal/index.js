@@ -1,14 +1,14 @@
-import { Dialog, Transition } from "@headlessui/react";
-import { Fragment } from "react";
-import QRCode from "react-qr-code";
-import { toast } from "react-toastify";
-import { RWebShare } from "react-web-share";
-import Button from "../Button";
+import { Dialog, Transition } from '@headlessui/react';
+import { Fragment } from 'react';
+import QRCode from 'react-qr-code';
+import { toast } from 'react-toastify';
+import { RWebShare } from 'react-web-share';
+import Button from '../Button';
 
-export default function ShareModal({ onClose, open, url, group }) {
+export default function ShareModal ({ onClose, open, url, group }) {
   const copyToClipboard = () => {
     navigator.clipboard.writeText(url);
-    toast.success("¡Enlace copiado al portapapeles! 👍");
+    toast.success('¡Enlace copiado al portapapeles! 👍');
     onClose();
   };
 
@@ -56,12 +56,12 @@ export default function ShareModal({ onClose, open, url, group }) {
                       data={{
                         text: `¡Accede al grupo "${group.name}" para compartir gastos en CostD!`,
                         url,
-                        title: "Compartir grupo de CostD",
+                        title: 'Compartir grupo de CostD'
                       }}
-                      sites={["whatsapp", "telegram", "copy"]}
+                      sites={['whatsapp', 'telegram', 'copy']}
                       onClick={() =>
                         new Promise((resolve) =>
-                          resolve(toast.success("¡Compartido!"))
+                          resolve(toast.success('¡Compartido!'))
                         ).then(onClose)
                       }
                     >

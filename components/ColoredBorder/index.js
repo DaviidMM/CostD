@@ -4,7 +4,7 @@ const colors = {
   green: 'from-green-500 via-green-700 to-green-600',
   purple: 'from-violet-300 to-violet-600',
   rose: 'from-rose-400 to-rose-600',
-  sky: 'from-sky-300 to-sky-500',
+  sky: 'from-sky-300 to-sky-500'
 };
 
 const widths = {
@@ -14,14 +14,14 @@ const widths = {
   3: 'p-3',
   4: 'p-4',
   5: 'p-5',
-  6: 'p-6',
+  6: 'p-6'
 };
 
-export default function ColoredBorder({
+export default function ColoredBorder ({
   children,
   className = '',
   color,
-  width = '0.5',
+  width = '0.5'
 }) {
   return (
     <div

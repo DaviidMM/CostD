@@ -13,12 +13,12 @@ const GroupConfigForm = ({ group, onUpdate }) => {
   const [fields, setFields] = useState({
     name: {
       label: 'Nombre del grupo',
-      value: group.name,
+      value: group.name
     },
     description: {
       label: 'Descripción (opcional)',
-      value: group.description,
-    },
+      value: group.description
+    }
   });
 
   const handleChange = (e) => {
@@ -27,8 +27,8 @@ const GroupConfigForm = ({ group, onUpdate }) => {
       ...fields,
       [name]: {
         ...fields[name],
-        value,
-      },
+        value
+      }
     });
     setChanged(true);
   };
@@ -51,7 +51,7 @@ const GroupConfigForm = ({ group, onUpdate }) => {
       .promise(promise, {
         success: '¡Grupo actualizado! 🥳',
         error: '¡Ha ocurrido un error! ❌',
-        pending: 'Actualizando grupo...',
+        pending: 'Actualizando grupo...'
       })
       .then((updatedGroup) => {
         onUpdate(updatedGroup);
@@ -79,26 +79,26 @@ const GroupConfigForm = ({ group, onUpdate }) => {
   );
 };
 
-export default function GroupConfig({
+export default function GroupConfig ({
   group,
   bindUserToMember,
   members,
   onUpdate,
   setMembers,
-  updateMembers,
+  updateMembers
 }) {
   const tabs = useMemo(
     () => [
       {
         label: 'Configuración',
         Component: GroupConfigForm,
-        data: { group, onUpdate },
+        data: { group, onUpdate }
       },
       {
         label: 'Miembros',
         Component: MembersPanel,
-        data: { bindUserToMember, members, setMembers, updateMembers },
-      },
+        data: { bindUserToMember, members, setMembers, updateMembers }
+      }
     ],
     [members] // eslint-disable-line
   );

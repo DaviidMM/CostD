@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import ColoredBorder from '../../ColoredBorder';
 
-export default function MemberItem({
+export default function MemberItem ({
   id,
   name,
   onSelect = () => {},
-  selected: initialSelected = false,
+  selected: initialSelected = false
 }) {
   const [selected, setSelected] = useState(initialSelected);
 

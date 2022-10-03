@@ -1,4 +1,4 @@
-export default function Switch({ checked, description, onChange = () => {} }) {
+export default function Switch ({ checked, description, onChange = () => {} }) {
   return (
     <button className="flex flex-row gap-2" onClick={onChange} type="button">
       <input

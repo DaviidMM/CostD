@@ -12,10 +12,10 @@ const backgrounds = {
     (open ? 'bg-pos-100 text-white' : 'text-black'),
   refund: (open) =>
     'bg-gradient-to-br from-green-500 via-green-700 to-green-600 bg-size-200 bg-pos-0 ' +
-    (open ? 'bg-pos-100 text-white' : 'text-black'),
+    (open ? 'bg-pos-100 text-white' : 'text-black')
 };
 
-export default function Movement({
+export default function Movement ({
   amount,
   description,
   id,
@@ -27,7 +27,7 @@ export default function Movement({
   participants,
   payedAt,
   toggleMovement,
-  type,
+  type
 }) {
   const longDate = normalizeLongDate(payedAt);
   const shortDate = normalizeShortDate(payedAt);
@@ -48,7 +48,7 @@ export default function Movement({
       .promise(promise, {
         success: 'Se ha eliminado el movimiento',
         error: 'Ha ocurrido un error eliminando el movimiento',
-        pending: 'Eliminando movimiento...',
+        pending: 'Eliminando movimiento...'
       })
       .then(() => onDelete(movement))
       .catch((err) => {
@@ -63,7 +63,7 @@ export default function Movement({
     <div className="flex flex-col gap-2">
       <div
         className={
-          `flex flex-row relative justify-between w-full p-2 rounded-2xl duration-300 transition-all focus-visible:outline-none overflow-hidden ` +
+          'flex flex-row relative justify-between w-full p-2 rounded-2xl duration-300 transition-all focus-visible:outline-none overflow-hidden ' +
           backgrounds[type](open)
         }
       >
@@ -72,17 +72,19 @@ export default function Movement({
           onClick={handleClick}
         >
           <span className="flex flex-row gap-2 transition-transform ease-in-out translate-x-10 group-hover:translate-x-0">
-            {!open ? (
+            {!open
+              ? (
               <>
                 Editar
                 <PencilIcon className="w-6 h-6" />
               </>
-            ) : (
+                )
+              : (
               <>
                 Cerrar
                 <XCircleIcon className="w-6 h-6" />
               </>
-            )}
+                )}
           </span>
         </button>
         <div className="flex flex-col text-left">
@@ -113,8 +115,8 @@ export default function Movement({
               type === 'expense'
                 ? 'orange'
                 : type === 'refund'
-                ? 'green'
-                : 'blue'
+                  ? 'green'
+                  : 'blue'
             }
             movement={{
               amount,
@@ -123,7 +125,7 @@ export default function Movement({
               member,
               participants,
               payedAt,
-              type,
+              type
             }}
             members={members}
             participants={participants}

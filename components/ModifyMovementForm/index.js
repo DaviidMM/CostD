@@ -10,12 +10,12 @@ import { TrashIcon } from '@heroicons/react/24/solid';
 import movementTypes from '../../data/movementTypes';
 import MemberSelector from '../MemberSelector';
 
-export default function ModifyMovementForm({
+export default function ModifyMovementForm ({
   color = 'orange',
   movement,
   members = [],
   onDelete,
-  onUpdate,
+  onUpdate
 }) {
   const { id } = movement;
   const [amount, setAmount] = useState(movement.amount);
@@ -61,14 +61,14 @@ export default function ModifyMovementForm({
       member,
       participants,
       payedAt,
-      type,
+      type
     });
 
     toast
       .promise(promise, {
         success: 'Gasto modificado con éxito',
         error: 'Ha ocurrido un error modificando el gasto',
-        pending: 'Actualizando gasto...',
+        pending: 'Actualizando gasto...'
       })
       .then((updatedMovement) => {
         const { amount, description, id, member, participants, payedAt, type } =
@@ -80,7 +80,7 @@ export default function ModifyMovementForm({
           member,
           participants,
           payedAt,
-          type,
+          type
         });
         setChanged(false);
       })
@@ -102,7 +102,7 @@ export default function ModifyMovementForm({
           onChange={handleTypeAtChange}
           options={movementTypes.map((mT) => ({
             value: mT.id,
-            label: mT.name,
+            label: mT.name
           }))}
           placeholder="Selecciona un tipo"
           value={type}

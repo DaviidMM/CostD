@@ -1,7 +1,7 @@
-export default function Feature({
+export default function Feature ({
   title,
   description,
-  img = { src: '', alt: '' },
+  img = { src: '', alt: '' }
 }) {
   return (
     <div className="flex flex-col gap-12 p-4 text-center transition-colors duration-300 w-[530px] bg-zinc-700 md:hover:bg-zinc-600 rounded-3xl">

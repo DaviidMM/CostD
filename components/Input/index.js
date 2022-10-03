@@ -1,6 +1,6 @@
 import ColoredBorder from '../ColoredBorder';
 
-export default function Input({
+export default function Input ({
   color = 'orange',
   className = '',
   label,
@@ -9,7 +9,7 @@ export default function Input({
   selectAllOnFocus = false,
   step = '1',
   type = 'text',
-  value,
+  value
 }) {
   const handleFocus = (e) => e.target.select();
 

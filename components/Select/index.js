@@ -1,6 +1,6 @@
 import ColoredBorder from '../ColoredBorder';
 
-export default function Select({
+export default function Select ({
   color = 'orange',
   className,
   label,
@@ -8,7 +8,7 @@ export default function Select({
   onChange = () => {},
   options = [],
   placeholder = 'Selecciona una opción',
-  value,
+  value
 }) {
   return (
     <div className={className}>

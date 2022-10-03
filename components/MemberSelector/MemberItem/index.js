@@ -1,13 +1,13 @@
 import { toast } from 'react-toastify';
 import ColoredBorder from '../../ColoredBorder';
 
-export default function MemberItem({
+export default function MemberItem ({
   canSelect,
   color = 'orange',
   id,
   name,
   selected,
-  onSelect,
+  onSelect
 }) {
   const handleSelect = (e) => {
     if (!canSelect) return toast.warning('Debe haber al menos un participante');

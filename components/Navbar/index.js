@@ -1,4 +1,4 @@
-export default function Navbar({ children, showMenu, onClick }) {
+export default function Navbar ({ children, showMenu, onClick }) {
   return (
     <nav
       className={

@@ -1,9 +1,9 @@
-export default function StepCard({
+export default function StepCard ({
   className,
   title,
   description,
   image,
-  step,
+  step
 }) {
   return (
     <div

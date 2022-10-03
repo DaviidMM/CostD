@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-export default function Navitem({ href, children }) {
+export default function Navitem ({ href, children }) {
   return (
     <li>
       <Link href={href}>

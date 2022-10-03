@@ -1,6 +1,6 @@
 import { Tab } from '@headlessui/react';
 
-export default function Tabs({ tabs, selectedIndex = 0 }) {
+export default function Tabs ({ tabs, selectedIndex = 0 }) {
   return (
     <Tab.Group selectedIndex={selectedIndex}>
       <Tab.List className="flex p-1 mt-4 space-x-1 text-black bg-gradient-to-br from-orange-500 via-orange-500 to-rose-500 rounded-2xl">

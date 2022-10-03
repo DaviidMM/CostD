@@ -6,7 +6,7 @@ import authStatus from '../../context/auth/status';
 import useAuth from '../../hooks/useAuth';
 import Dots from '../../components/Loading/Dots';
 
-export default function GroupsPage() {
+export default function GroupsPage () {
   const { status } = useAuth();
   const router = useRouter();
 
@@ -14,9 +14,11 @@ export default function GroupsPage() {
     router.push('/');
   }
 
-  return status !== authStatus.authenticated ? (
+  return status !== authStatus.authenticated
+    ? (
     <Dots />
-  ) : (
+      )
+    : (
     <div className="flex flex-col gap-4 xl:px-56">
       <h1 className="text-4xl font-semibold text-center ">
         <Typed
@@ -30,5 +32,5 @@ export default function GroupsPage() {
       </h1>
       <GroupContainer />
     </div>
-  );
+      );
 }

@@ -10,7 +10,7 @@ import useFeatures from '../hooks/useFeatures';
 import useSteps from '../hooks/useSteps';
 import Feature from '../components/Feature';
 
-export default function HomePage() {
+export default function HomePage () {
   const { status } = useAuth();
   const features = useFeatures();
   const steps = useSteps();
@@ -39,13 +39,15 @@ export default function HomePage() {
             Comparte gastos de la manera más <br />{' '}
             <ColoredText color="orange">simple</ColoredText> posible.
           </p>
-          {status === 'authenticated' ? (
+          {status === 'authenticated'
+            ? (
             <Link href="/groups">
               <Button className="px-8 py-4 text-4xl !rounded-3xl" color="rose">
                 Ver mis grupos
               </Button>
             </Link>
-          ) : (
+              )
+            : (
             <Button
               color="rose"
               className="px-8 py-4 text-4xl !rounded-3xl"
@@ -53,7 +55,7 @@ export default function HomePage() {
             >
               ¡Comenzar!
             </Button>
-          )}
+              )}
         </div>
         <div className="h-56 md:relative md:h-[26rem]">
           <img
@@ -93,7 +95,7 @@ export default function HomePage() {
           }
           img={{
             src: '/multiplatform.svg',
-            alt: 'Multiplatforma',
+            alt: 'Multiplatforma'
           }}
           title={
             <>
@@ -113,7 +115,7 @@ export default function HomePage() {
           }
           img={{
             src: '/anyone-can-use.svg',
-            alt: 'Cualquiera puede usarlo',
+            alt: 'Cualquiera puede usarlo'
           }}
           title={
             <>
@@ -124,7 +126,8 @@ export default function HomePage() {
           }
         />
       </section>
-      {status === 'authenticated' ? (
+      {status === 'authenticated'
+        ? (
         <Link href="/groups">
           <Button
             className="mx-auto px-8 py-4 text-4xl !rounded-3xl"
@@ -133,7 +136,8 @@ export default function HomePage() {
             Ver mis grupos
           </Button>
         </Link>
-      ) : (
+          )
+        : (
         <Button
           color="rose"
           className="mx-auto px-8 py-4 text-4xl !rounded-3xl"
@@ -141,7 +145,7 @@ export default function HomePage() {
         >
           ¡Comenzar!
         </Button>
-      )}
+          )}
     </div>
   );
 }

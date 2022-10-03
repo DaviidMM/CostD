@@ -1,7 +1,7 @@
 import { extractUser } from '../../../services/firebase/admin';
 import { addDeviceToUser } from '../../../services/firebase/db/admin';
 
-export default async function handler(req, res) {
+export default async function handler (req, res) {
   if (req.method === 'POST') {
     const { uid } = await extractUser(req.headers.authorization);
     if (!uid) {

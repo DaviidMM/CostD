@@ -1,6 +1,6 @@
 import { extractUser } from '../../../services/firebase/admin';
 import { storeDbUser } from '../../../services/firebase/db/admin';
-export default async function handler(req, res) {
+export default async function handler (req, res) {
   const { method } = req;
   if (method === 'POST') {
     const user = await extractUser(req.headers.authorization);

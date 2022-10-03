@@ -9,9 +9,9 @@ import { createGroup } from '../../services/groups';
 import { useRouter } from 'next/router';
 import useAuth from '../../hooks/useAuth';
 
-export default function NewGroupForm() {
+export default function NewGroupForm () {
   const {
-    user: { id: uid },
+    user: { id: uid }
   } = useAuth();
   const [name, setName] = useState('');
   const [category, setCategory] = useState('');
@@ -36,14 +36,14 @@ export default function NewGroupForm() {
       name,
       category,
       description,
-      members: members.map((m, idx) => (idx === 0 ? { ...m, uid } : m)),
+      members: members.map((m, idx) => (idx === 0 ? { ...m, uid } : m))
     });
 
     toast
       .promise(promise, {
         success: 'Se ha creado el grupo correctamente',
         error: 'Ha ocurrido un error creando el grupo',
-        pending: 'Creando grupo...',
+        pending: 'Creando grupo...'
       })
       .then((group) => {
         router.push('/groups/[id]', `/groups/${group.id}`);

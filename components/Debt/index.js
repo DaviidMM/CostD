@@ -4,7 +4,7 @@ import { CheckCircleIcon } from '@heroicons/react/24/solid';
 import { Fragment } from 'react';
 import ColoredBorder from '../ColoredBorder';
 
-export default function Debt({ amount, from, onPay, to }) {
+export default function Debt ({ amount, from, onPay, to }) {
   return (
     <ColoredBorder color="orange" className="overflow-visible rounded-3xl">
       <div className="flex flex-row items-center justify-between px-4 py-2 rounded-3xl bg-zinc-900">

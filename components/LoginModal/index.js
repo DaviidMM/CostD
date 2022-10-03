@@ -4,11 +4,11 @@ import { FcGoogle } from 'react-icons/fc';
 import { FaTwitter } from 'react-icons/fa';
 import Button from '../Button';
 
-export default function LoginModal({
+export default function LoginModal ({
   closeLoginModal,
   handleLoginGoogle,
   handleLoginTwitter,
-  isOpen,
+  isOpen
 }) {
   return (
     <Transition appear show={isOpen} as={Fragment}>
