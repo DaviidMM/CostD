@@ -31,7 +31,7 @@ export default function UserPreferences () {
               setValue={setUserPref}
               title={userPreferencesDict[pref].title}
               type={userPreferencesDict[pref].type}
-              value={userPrefs[pref] || false}
+              value={userPrefs[pref] === undefined ? userPreferencesDict[pref].default : userPrefs[pref]}
             />
           );
         })}

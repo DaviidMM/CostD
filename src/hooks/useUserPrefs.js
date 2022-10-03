@@ -7,7 +7,7 @@ export default function useUserPrefs () {
   const [userPrefs, setUserPrefs] = useState(null);
 
   useEffect(() => {
-    if (user) getUserPrefs().then(setUserPrefs);
+    if (user) getUserPrefs().then((response) => setUserPrefs(response.preferences || {}));
   }, [user]);
 
   const handlePrefChange = (preference, value) => {

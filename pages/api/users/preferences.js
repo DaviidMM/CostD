@@ -14,7 +14,7 @@ export default async function handler (req, res) {
     }
 
     return getUserPreferences(uid)
-      .then((preferences) => res.status(200).json(preferences))
+      .then((preferences) => res.status(200).json({ preferences }))
       .catch((err) => {
         console.error(err);
         res.status(500).json({ error: err });

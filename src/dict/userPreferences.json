@@ -1,5 +1,6 @@
 {
   "notifications": {
+    "default": true,
     "description": "Habilitar las notificaciones de actualizaciones en grupos",
     "title": "Notificaciones",
     "type": "toggle"
