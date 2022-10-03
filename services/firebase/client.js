@@ -7,12 +7,12 @@ import {
   TwitterAuthProvider,
   onAuthStateChanged,
   signOut,
-  getIdToken,
+  getIdToken
 } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import { getMessaging, getToken } from 'firebase/messaging';
 import localforage from 'localforage';
-import authStatus from '../../context/auth/status';
+import authStatus from '../../src/context/auth/status';
 import api from '../api';
 
 const firebaseConfig = {
@@ -22,7 +22,7 @@ const firebaseConfig = {
   storageBucket: 'costd-789a2.appspot.com',
   messagingSenderId: '294037826120',
   appId: '1:294037826120:web:45ec69e5c25e48e7a3c67d',
-  measurementId: 'G-JH3F85GZT8',
+  measurementId: 'G-JH3F85GZT8'
 };
 
 // Initialize Firebase
@@ -56,7 +56,7 @@ export const firebaseCloudMessaging = {
       console.error(error);
       return null;
     }
-  },
+  }
 };
 
 const mapUserFromFirebase = (user) => {
@@ -67,7 +67,7 @@ const mapUserFromFirebase = (user) => {
     avatar: photoURL,
     displayName,
     email,
-    id,
+    id
   };
 };
 
@@ -79,13 +79,13 @@ export const checkAuthState = (onChange) => {
       return onChange({
         user: normalizedUser,
         status: authStatus.authenticated,
-        token: await getIdToken(user),
+        token: await getIdToken(user)
       });
     }
     return onChange({
       user: null,
       status: authStatus.unauthenticated,
-      token: null,
+      token: null
     });
   });
 };

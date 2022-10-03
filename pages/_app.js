@@ -1,6 +1,6 @@
-import Layout from '../components/Layout';
-import { AuthProvider } from '../context/auth';
-import { LoginModalProvider } from '../context/loginModal';
+import Layout from '../src/components/Layout';
+import { AuthProvider } from '../src/context/auth';
+import { LoginModalProvider } from '../src/context/loginModal';
 import '../styles/globals.css';
 
 function MyApp ({ Component, pageProps }) {

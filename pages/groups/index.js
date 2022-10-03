@@ -1,10 +1,10 @@
 import { useRouter } from 'next/router';
 // import Typed from 'react-typed';
-import Typed from '../../components/Typed';
-import GroupContainer from '../../components/GroupsContainer';
-import authStatus from '../../context/auth/status';
-import useAuth from '../../hooks/useAuth';
-import Dots from '../../components/Loading/Dots';
+import Typed from '../../src/components/Typed';
+import GroupContainer from '../../src/components/GroupsContainer';
+import authStatus from '../../src/context/auth/status';
+import Dots from '../../src/components/Loading/Dots';
+import useAuth from '../../src/hooks/useAuth';
 
 export default function GroupsPage () {
   const { status } = useAuth();

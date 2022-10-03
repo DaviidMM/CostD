@@ -1,14 +1,14 @@
 import Link from 'next/link';
-import Button from '../components/Button';
-import ColoredText from '../components/ColoredText';
-import Card from '../components/Card';
-import StepCard from '../components/StepCard';
-import Typed from '../components/Typed';
-import useAuth from '../hooks/useAuth';
-import { useLoginModal } from '../hooks/useLoginModal';
-import useFeatures from '../hooks/useFeatures';
-import useSteps from '../hooks/useSteps';
-import Feature from '../components/Feature';
+import Button from '../src/components/Button';
+import ColoredText from '../src/components/ColoredText';
+import Card from '../src/components/Card';
+import StepCard from '../src/components/StepCard';
+import Typed from '../src/components/Typed';
+import useAuth from '../src/hooks/useAuth';
+import { useLoginModal } from '../src/hooks/useLoginModal';
+import useFeatures from '../src/hooks/useFeatures';
+import useSteps from '../src/hooks/useSteps';
+import Feature from '../src/components/Feature';
 
 export default function HomePage () {
   const { status } = useAuth();

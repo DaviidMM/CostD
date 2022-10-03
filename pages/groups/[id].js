@@ -1,10 +1,10 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import Group from '../../components/Group';
-import Dots from '../../components/Loading/Dots';
-import authStatus from '../../context/auth/status';
-import useAuth from '../../hooks/useAuth';
-import useGroup from '../../hooks/useGroup';
+import Group from '../../src/components/Group';
+import Dots from '../../src/components/Loading/Dots';
+import authStatus from '../../src/context/auth/status';
+import useAuth from '../../src/hooks/useAuth';
+import useGroup from '../../src/hooks/useGroup';
 
 export default function GroupPage () {
   console.log('GroupPage render');

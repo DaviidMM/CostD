@@ -1,7 +1,7 @@
 import { ArrowLeftOnRectangleIcon } from '@heroicons/react/24/outline';
 import { useMemo, useState } from 'react';
-import Button from '../../components/Button';
-import UserPreferences from '../../components/UserPreferences';
+import Button from '../../src/components/Button';
+import UserPreferences from '../../src/components/UserPreferences';
 
 const tabs = [
   {

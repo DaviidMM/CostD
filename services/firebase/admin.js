@@ -1,17 +1,17 @@
-require("dotenv").config();
+import admin from 'firebase-admin';
 
-import admin from "firebase-admin";
+import { applicationDefault, initializeApp, getApp } from 'firebase-admin/app';
+import { getFirestore } from 'firebase-admin/firestore';
+import { getAuth } from 'firebase-admin/auth';
+import { getMessaging } from 'firebase-admin/messaging';
 
-import { applicationDefault, initializeApp, getApp } from "firebase-admin/app";
-import { FieldPath, getFirestore } from "firebase-admin/firestore";
-import { getAuth } from "firebase-admin/auth";
-import { getMessaging } from "firebase-admin/messaging";
+require('dotenv').config();
 
 const createOrLoadApp = (appName) => {
   if (!admin.apps.find((app) => app.name_ === appName)) {
     return initializeApp(
       {
-        credential: applicationDefault(),
+        credential: applicationDefault()
       },
       appName
     );
@@ -19,13 +19,13 @@ const createOrLoadApp = (appName) => {
   return getApp(appName);
 };
 
-const app = createOrLoadApp("adminApp");
+const app = createOrLoadApp('adminApp');
 export const db = getFirestore(app);
 const auth = getAuth(app);
 
 export const extractUser = (authorization) => {
   if (!authorization) return false;
-  const [_, token] = authorization.split(" ");
+  const [_, token] = authorization.split(' ');
   return auth
     .verifyIdToken(token)
     .then((user) => user)
@@ -37,17 +37,17 @@ export const extractUser = (authorization) => {
 
 export const sendNotification = ({ body, image, title, token }) => {
   const message = {
-    data: { body, image: image || "", title },
-    token,
+    data: { body, image: image || '', title },
+    token
   };
 
   getMessaging(app)
     .send(message)
     .then((response) => {
-      console.log("Successfully sent message:", response);
+      console.log('Successfully sent message:', response);
     })
     .catch((error) => {
-      console.log("Error sending message:", error);
+      console.log('Error sending message:', error);
     });
 };
 
@@ -56,17 +56,19 @@ export const sendGroupNotification = async ({
   group,
   image,
   sender,
-  title,
+  title
 }) => {
-  const groupData = (await db.collection("groups").doc(group).get()).data();
+  const groupData = (await db.collection('groups').doc(group).get()).data();
   // Send notification to all members except sender
   const members = groupData.members
     .map((m) => m.uid)
     .filter((m) => m && m !== sender);
 
+  if (!members.length) return;
+
   const users = await db
-    .collection("users")
-    .where(admin.firestore.FieldPath.documentId(), "in", members)
+    .collection('users')
+    .where(admin.firestore.FieldPath.documentId(), 'in', members)
     .get();
 
   const tokens = users.docs.reduce((acc, doc) => {
@@ -75,8 +77,8 @@ export const sendGroupNotification = async ({
   }, []);
 
   const message = {
-    data: { body, image: image || "", title },
-    tokens,
+    data: { body, image: image || '', title },
+    tokens
   };
 
   return getMessaging(app)
@@ -89,11 +91,11 @@ export const sendGroupNotification = async ({
             failedTokens.push(tokens[idx]);
           }
         });
-        console.log("List of tokens that caused failures: " + failedTokens);
+        console.log('List of tokens that caused failures: ' + failedTokens);
       }
     })
     .catch((error) => {
-      console.log("Error sending message:", error);
+      console.log('Error sending message:', error);
     });
 };
 

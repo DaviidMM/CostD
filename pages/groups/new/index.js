@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router';
-import NewGroupForm from '../../../components/NewGroupForm';
-import Typed from '../../../components/Typed';
-import authStatus from '../../../context/auth/status';
-import useAuth from '../../../hooks/useAuth';
+import NewGroupForm from '../../../src/components/NewGroupForm';
+import Typed from '../../../src/components/Typed';
+import authStatus from '../../../src/context/auth/status';
+import useAuth from '../../../src/hooks/useAuth';
 
 export default function NewGroupPage () {
   const { status } = useAuth();
