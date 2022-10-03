@@ -3,13 +3,13 @@ import { addGroup } from '../../../services/firebase/db/admin';
 
 export default async function handler (req, res) {
   if (req.method === 'POST') {
-    const user = await extractUser(req.headers.authorization);
-    if (!user) {
+    const { uid } = await extractUser(req.headers.authorization);
+    if (!uid) {
       return res.status(401).json({ error: 'Unauthorized' });
     }
 
     const { name, category, description, members } = req.body;
-    return addGroup({ name, category, description, members })
+    return addGroup({ creator: uid, group: { name, category, description, members } })
       .then((doc) => res.status(200).json(doc))
       .catch((err) => {
         console.error(err);

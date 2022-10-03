@@ -3,9 +3,10 @@ import normalizeGroup from '../../../utils/normalizeGroup';
 import normalizeMovement from '../../../utils/normalizeMovement';
 import { Timestamp, FieldValue } from 'firebase-admin/firestore';
 
-export const addGroup = async (group) => {
+export const addGroup = async ({ creator, group }) => {
   const doc = await db.collection('groups').add({
     category: group.category,
+    creator,
     description: group.description,
     name: group.name,
     members: group.members.map((m) => ({
@@ -15,6 +16,8 @@ export const addGroup = async (group) => {
     })),
     createdAt: Timestamp.fromDate(new Date())
   });
+
+  await addGroupToUser({ uid: creator, group: doc.id });
 
   const addedDoc = await doc.get();
 
@@ -143,12 +146,7 @@ export const editGroup = async ({
 
 export const bindUserToMember = async ({ group, user, member }) => {
   // Add group to user groups
-  await db
-    .collection('users')
-    .doc(user)
-    .update({
-      groups: FieldValue.arrayUnion(group)
-    });
+  await addGroupToUser({ group, uid: user });
 
   const docRef = db.collection('groups').doc(group);
   const doc = await docRef.get();
@@ -248,4 +246,13 @@ export const updateUserPreference = async ({ uid, preference, value }) => {
     ...updatedDoc.data(),
     id: docRef.id
   };
+};
+
+export const addGroupToUser = async ({ uid, group }) => {
+  return await db
+    .collection('users')
+    .doc(uid)
+    .update({
+      groups: FieldValue.arrayUnion(group)
+    });
 };
