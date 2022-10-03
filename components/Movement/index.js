@@ -68,7 +68,7 @@ export default function Movement({
         }
       >
         <button
-          className="absolute inset-0 flex items-center justify-end pr-4 font-bold text-black transition-all opacity-0 bg-gradient-to-l from-white/80 to-transparent md:hover:opacity-100 group"
+          className="absolute inset-0 flex items-center justify-end w-full pr-4 font-bold text-black transition-all opacity-0 bg-gradient-to-l from-white/80 to-transparent md:hover:opacity-100 group"
           onClick={handleClick}
         >
           <span className="flex flex-row gap-2 transition-transform ease-in-out translate-x-10 group-hover:translate-x-0">
