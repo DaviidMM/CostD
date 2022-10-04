@@ -1,6 +1,7 @@
 # Lista de cosas que hacer
 
 - Funcionalidad
+  - Redirigir a /groups si el grupo que buscas no existe, por ejemplo /groups/nada
   - Agregar preferencia:
     - Notificaciones por correo
   - Sistema de notificaciones
