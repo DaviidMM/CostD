@@ -157,8 +157,7 @@ const barChartOptions = {
         font: {
           weight: 700
         },
-        color: 'white',
-        text: 'Debido a:'
+        color: 'white'
       }
     },
     tooltip: {
