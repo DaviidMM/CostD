@@ -20,7 +20,6 @@ export default function NewMovementForm ({
   } = useAuth();
   const router = useRouter();
   const group = router.query.id;
-
   const [amount, setAmount] = useState(0);
   const [description, setDescription] = useState('');
   const [member, setMember] = useState(
@@ -29,6 +28,7 @@ export default function NewMovementForm ({
   const [payedAt, setPayedAt] = useState(formatInputDate(new Date()));
   const [type, setType] = useState('expense');
   const [participants, setParticipants] = useState(members.map((m) => m.id));
+  const [buttonEnabled, setButtonEnabled] = useState(true);
 
   const handleAmountChange = (e) => setAmount(e.target.value);
   const handleDescriptionChange = (e) => setDescription(e.target.value);
@@ -37,6 +37,7 @@ export default function NewMovementForm ({
   const handleTypeChange = (e) => setType(e.target.value);
 
   const handleSubmit = (e) => {
+    setButtonEnabled(false);
     e.preventDefault();
 
     if (
@@ -46,6 +47,7 @@ export default function NewMovementForm ({
       !payedAt ||
       !participants.length
     ) {
+      setButtonEnabled(true);
       return toast.warning('Rellena todos los campos');
     }
 
@@ -72,6 +74,7 @@ export default function NewMovementForm ({
       .catch((err) => {
         console.log({ err });
         toast.error(err.response.data.error || 'Error añadiendo el gasto');
+        setButtonEnabled(true);
       });
   };
 
@@ -129,7 +132,7 @@ export default function NewMovementForm ({
         />
       </div>
       <div className="flex flex-row gap-4 mt-4">
-        <Button color="orange" type="submit">
+        <Button color="orange" disabled={!buttonEnabled} type="submit">
           Añadir
         </Button>
         <Button color="orange" onClick={closeForm}>

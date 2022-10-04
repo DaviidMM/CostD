@@ -17,6 +17,7 @@ export default function NewGroupForm () {
   const [category, setCategory] = useState('');
   const [description, setDescription] = useState('');
   const [members, setMembers] = useState([{ name: '', id: nanoid() }]);
+  const [buttonEnabled, setButtonEnabled] = useState(true);
   const router = useRouter();
 
   const handleNameChange = (e) => setName(e.target.value);
@@ -25,9 +26,11 @@ export default function NewGroupForm () {
   const handleMembersChange = (members) => setMembers(members);
 
   const handleSubmit = (e) => {
+    setButtonEnabled(false);
     e.preventDefault();
 
     if (!name || !category || members.some((m) => !m.name)) {
+      setButtonEnabled(true);
       return toast.warning('Rellena todos los campos');
     }
 
@@ -47,6 +50,10 @@ export default function NewGroupForm () {
       })
       .then((group) => {
         router.push('/groups/[id]', `/groups/${group.id}`);
+      }).catch(err => {
+        console.error(err);
+        toast.error(err.response.data.error || 'Error añadiendo el grupo');
+        setButtonEnabled(true);
       });
   };
 
@@ -72,7 +79,7 @@ export default function NewGroupForm () {
         members={members}
         setMembers={handleMembersChange}
       />
-      <Button className="w-fit" color="orange" type="submit">
+      <Button className="w-fit" color="orange" disabled={!buttonEnabled} type="submit">
         Crear grupo
       </Button>
     </form>
