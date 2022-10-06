@@ -1,7 +1,7 @@
 # Lista de cosas que hacer
 
 - Funcionalidad
-  - Redirigir a /groups si el grupo que buscas no existe, por ejemplo /groups/nada
+  - Enviar notificaciones a quien habilite las notificaciones o si no lo ha configurado aun, que se use el valor por defecto
   - Agregar preferencia:
     - Notificaciones por correo
   - Sistema de notificaciones
@@ -33,3 +33,5 @@
 - Actualizaciones de grupos en tiempo real con firebase
 - Sistema de participaciones en un gasto:
   - Por ejemplo: David cuenta como 2 y Victor como 1 solo. Esto repartiria el gasto en 2/3 partes para David y 1/3 para Victor
+- Sistema de notificaciones:
+  - Notificaciones por telegram
