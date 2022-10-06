@@ -88,7 +88,7 @@ export default function Group () {
         setUserMember(members.find((m) => m.uid === userId)?.id);
       })
       .catch((err) => {
-        console.log({ err });
+        console.error({ err });
         toast.error(err.response.data.error);
       });
   };

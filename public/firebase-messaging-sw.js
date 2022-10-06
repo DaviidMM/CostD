@@ -26,7 +26,6 @@ messaging.onBackgroundMessage((payload) => {
 });
 
 self.addEventListener('notificationclick', function (event) {
-  console.log({ event });
   clients.openWindow(event.notification.data.url); // eslint-disable-line
   return event.notification.close();
 }

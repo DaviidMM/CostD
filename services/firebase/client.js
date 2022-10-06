@@ -52,7 +52,6 @@ export const firebaseCloudMessaging = {
         }
       }
     } catch (error) {
-      console.log('error');
       console.error(error);
       return null;
     }
@@ -62,7 +61,6 @@ export const firebaseCloudMessaging = {
 const mapUserFromFirebase = (user) => {
   if (!user) return null;
   const { displayName, email, photoURL, uid: id } = user;
-  console.log({ user });
   return {
     avatar: photoURL,
     displayName,

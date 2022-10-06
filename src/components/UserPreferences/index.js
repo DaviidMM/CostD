@@ -18,8 +18,6 @@ export default function UserPreferences () {
       });
   };
 
-  console.log({ userPreferencesDict });
-
   return (
     userPrefs !== null && (
       <div className="flex flex-col gap-4">

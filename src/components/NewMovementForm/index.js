@@ -72,7 +72,7 @@ export default function NewMovementForm ({
         closeForm();
       })
       .catch((err) => {
-        console.log({ err });
+        console.error({ err });
         toast.error(err.response.data.error || 'Error añadiendo el gasto');
         setButtonEnabled(true);
       });

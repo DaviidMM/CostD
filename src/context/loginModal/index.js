@@ -16,12 +16,12 @@ export const LoginModalProvider = ({ children }) => {
   const handleLoginGoogle = () => {
     loginWithGoogle()
       .then(() => closeLoginModal())
-      .catch((err) => console.error(err));
+      .catch(console.error);
   };
   const handleLoginTwitter = () => {
     loginWithTwitter()
       .then(() => closeLoginModal())
-      .catch((err) => console.log(err));
+      .catch(console.error);
   };
 
   return (

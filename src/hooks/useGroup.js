@@ -16,7 +16,5 @@ export default function useGroup () {
     }
   }, [id]);
 
-  console.log({ group });
-
   return [group, setGroup];
 }

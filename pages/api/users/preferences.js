@@ -30,11 +30,10 @@ export default async function handler (req, res) {
     const { preference, value } = req.body;
     return updateUserPreference({ uid, preference, value })
       .then((result) => {
-        console.log(result);
         return res.status(200).json(result);
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
         return res.status(500).json({ error: err });
       });
   }

@@ -47,7 +47,7 @@ export const sendNotification = ({ body, image, title, token }) => {
       console.log('Successfully sent message:', response);
     })
     .catch((error) => {
-      console.log('Error sending message:', error);
+      console.error('Error sending message:', error);
     });
 };
 
