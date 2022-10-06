@@ -2,7 +2,6 @@ import { toast } from 'react-toastify';
 import useUserPrefs from '../../hooks/useUserPrefs';
 import { updateUserPrefs } from '../../../services/users';
 import SettingCard from '../SettingCard';
-import userPreferencesDict from '../../dict/userPreferences';
 
 export default function UserPreferences () {
   const [userPrefs, setUserPref] = useUserPrefs();
@@ -21,17 +20,17 @@ export default function UserPreferences () {
   return (
     userPrefs !== null && (
       <div className="flex flex-col gap-4">
-        {Object.keys(userPreferencesDict).map((pref) => {
+        {Object.keys(userPrefs).map((pref) => {
           return (
             <SettingCard
               key={pref}
-              description={userPreferencesDict[pref].description}
+              description={userPrefs[pref].description}
               handleSave={handleUpdatePref}
               preference={pref}
               setValue={setUserPref}
-              title={userPreferencesDict[pref].title}
-              type={userPreferencesDict[pref].type}
-              value={userPrefs[pref] === undefined ? userPreferencesDict[pref].default : userPrefs[pref]}
+              title={userPrefs[pref].title}
+              type={userPrefs[pref].type}
+              value={userPrefs[pref].value}
             />
           );
         })}

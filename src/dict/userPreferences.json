@@ -1,8 +1,0 @@
-{
-  "pushNotifications": {
-    "default": true,
-    "description": "Habilitar las notificaciones push de actualizaciones en grupos",
-    "title": "Notificaciones PUSH",
-    "type": "toggle"
-  }
-}

@@ -231,17 +231,28 @@ export const removeDeviceFromUser = async ({ uid, token }) => {
 };
 
 export const getUserPreferences = async (uid) => {
-  const docRef = db.collection('users').doc(uid);
-  const doc = await docRef.get();
-  if (!doc.exists) {
+  const preferencesColl = await db.collection('preferences').get();
+
+  const userDocRef = db.collection('users').doc(uid);
+  const userDoc = await userDocRef.get();
+  if (!userDoc.exists) {
     const error = new Error('Usuario no encontrado');
     error.status = 404;
     throw error;
   }
 
-  const { preferences } = doc.data();
+  const { preferences: userPreferences } = userDoc.data();
 
-  return preferences;
+  return preferencesColl.docs.reduce((acc, doc) => {
+    const pref = doc.data();
+    const userPref = userPreferences[doc.id];
+    delete pref.default;
+    acc[doc.id] = {
+      ...pref,
+      value: userPref ?? pref.default
+    };
+    return acc;
+  }, {});
 };
 
 export const updateUserPreference = async ({ uid, preference, value }) => {

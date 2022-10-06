@@ -11,7 +11,7 @@ export default function useUserPrefs () {
   }, [user]);
 
   const handlePrefChange = (preference, value) => {
-    setUserPrefs((prev) => ({ ...prev, [preference]: value }));
+    setUserPrefs((prev) => ({ ...prev, [preference]: { ...prev[preference], value } }));
   };
 
   return [userPrefs, handlePrefChange];
