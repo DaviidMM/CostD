@@ -102,7 +102,7 @@ export const loginWithTwitter = () => {
     .then(storeUserInDb);
 };
 
-export const logout = () => {
+export const logout = async () => {
   return signOut(auth).catch((err) => {
     console.error(err);
   });

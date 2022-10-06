@@ -215,6 +215,21 @@ export const addDeviceToUser = async ({ uid, token }) => {
   return true;
 };
 
+export const removeDeviceFromUser = async ({ uid, token }) => {
+  const docRef = db.collection('users').doc(uid);
+
+  const prevData = (await docRef.get()).data();
+  const { devices: existingDevices } = prevData;
+
+  if (existingDevices && existingDevices.some((eD) => eD.token === token)) {
+    await docRef.update({
+      devices: existingDevices.filter((eD) => eD.token !== token)
+    });
+  }
+
+  return true;
+};
+
 export const getUserPreferences = async (uid) => {
   const docRef = db.collection('users').doc(uid);
   const doc = await docRef.get();

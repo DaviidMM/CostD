@@ -13,6 +13,8 @@ import {
 import { useRouter } from 'next/router';
 import UserMenu from '../UserMenu';
 import { useLoginModal } from '../../hooks/useLoginModal';
+import { deleteFCMToken } from '../../../services/users';
+import usePushNotifications from '../../hooks/usePushNotifications';
 
 export default function Header () {
   const router = useRouter();
@@ -20,13 +22,11 @@ export default function Header () {
   const { user, status } = useAuth();
   const [showMenu, setShowMenu] = useState(false);
   const { openLoginModal } = useLoginModal();
+  const FCMToken = usePushNotifications();
 
   useEffect(() => setShowMenu(false), [pathname]);
 
-  const handleLogout = () => {
-    logout();
-    router.push('/');
-  };
+  const handleLogout = () => deleteFCMToken(FCMToken).then(() => logout());
 
   return (
     <header className="flex flex-col text-slate-200 bg-gradient-to-br from-green-500 to-green-900">

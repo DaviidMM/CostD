@@ -3,6 +3,10 @@ export const storeFCMToken = (FCMToken) => {
   return api.post('/users/devices', { token: FCMToken });
 };
 
+export const deleteFCMToken = (FCMToken) => {
+  return api.delete(`/users/devices/${FCMToken}`);
+};
+
 export const getUserPrefs = async () => {
   return api.get('/users/preferences').then((res) => res.data);
 };

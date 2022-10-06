@@ -1,5 +1,5 @@
-import { extractUser } from '../../../services/firebase/admin';
-import { addDeviceToUser } from '../../../services/firebase/db/admin';
+import { extractUser } from '../../../../services/firebase/admin';
+import { addDeviceToUser } from '../../../../services/firebase/db/admin';
 
 export default async function handler (req, res) {
   if (req.method === 'POST') {
