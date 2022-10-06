@@ -17,8 +17,10 @@ import { FaHistory } from 'react-icons/fa';
 import Dots from '../Loading/Dots';
 import useGroup from '../../hooks/useGroup';
 import useGroupMovements from '../../hooks/useGroupMovements';
+import { useRouter } from 'next/router';
 
 export default function Group () {
+  const router = useRouter();
   const {
     user: { id: userId }
   } = useAuth();
@@ -37,6 +39,10 @@ export default function Group () {
   );
   const { closeShareModal, openShareModal, shareModalOpen, ShareModal } =
     useShareModal();
+
+  useEffect(() => {
+    if (group === undefined) router.push('/');
+  }, [group, router]);
 
   useEffect(() => {
     if (group) {

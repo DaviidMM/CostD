@@ -5,7 +5,7 @@ import { listenGroup } from '../../services/firebase/db/client';
 export default function useGroup () {
   const router = useRouter();
   const { id } = router.query;
-  const [group, setGroup] = useState(undefined);
+  const [group, setGroup] = useState(null);
 
   useEffect(() => {
     if (id) {

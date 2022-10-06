@@ -73,8 +73,8 @@ export const sendGroupNotification = async ({
 
   const tokens = users.docs.reduce((acc, doc) => {
     const user = doc.data();
-    // Send notification to users that have enabled notifications or preference is not set yet
-    if (user.preferences?.notifications !== undefined && !user.preferences.notifications) return acc;
+    // Send notification to users that have enabled pushNotifications or preference is not set yet
+    if (user.preferences?.pushNotifications !== undefined && !user.preferences.pushNotifications) return acc;
     return [...acc, ...user.devices.map((d) => d.token)];
   }, []);
 
