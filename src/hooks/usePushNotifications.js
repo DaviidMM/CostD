@@ -1,10 +1,13 @@
 import { getMessaging, onMessage } from 'firebase/messaging';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { app, firebaseCloudMessaging } from '../../services/firebase/client';
 
 export default function usePushNotifications () {
   const [token, setToken] = useState(null);
+  const router = useRouter();
+
   useEffect(() => {
     // Calls the getMessage() function if the token is there
     async function setFCMToken () {
@@ -16,7 +19,9 @@ export default function usePushNotifications () {
           onMessage(messaging, (payload) => {
             const { data } = payload;
             console.log('foreground notification', data);
-            toast.info(data.body);
+            toast.info(data.body, {
+              onClick: () => router.push(data.url)
+            });
           });
         }
       } catch (error) {
@@ -25,6 +30,7 @@ export default function usePushNotifications () {
     }
 
     setFCMToken();
-  }, []);
+  }, [router]);
+
   return token;
 }
