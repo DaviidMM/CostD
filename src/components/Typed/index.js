@@ -6,7 +6,7 @@ const colorClasses = {
   purple: 'text-violet-700'
 };
 
-export default function Typed ({
+export default function Typed({
   bold = false,
   color = 'white',
   className,
@@ -65,24 +65,20 @@ export default function Typed ({
         (!gradientColor ? colorClasses[color] : '')
       }
     >
-      {gradientColor
-        ? (
+      {gradientColor ? (
         <ColoredText color={color}>{shownLetters}</ColoredText>
-          )
-        : (
-            shownLetters
-          )}
-      {cursor
-        ? (
+      ) : (
+        shownLetters
+      )}
+      {cursor ? (
         <span
           className={'transition-none animate-blink ' + colorClasses[color]}
         >
           {cursor}
         </span>
-          )
-        : (
-            ''
-          )}
+      ) : (
+        ''
+      )}
     </span>
   );
 }

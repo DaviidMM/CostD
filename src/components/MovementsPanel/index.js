@@ -3,7 +3,7 @@ import Button from '../Button';
 import Movement from '../Movement';
 import NewMovementForm from '../NewMovementForm';
 
-export default function MovementsPanel ({
+export default function MovementsPanel({
   movements,
   members,
   onMovementUpdate
@@ -32,15 +32,13 @@ export default function MovementsPanel ({
 
   return (
     <div>
-      {showNewMovementForm
-        ? (
+      {showNewMovementForm ? (
         <NewMovementForm
           closeForm={() => setShowNewMovementForm(false)}
           members={members}
           onCreate={addMovement}
         />
-          )
-        : (
+      ) : (
         <>
           <ul className="flex flex-col gap-2 mb-4 overflow-y-auto max-h-96">
             {movements.map((movement) => {
@@ -65,7 +63,7 @@ export default function MovementsPanel ({
             💵 Añadir movimiento
           </Button>
         </>
-          )}
+      )}
     </div>
   );
 }

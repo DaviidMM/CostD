@@ -162,8 +162,8 @@ export const bindUserToMember = async ({ group, user, member }) => {
     m.id === member
       ? { ...m, uid: user }
       : m.uid === user
-        ? { ...m, uid: '' }
-        : m
+      ? { ...m, uid: '' }
+      : m
   );
 
   await docRef.update({ members: updatedMembers });
@@ -246,11 +246,9 @@ export const getUserPreferences = async (uid) => {
   return preferencesCollection.docs.reduce((acc, doc) => {
     const pref = doc.data();
     const value = userPreferences
-      ? (
-          userPreferences[doc.id] !== undefined
-            ? userPreferences[doc.id]
-            : pref.default
-        )
+      ? userPreferences[doc.id] !== undefined
+        ? userPreferences[doc.id]
+        : pref.default
       : pref.default;
     delete pref.default;
     acc[doc.id] = {

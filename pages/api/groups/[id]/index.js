@@ -1,7 +1,7 @@
 import { extractUser } from '../../../../services/firebase/admin';
 import { editGroup } from '../../../../services/firebase/db/admin';
 
-export default async function handler (req, res) {
+export default async function handler(req, res) {
   if (req.method === 'PUT') {
     const user = await extractUser(req.headers.authorization);
     if (!user) {

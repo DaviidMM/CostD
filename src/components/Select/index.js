@@ -1,6 +1,6 @@
 import ColoredBorder from '../ColoredBorder';
 
-export default function Select ({
+export default function Select({
   color = 'orange',
   className,
   label,

@@ -1,4 +1,4 @@
-export default function normalizeGroup ({ id, data }) {
+export default function normalizeGroup({ id, data }) {
   return {
     id,
     ...data,

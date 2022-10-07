@@ -3,7 +3,7 @@ import useUserPrefs from '../../hooks/useUserPrefs';
 import { updateUserPrefs } from '../../../services/users';
 import SettingCard from '../SettingCard';
 
-export default function UserPreferences () {
+export default function UserPreferences() {
   const [userPrefs, setUserPref] = useUserPrefs();
 
   const handleUpdatePref = async ({ preference, value }) => {

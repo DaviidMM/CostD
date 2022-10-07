@@ -4,13 +4,13 @@ import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { app, firebaseCloudMessaging } from '../../services/firebase/client';
 
-export default function usePushNotifications () {
+export default function usePushNotifications() {
   const [token, setToken] = useState(null);
   const router = useRouter();
 
   useEffect(() => {
     // Calls the getMessage() function if the token is there
-    async function setFCMToken () {
+    async function setFCMToken() {
       try {
         const token = await firebaseCloudMessaging.init();
         if (token) {

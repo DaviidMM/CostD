@@ -26,7 +26,7 @@ ChartJS.register(
   Legend
 );
 
-export default function BalancePanel ({
+export default function BalancePanel({
   movements,
   members,
   onMovementUpdate = () => {}
@@ -108,12 +108,10 @@ export default function BalancePanel ({
           <div>
             <h3 className="mb-2 text-xl">Mis deudas</h3>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-              {myDebts.length === 0
-                ? (
+              {myDebts.length === 0 ? (
                 <p>No tengo deudas pendientes 👍</p>
-                  )
-                : (
-                    myDebts.map((debt, idx) => (
+              ) : (
+                myDebts.map((debt, idx) => (
                   <Debt
                     amount={debt.amount}
                     from={debt.from}
@@ -121,19 +119,17 @@ export default function BalancePanel ({
                     onPay={payMovement}
                     to={debt.to}
                   />
-                    ))
-                  )}
+                ))
+              )}
             </div>
           </div>
           <div>
             <h3 className="mb-2 text-xl">Deudas de otros</h3>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-              {otherDebts.length === 0
-                ? (
+              {otherDebts.length === 0 ? (
                 <p>Nadie tiene deudas pendientes 👍</p>
-                  )
-                : (
-                    otherDebts.map((debt, idx) => (
+              ) : (
+                otherDebts.map((debt, idx) => (
                   <Debt
                     amount={debt.amount}
                     from={debt.from}
@@ -141,8 +137,8 @@ export default function BalancePanel ({
                     onPay={payMovement}
                     to={debt.to}
                   />
-                    ))
-                  )}
+                ))
+              )}
             </div>
           </div>
         </>

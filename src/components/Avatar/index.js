@@ -1,4 +1,4 @@
-export default function Avatar ({
+export default function Avatar({
   photo = '',
   squared = true,
   bordered = true,
@@ -13,20 +13,18 @@ export default function Avatar ({
       className={`relative cursor-pointer flex justify-center items-center w-10 h-10 md:w-12 md:h-12 overflow-hidden group ${roundedClasses}`}
     >
       <span className="absolute z-30 w-full h-full transition-opacity avatar-bg bg-gradient-to-br from-orange-400 to-orange-800 group-hover:opacity-70 duration-[250ms] "></span>
-      {photo
-        ? (
+      {photo ? (
         <img
           className={`${sizeClasses} ${borderClasses} ${roundedClasses} z-30`}
           src={photo}
           alt="User icon"
           referrerPolicy="no-referrer"
         />
-          )
-        : (
+      ) : (
         <span className="z-30 text-2xl font-semibold leading-none select-none">
           {username.charAt(0).toUpperCase()}
         </span>
-          )}
+      )}
     </div>
   );
 }

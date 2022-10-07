@@ -4,7 +4,7 @@ import useAuth from '../../hooks/useAuth';
 import Button from '../Button';
 import MemberItem from './MemberItem';
 
-export default function MembersBox ({
+export default function MembersBox({
   actions = true,
   bindUserToMember,
   className,

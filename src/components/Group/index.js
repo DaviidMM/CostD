@@ -19,7 +19,7 @@ import useGroup from '../../hooks/useGroup';
 import useGroupMovements from '../../hooks/useGroupMovements';
 import { useRouter } from 'next/router';
 
-export default function Group () {
+export default function Group() {
   const router = useRouter();
   const {
     user: { id: userId }
@@ -47,7 +47,8 @@ export default function Group () {
   useEffect(() => {
     if (group) {
       setMembers(group.members);
-      if (members === undefined) setUserMember(group.members.find((m) => m.uid === userId)?.id);
+      if (members === undefined)
+        setUserMember(group.members.find((m) => m.uid === userId)?.id);
     }
   }, [group, members, userId]);
 
@@ -59,12 +60,11 @@ export default function Group () {
 
   const updateMembers = async (members) => {
     const promise = updateGroup(group.id, { members });
-    return toast
-      .promise(promise, {
-        success: 'Se ha actualizado el grupo',
-        error: 'No se ha podido actualizar el grupo',
-        pending: 'Actualizando grupo...'
-      });
+    return toast.promise(promise, {
+      success: 'Se ha actualizado el grupo',
+      error: 'No se ha podido actualizar el grupo',
+      pending: 'Actualizando grupo...'
+    });
   };
 
   const handleBindUserToMember = (memberId) => {
@@ -108,9 +108,10 @@ export default function Group () {
     }
   ];
 
-  return group === null || members === undefined
-    ? <Dots />
-    : <>
+  return group === null || members === undefined ? (
+    <Dots />
+  ) : (
+    <>
       <ShareModal
         group={group}
         open={shareModalOpen}
@@ -181,15 +182,12 @@ export default function Group () {
           </p>
         </header>
 
-        {!userMember
-          ? (
+        {!userMember ? (
           <div>
             <h2 className="mb-4 text-xl font-semibold">¿Quién eres?</h2>
             <MemberPicker members={members} onSelect={handleBindUserToMember} />
           </div>
-            )
-          : showConfig
-            ? (
+        ) : showConfig ? (
           <GroupConfig
             bindUserToMember={handleBindUserToMember}
             group={group}
@@ -198,12 +196,12 @@ export default function Group () {
             setMembers={setMembers}
             updateMembers={updateMembers}
           />
-              )
-            : (
+        ) : (
           <div className="flex flex-col justify-between">
             <Tabs tabs={tabs} selectedIndex={0} />
           </div>
-              )}
+        )}
       </div>
-    </>;
+    </>
+  );
 }

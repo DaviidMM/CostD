@@ -9,7 +9,7 @@ import { createGroup } from '../../../services/groups';
 import { useRouter } from 'next/router';
 import useAuth from '../../hooks/useAuth';
 
-export default function NewGroupForm () {
+export default function NewGroupForm() {
   const {
     user: { id: uid }
   } = useAuth();
@@ -50,7 +50,8 @@ export default function NewGroupForm () {
       })
       .then((group) => {
         router.push('/groups/[id]', `/groups/${group.id}`);
-      }).catch(err => {
+      })
+      .catch((err) => {
         console.error(err);
         toast.error(err.response.data.error || 'Error añadiendo el grupo');
         setButtonEnabled(true);
@@ -79,7 +80,12 @@ export default function NewGroupForm () {
         members={members}
         setMembers={handleMembersChange}
       />
-      <Button className="w-fit" color="orange" disabled={!buttonEnabled} type="submit">
+      <Button
+        className="w-fit"
+        color="orange"
+        disabled={!buttonEnabled}
+        type="submit"
+      >
         Crear grupo
       </Button>
     </form>

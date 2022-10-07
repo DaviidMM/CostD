@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { listenGroupMovements } from '../../services/firebase/db/client';
 
-export default function useGroupMovements () {
+export default function useGroupMovements() {
   const router = useRouter();
   const { id } = router.query;
   const [movements, setMovements] = useState([]);

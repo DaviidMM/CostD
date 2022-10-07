@@ -11,7 +11,7 @@ const colors = {
   yellow: 'from-yellow-400 to-yellow-600'
 };
 
-export default function ColoredText ({ bold, children, color = 'orange' }) {
+export default function ColoredText({ bold, children, color = 'orange' }) {
   return (
     <span
       className={`bg-gradient-to-b bg-clip-text text-transparent ${

@@ -1,6 +1,6 @@
 import ColoredBorder from '../ColoredBorder';
 
-export default function Input ({
+export default function Input({
   color = 'orange',
   className = '',
   label,

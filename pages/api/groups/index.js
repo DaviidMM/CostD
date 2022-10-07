@@ -1,7 +1,7 @@
 import { extractUser } from '../../../services/firebase/admin';
 import { addGroup } from '../../../services/firebase/db/admin';
 
-export default async function handler (req, res) {
+export default async function handler(req, res) {
   if (req.method === 'POST') {
     const { uid } = await extractUser(req.headers.authorization);
     if (!uid) {
@@ -9,7 +9,10 @@ export default async function handler (req, res) {
     }
 
     const { name, category, description, members } = req.body;
-    return addGroup({ creator: uid, group: { name, category, description, members } })
+    return addGroup({
+      creator: uid,
+      group: { name, category, description, members }
+    })
       .then((doc) => res.status(200).json(doc))
       .catch((err) => {
         console.error(err);

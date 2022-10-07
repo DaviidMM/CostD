@@ -4,7 +4,7 @@ import {
   updateUserPreference
 } from '../../../services/firebase/db/admin';
 
-export default async function handler (req, res) {
+export default async function handler(req, res) {
   const { method } = req;
 
   if (method === 'GET') {

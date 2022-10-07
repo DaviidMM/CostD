@@ -17,7 +17,7 @@ const widths = {
   6: 'p-6'
 };
 
-export default function ColoredBorder ({
+export default function ColoredBorder({
   children,
   className = '',
   color,

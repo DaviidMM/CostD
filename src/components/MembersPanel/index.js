@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import Button from '../Button';
 import MembersBox from '../MembersBox';
 
-export default function MembersPanel ({
+export default function MembersPanel({
   bindUserToMember,
   members: initialMembers,
   updateMembers

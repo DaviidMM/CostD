@@ -10,7 +10,7 @@ import { TrashIcon } from '@heroicons/react/24/solid';
 import movementTypes from '../../data/movementTypes';
 import MemberSelector from '../MemberSelector';
 
-export default function ModifyMovementForm ({
+export default function ModifyMovementForm({
   color = 'orange',
   movement,
   members = [],

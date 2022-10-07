@@ -76,7 +76,7 @@ const GroupConfigForm = ({ group }) => {
   );
 };
 
-export default function GroupConfig ({
+export default function GroupConfig({
   group,
   bindUserToMember,
   members,

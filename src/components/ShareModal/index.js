@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { RWebShare } from 'react-web-share';
 import Button from '../Button';
 
-export default function ShareModal ({ onClose, open, url, group }) {
+export default function ShareModal({ onClose, open, url, group }) {
   const copyToClipboard = () => {
     navigator.clipboard.writeText(url);
     toast.success('¡Enlace copiado al portapapeles! 👍');

@@ -27,7 +27,7 @@ const textClasses = {
   white: 'text-black'
 };
 
-const Button = forwardRef(function Button (
+const Button = forwardRef(function Button(
   {
     bordered,
     children,

@@ -1,12 +1,9 @@
 # Lista de cosas que hacer
 
 - Funcionalidad
-  - Enviar notificaciones a quien habilite las notificaciones o si no lo ha configurado aun, que se use el valor por defecto
-  - Agregar preferencia:
-    - Notificaciones por correo
+
   - Sistema de notificaciones
     - PUSH:
-      - Abrir enlace de grupo al clicar la notificación Toast (foreground)
       - Limpiar devices de los usuarios cuando dejen de existir
     - Correo
 

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getGroups } from '../../services/firebase/db/client';
 
-export default function useGroups () {
+export default function useGroups() {
   const [groups, setGroups] = useState([]);
   const [loading, setLoading] = useState(true);
 

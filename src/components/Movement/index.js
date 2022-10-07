@@ -14,7 +14,7 @@ const backgrounds = {
     (open ? 'bg-pos-100 text-white' : 'text-black')
 };
 
-export default function Movement ({
+export default function Movement({
   amount,
   description,
   id,
@@ -71,19 +71,17 @@ export default function Movement ({
           onClick={handleClick}
         >
           <span className="flex flex-row gap-2 transition-transform ease-in-out translate-x-10 group-hover:translate-x-0">
-            {!open
-              ? (
+            {!open ? (
               <>
                 Editar
                 <PencilIcon className="w-6 h-6" />
               </>
-                )
-              : (
+            ) : (
               <>
                 Cerrar
                 <XCircleIcon className="w-6 h-6" />
               </>
-                )}
+            )}
           </span>
         </button>
         <div className="flex flex-col text-left">
@@ -114,8 +112,8 @@ export default function Movement ({
               type === 'expense'
                 ? 'orange'
                 : type === 'refund'
-                  ? 'green'
-                  : 'blue'
+                ? 'green'
+                : 'blue'
             }
             movement={{
               amount,

@@ -9,7 +9,7 @@ const categories = [
   '🛠 Proyecto'
 ];
 
-export default function CategorySelector ({
+export default function CategorySelector({
   onChange,
   selected: initialSelected
 }) {

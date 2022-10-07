@@ -1,4 +1,4 @@
-export default function Feature ({
+export default function Feature({
   title,
   description,
   img = { src: '', alt: '' }

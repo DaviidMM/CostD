@@ -10,7 +10,7 @@ import Select from '../Select';
 import MemberSelector from '../MemberSelector';
 import movementTypes from '../../data/movementTypes';
 
-export default function NewMovementForm ({
+export default function NewMovementForm({
   closeForm = () => {},
   members = [],
   onCreate = () => {}

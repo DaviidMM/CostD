@@ -21,12 +21,20 @@ messaging.onBackgroundMessage((payload) => {
   const { data } = payload;
   console.log('background notification', data);
   const { title, body, image, url } = data;
-  const options = { body, data: { url }, image, actions: [{ action: 'open_url', title: '¡Echa un vistazo!' }] };
+  const options = {
+    body,
+    data: { url },
+    image,
+    actions: [{ action: 'open_url', title: '¡Echa un vistazo!' }]
+  };
   return self.registration.showNotification(title, options);
 });
 
-self.addEventListener('notificationclick', function (event) {
-  clients.openWindow(event.notification.data.url); // eslint-disable-line
-  return event.notification.close();
-}
-, false);
+self.addEventListener(
+  'notificationclick',
+  function (event) {
+    clients.openWindow(event.notification.data.url); // eslint-disable-line
+    return event.notification.close();
+  },
+  false
+);

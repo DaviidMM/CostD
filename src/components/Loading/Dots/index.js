@@ -1,4 +1,4 @@
-export default function Dots () {
+export default function Dots() {
   return (
     <div className="flex flex-row self-center justify-between w-12 mx-auto">
       <span className="w-3 h-3 bg-transparent rounded-full bg-gradient-to-br from-orange-500 to-orange-800 animate-longBounce"></span>

@@ -3,7 +3,7 @@ import { AuthProvider } from '../src/context/auth';
 import { LoginModalProvider } from '../src/context/loginModal';
 import '../styles/globals.css';
 
-function MyApp ({ Component, pageProps }) {
+function MyApp({ Component, pageProps }) {
   return (
     <AuthProvider>
       <LoginModalProvider>

@@ -1,7 +1,7 @@
 import { toast } from 'react-toastify';
 import ColoredBorder from '../../ColoredBorder';
 
-export default function MemberItem ({
+export default function MemberItem({
   canSelect,
   color = 'orange',
   id,

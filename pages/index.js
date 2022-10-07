@@ -10,7 +10,7 @@ import useFeatures from '../src/hooks/useFeatures';
 import useSteps from '../src/hooks/useSteps';
 import Feature from '../src/components/Feature';
 
-export default function HomePage () {
+export default function HomePage() {
   const { status } = useAuth();
   const features = useFeatures();
   const steps = useSteps();
@@ -39,15 +39,13 @@ export default function HomePage () {
             Comparte gastos de la manera más <br />{' '}
             <ColoredText color="orange">simple</ColoredText> posible.
           </p>
-          {status === 'authenticated'
-            ? (
+          {status === 'authenticated' ? (
             <Link href="/groups">
               <Button className="px-8 py-4 text-4xl !rounded-3xl" color="rose">
                 Ver mis grupos
               </Button>
             </Link>
-              )
-            : (
+          ) : (
             <Button
               color="rose"
               className="px-8 py-4 text-4xl !rounded-3xl"
@@ -55,7 +53,7 @@ export default function HomePage () {
             >
               ¡Comenzar!
             </Button>
-              )}
+          )}
         </div>
         <div className="h-56 md:relative md:h-[26rem]">
           <img
@@ -126,8 +124,7 @@ export default function HomePage () {
           }
         />
       </section>
-      {status === 'authenticated'
-        ? (
+      {status === 'authenticated' ? (
         <Link href="/groups">
           <Button
             className="mx-auto px-8 py-4 text-4xl !rounded-3xl"
@@ -136,8 +133,7 @@ export default function HomePage () {
             Ver mis grupos
           </Button>
         </Link>
-          )
-        : (
+      ) : (
         <Button
           color="rose"
           className="mx-auto px-8 py-4 text-4xl !rounded-3xl"
@@ -145,7 +141,7 @@ export default function HomePage () {
         >
           ¡Comenzar!
         </Button>
-          )}
+      )}
     </div>
   );
 }

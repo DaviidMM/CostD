@@ -1,6 +1,6 @@
 import { sendGroupNotification } from '../../../services/firebase/admin';
 
-export default async function handler (req, res) {
+export default async function handler(req, res) {
   if (req.method === 'POST') {
     const { body, group, image, title } = req.body;
     return sendGroupNotification({ body, group, image, title })

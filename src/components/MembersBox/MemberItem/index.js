@@ -2,7 +2,7 @@ import { XMarkIcon } from '@heroicons/react/24/solid';
 import Button from '../../Button';
 import Input from '../../Input';
 
-export default function MemberItem ({
+export default function MemberItem({
   actions,
   id,
   name,

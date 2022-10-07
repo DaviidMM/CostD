@@ -1,6 +1,6 @@
 import ColoredBorder from '../../ColoredBorder';
 
-export default function CategoryItem ({
+export default function CategoryItem({
   category,
   className,
   selectCategory = () => {},

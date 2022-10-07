@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { Fragment } from 'react';
 import Avatar from '../Avatar';
 
-export default function UserMenu ({ onLogout, user }) {
+export default function UserMenu({ onLogout, user }) {
   return (
     <div className="relative">
       <Menu>
