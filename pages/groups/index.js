@@ -15,22 +15,20 @@ export default function GroupsPage () {
   }
 
   return status !== authStatus.authenticated
-    ? (
-    <Dots />
-      )
+    ? <Dots />
     : (
-    <div className="flex flex-col gap-4 xl:px-56">
-      <h1 className="text-4xl font-semibold text-center ">
-        <Typed
-          bold
-          gradientColor
-          color="orange"
-          texts={['Grupos']}
-          cursor=""
-          className="w-full"
-        />
-      </h1>
-      <GroupContainer />
-    </div>
+        <div className="flex flex-col gap-4 xl:px-56">
+          <h1 className="text-4xl font-semibold text-center ">
+            <Typed
+              bold
+              gradientColor
+              color="orange"
+              texts={['Grupos']}
+              cursor=""
+              className="w-full"
+            />
+          </h1>
+          <GroupContainer />
+        </div>
       );
 }
