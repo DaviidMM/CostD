@@ -231,7 +231,7 @@ export const removeDeviceFromUser = async ({ uid, token }) => {
 };
 
 export const getUserPreferences = async (uid) => {
-  const preferencesColl = await db.collection('preferences').get();
+  const preferencesCollection = await db.collection('preferences').get();
 
   const userDocRef = db.collection('users').doc(uid);
   const userDoc = await userDocRef.get();
@@ -243,7 +243,18 @@ export const getUserPreferences = async (uid) => {
 
   const { preferences: userPreferences } = userDoc.data();
 
-  return preferencesColl.docs.reduce((acc, doc) => {
+  console.log({ userPreferences });
+
+  if (userPreferences === undefined) {
+    return preferencesCollection.docs.map(pref => {
+      const data = pref.data();
+      data.value = data.default;
+      delete data.default;
+      return data;
+    });
+  }
+
+  return preferencesCollection.docs.reduce((acc, doc) => {
     const pref = doc.data();
     const userPref = userPreferences[doc.id];
     delete pref.default;
