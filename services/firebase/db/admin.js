@@ -243,30 +243,26 @@ export const getUserPreferences = async (uid) => {
 
   const { preferences: userPreferences } = userDoc.data();
 
-  console.log({ userPreferences });
-
-  if (userPreferences === undefined) {
-    return preferencesCollection.docs.map(pref => {
-      const data = pref.data();
-      data.value = data.default;
-      delete data.default;
-      return data;
-    });
-  }
-
   return preferencesCollection.docs.reduce((acc, doc) => {
     const pref = doc.data();
-    const userPref = userPreferences[doc.id];
+    const value = userPreferences
+      ? (
+          userPreferences[doc.id] !== undefined
+            ? userPreferences[doc.id]
+            : pref.default
+        )
+      : pref.default;
     delete pref.default;
     acc[doc.id] = {
       ...pref,
-      value: userPref ?? pref.default
+      value
     };
     return acc;
   }, {});
 };
 
 export const updateUserPreference = async ({ uid, preference, value }) => {
+  console.log('updateUserPreference', { uid, preference, value });
   const docRef = db.collection('users').doc(uid);
   const prevData = (await docRef.get()).data();
   await docRef.set({
