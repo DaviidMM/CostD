@@ -71,10 +71,17 @@ export const sendGroupNotification = async ({
     .where(admin.firestore.FieldPath.documentId(), 'in', members)
     .get();
 
+  const pushNotificationDefault = (await db.collection('preferences').doc('pushNotifications').get()).data().default;
+
   const tokens = users.docs.reduce((acc, doc) => {
     const user = doc.data();
-    // Send notification to users that have enabled pushNotifications or preference is not set yet
-    if (user.preferences?.pushNotifications !== undefined && !user.preferences.pushNotifications) return acc;
+    // Do not send notification to users that have disabled pushNotifications
+    if (
+      user.preferences?.pushNotifications === false ||
+      (user.preferences?.pushNotifications === undefined && !pushNotificationDefault)
+    ) {
+      return acc;
+    }
     return [...acc, ...user.devices.map((d) => d.token)];
   }, []);
 
