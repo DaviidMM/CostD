@@ -42,7 +42,12 @@ const GroupConfigForm = ({ group }) => {
   };
 
   const handleDeleteGroup = () => {
-    if (!confirm('¿Quieres eliminar el grupo?')) return;
+    if (
+      !confirm(
+        '¿Quieres eliminar el grupo? Previamente, se eliminarán todos los movimientos.'
+      )
+    )
+      return;
 
     const promise = deleteGroup(group);
     toast
