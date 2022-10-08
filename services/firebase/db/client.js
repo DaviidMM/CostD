@@ -87,6 +87,7 @@ export const getGroup = async (id) => {
 export const listenGroup = (id, onUpdate) => {
   const groupRef = doc(db, 'groups', id);
   return onSnapshot(groupRef, async (snap) => {
+    if (!snap.exists()) return onUpdate(undefined);
     if (snap.exists()) {
       const groupData = snap.data();
       const group = normalizeGroup({ id, data: groupData });

@@ -10,6 +10,7 @@ export default function useGroup() {
   useEffect(() => {
     if (id) {
       const unsubscribe = listenGroup(id, (updatedGroup) => {
+        if (updatedGroup === undefined) return setGroup(undefined);
         setGroup({ ...updatedGroup, id });
       });
       return () => unsubscribe();

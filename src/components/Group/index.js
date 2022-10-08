@@ -108,7 +108,7 @@ export default function Group() {
     }
   ];
 
-  return group === null || members === undefined ? (
+  return !group || members === undefined ? (
     <Dots />
   ) : (
     <>
