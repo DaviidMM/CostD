@@ -144,6 +144,18 @@ export const editGroup = async ({
   });
 };
 
+export const deleteGroup = async (id) => {
+  const group = await db.collection('groups').doc(id).get();
+  if (!group.exists) {
+    const error = new Error('Grupo no encontrado');
+    error.status = 404;
+    throw error;
+  }
+
+  await db.collection('groups').doc(id).delete();
+  return true;
+};
+
 export const bindUserToMember = async ({ group, user, member }) => {
   // Add group to user groups
   await addGroupToUser({ group, uid: user });

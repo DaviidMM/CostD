@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
-import { updateGroup } from '../../../services/groups';
+import { deleteGroup, updateGroup } from '../../../services/groups';
 import Button from '../Button';
 import CategorySelector from '../CategorySelector';
 import Input from '../Input';
@@ -38,6 +38,19 @@ const GroupConfigForm = ({ group }) => {
     setChanged(true);
   };
 
+  const handleDeleteGroup = () => {
+    if (!confirm('¿Quieres eliminar el grupo?')) return;
+    console.log('Eliminar grupo');
+
+    const promise = deleteGroup(group);
+
+    toast.promise(promise, {
+      success: '¡Grupo eliminado!',
+      error: '¡Ha ocurrido un error! ❌',
+      pending: 'Eliminando grupo...'
+    });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formValues = Object.keys(fields).reduce((acc, key) => {
@@ -69,9 +82,14 @@ const GroupConfigForm = ({ group }) => {
         />
       ))}
       <CategorySelector onChange={handleCategoryChange} selected={category} />
-      <Button color="orange" disabled={!changed} type="submit">
-        Guardar
-      </Button>
+      <div className="flex flex-row justify-between">
+        <Button color="orange" disabled={!changed} type="submit">
+          Guardar
+        </Button>
+        <Button color="red" onClick={handleDeleteGroup}>
+          Eliminar grupo
+        </Button>
+      </div>
     </form>
   );
 };

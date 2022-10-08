@@ -19,6 +19,10 @@ export const updateGroup = async (
   return data;
 };
 
+export const deleteGroup = async (group) => {
+  return api.delete(`/groups/${group.id}`);
+};
+
 export const bindUserToMember = ({ group, user, member }) => {
   return api.put(`/groups/${group}/bind`, { user, member });
 };
