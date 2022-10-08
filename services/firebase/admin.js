@@ -91,7 +91,7 @@ export const sendGroupNotification = async ({
     ) {
       return acc;
     }
-    return [...acc, ...user.devices.map((d) => d.token)];
+    return [...acc, user.devices ? [...user.devices.map((d) => d.token)] : []];
   }, []);
 
   if (!tokens.length) return;
