@@ -82,7 +82,7 @@ export default function HomePage() {
           ))}
         </div>
       </section>
-      <section className="flex flex-row justify-center gap-8 mb-24">
+      <section className="grid grid-cols-1 gap-8 mb-24 xl:grid-cols-3">
         <Feature
           description={
             <>
@@ -99,7 +99,9 @@ export default function HomePage() {
             <>
               Utiliza Cost<i>D</i>
               <br />
-              <ColoredText color="blue">donde tú quieras</ColoredText>
+              <ColoredText bold color="blue">
+                donde tú quieras
+              </ColoredText>
             </>
           }
         />
@@ -111,8 +113,8 @@ export default function HomePage() {
             </>
           }
           img={{
-            src: '/anyone-can-use.svg',
-            alt: 'Cualquiera puede usarlo'
+            src: '/send-notifications.svg',
+            alt: 'Recibe notificaciones'
           }}
           title={
             <>
@@ -122,6 +124,32 @@ export default function HomePage() {
               </ColoredText>
               <br />
               de tus grupos
+            </>
+          }
+        />
+        <Feature
+          description={
+            <>
+              Cost<i>D</i> actualiza en tiempo real los cambios que haya en tu
+              grupo.
+              <br />
+              ¡Cuando alguien añada un movimiento lo verás en seguida!
+            </>
+          }
+          img={{
+            src: '/anyone-can-use.svg',
+            alt: 'Cualquiera puede usarlo'
+          }}
+          title={
+            <>
+              Visualiza los{' '}
+              <ColoredText bold color="green">
+                cambios
+              </ColoredText>{' '}
+              que haya en el grupo en{' '}
+              <ColoredText bold color="green">
+                tiempo real
+              </ColoredText>
             </>
           }
         />
