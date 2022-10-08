@@ -145,18 +145,26 @@ export const editGroup = async ({
 };
 
 export const deleteGroup = async ({ id, uid }) => {
-  const group = await db.collection('groups').doc(id).get();
-  if (!group.exists) {
+  const groupSnap = await db.collection('groups').doc(id).get();
+  if (!groupSnap.exists) {
     const error = new Error('Grupo no encontrado');
     error.status = 404;
     throw error;
   }
 
+  const group = groupSnap.data();
   if (group.creator !== uid) {
     const error = new Error('No tienes permisos para eliminar el grupo');
     error.status = 403;
     throw error;
   }
+
+  // Delete all movements from group
+  const movements = await db
+    .collection('movements')
+    .where('group', '==', id)
+    .get();
+  movements.forEach((m) => m.ref.delete());
 
   await db.collection('groups').doc(id).delete();
   return true;
