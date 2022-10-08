@@ -8,14 +8,11 @@
     - Correo
 
 - Visual:
-  - Añadir en la home caracteristicas:
-    - ¡Actualizaciones en tiempo real!
-    - ¡Notificaciones!
-  - Añadir imagen de como queda una gráfica y explicando que la app te muestra gráficamente los saldos
-  - Añadir gasto total y mi gasto
+  - Añadir gasto total y mi gasto a grupo
 
 ## Futuras mejoras:
 
+- Ver historial de movimientos y cambios en un grupo
 - Ordenar movimientos:
   - Por tipo
   - Por cantidad de dinero
@@ -32,3 +29,6 @@
   - Por ejemplo: David cuenta como 2 y Victor como 1 solo. Esto repartiria el gasto en 2/3 partes para David y 1/3 para Victor
 - Sistema de notificaciones:
   - Notificaciones por telegram
+- Archivar grupos
+- Visual:
+  - Añadir imagen de como queda una gráfica y explicando que la app te muestra gráficamente los saldos
