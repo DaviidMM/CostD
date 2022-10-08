@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
 import { deleteGroup, updateGroup } from '../../../services/groups';
+import useAuth from '../../hooks/useAuth';
 import Button from '../Button';
 import CategorySelector from '../CategorySelector';
 import Input from '../Input';
@@ -8,6 +9,8 @@ import MembersPanel from '../MembersPanel';
 import Tabs from '../Tabs';
 
 const GroupConfigForm = ({ group }) => {
+  const { user } = useAuth();
+  const { id: uid } = user;
   const [changed, setChanged] = useState(false);
   const [category, setCategory] = useState(group.category);
   const [fields, setFields] = useState({
@@ -40,15 +43,18 @@ const GroupConfigForm = ({ group }) => {
 
   const handleDeleteGroup = () => {
     if (!confirm('¿Quieres eliminar el grupo?')) return;
-    console.log('Eliminar grupo');
 
     const promise = deleteGroup(group);
-
-    toast.promise(promise, {
-      success: '¡Grupo eliminado!',
-      error: '¡Ha ocurrido un error! ❌',
-      pending: 'Eliminando grupo...'
-    });
+    toast
+      .promise(promise, {
+        success: '¡Grupo eliminado!',
+        error: '¡Ha ocurrido un error! ❌',
+        pending: 'Eliminando grupo...'
+      })
+      .catch((err) => {
+        console.error(err);
+        toast.error(err.response.data.error);
+      });
   };
 
   const handleSubmit = async (e) => {
@@ -86,9 +92,11 @@ const GroupConfigForm = ({ group }) => {
         <Button color="orange" disabled={!changed} type="submit">
           Guardar
         </Button>
-        <Button color="red" onClick={handleDeleteGroup}>
-          Eliminar grupo
-        </Button>
+        {group.creator === uid && (
+          <Button color="red" onClick={handleDeleteGroup}>
+            Eliminar grupo
+          </Button>
+        )}
       </div>
     </form>
   );

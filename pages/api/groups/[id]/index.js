@@ -22,14 +22,14 @@ export default async function handler(req, res) {
   }
 
   if (method === 'DELETE') {
-    const user = await extractUser(req.headers.authorization);
-    if (!user) {
+    const { uid } = await extractUser(req.headers.authorization);
+    if (!uid) {
       return res.status(401).json({ error: 'Unauthorized' });
     }
 
     const { id } = req.query;
 
-    return deleteGroup(id)
+    return deleteGroup({ id, uid })
       .then(() => res.status(200).end())
       .catch((err) => {
         console.error(err);

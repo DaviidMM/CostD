@@ -144,11 +144,17 @@ export const editGroup = async ({
   });
 };
 
-export const deleteGroup = async (id) => {
+export const deleteGroup = async ({ id, uid }) => {
   const group = await db.collection('groups').doc(id).get();
   if (!group.exists) {
     const error = new Error('Grupo no encontrado');
     error.status = 404;
+    throw error;
+  }
+
+  if (group.creator !== uid) {
+    const error = new Error('No tienes permisos para eliminar el grupo');
+    error.status = 403;
     throw error;
   }
 
