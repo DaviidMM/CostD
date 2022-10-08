@@ -2,7 +2,7 @@ import axios from 'axios';
 import { getUserToken } from '../firebase/client';
 
 const api = axios.create({
-  baseURL: 'http://localhost:3000/api'
+  baseURL: '/api'
 });
 
 api.interceptors.request.use(async (config) => {
