@@ -1,6 +1,6 @@
 import admin from 'firebase-admin';
 
-import { applicationDefault, initializeApp, getApp } from 'firebase-admin/app';
+import { initializeApp, getApp } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
 import { getAuth } from 'firebase-admin/auth';
 import { getMessaging } from 'firebase-admin/messaging';
@@ -9,9 +9,15 @@ require('dotenv').config();
 
 const createOrLoadApp = (appName) => {
   if (!admin.apps.find((app) => app.name_ === appName)) {
+    const GOOGLE_CREDENTIALS = process.env.GOOGLE_CREDENTIALS;
+
+    const decoded = Buffer.from(GOOGLE_CREDENTIALS, 'base64').toString();
+
+    const serviceAccount = JSON.parse(decoded);
+
     return initializeApp(
       {
-        credential: applicationDefault()
+        credential: admin.credential.cert(serviceAccount)
       },
       appName
     );
