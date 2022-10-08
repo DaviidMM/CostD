@@ -54,7 +54,7 @@ export default function Typed({
       setIsWriting(true);
       setTextIndex(0);
     }
-  }, [texts, textIndex]);
+  }, [texts]); // eslint-disable-line
 
   return (
     <span
