@@ -106,9 +106,8 @@ export default function HomePage() {
         <Feature
           description={
             <>
-              Cost<i>D</i> facilita compartir gastos en un grupo
-              <br />
-              haciendo todos los cálculos de quien debe qué por ti.
+              Cost<i>D</i> te envía notificaciones cuando alguien añade, edita o
+              borra movimientos
             </>
           }
           img={{
@@ -117,9 +116,12 @@ export default function HomePage() {
           }}
           title={
             <>
-              Haz que compartir
+              Recibe{' '}
+              <ColoredText bold color="purple">
+                notificaciones
+              </ColoredText>
               <br />
-              gastos sea <ColoredText color="orange">fácil</ColoredText>
+              de tus grupos
             </>
           }
         />
