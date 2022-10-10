@@ -9,9 +9,12 @@ require('dotenv').config();
 
 const createOrLoadApp = (appName) => {
   if (!admin.apps.find((app) => app.name_ === appName)) {
-    const GOOGLE_SA_CREDENTIALS = process.env.GOOGLE_SA_CREDENTIALS;
+    const GoogleSaCredentials =
+      process.env.NODE_ENV === 'production'
+        ? process.env.GOOGLE_SA_CREDENTIALS
+        : process.env.GOOGLE_SA_CREDENTIALS_DEV;
 
-    const decoded = Buffer.from(GOOGLE_SA_CREDENTIALS, 'base64').toString();
+    const decoded = Buffer.from(GoogleSaCredentials, 'base64').toString();
 
     const serviceAccount = JSON.parse(decoded);
 
@@ -91,7 +94,7 @@ export const sendGroupNotification = async ({
     ) {
       return acc;
     }
-    return [...acc, user.devices ? [...user.devices.map((d) => d.token)] : []];
+    return [...acc, ...(user.devices ? user.devices.map((d) => d.token) : [])];
   }, []);
 
   if (!tokens.length) return;

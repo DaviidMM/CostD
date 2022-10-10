@@ -15,14 +15,54 @@ import localforage from 'localforage';
 import authStatus from '../../src/context/auth/status';
 import api from '../api';
 
+const FirebasePublicApiKey =
+  process.env.NODE_ENV === 'production'
+    ? process.env.NEXT_PUBLIC_FIREBASE_PUBLIC_API_KEY
+    : process.env.NEXT_PUBLIC_FIREBASE_PUBLIC_API_KEY_DEV;
+const FirebaseAuthDomain =
+  process.env.NODE_ENV === 'production'
+    ? process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN
+    : process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN_DEV;
+const FirebaseProjectId =
+  process.env.NODE_ENV === 'production'
+    ? process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID
+    : process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID_DEV;
+const FirebaseStorageBucket =
+  process.env.NODE_ENV === 'production'
+    ? process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET
+    : process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET_DEV;
+const FirebaseMessagingSenderId =
+  process.env.NODE_ENV === 'production'
+    ? process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID
+    : process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID_DEV;
+const FirebaseAppId =
+  process.env.NODE_ENV === 'production'
+    ? process.env.NEXT_PUBLIC_FIREBASE_APP_ID
+    : process.env.NEXT_PUBLIC_FIREBASE_APP_ID_DEV;
+const FirebaseMeasurementId =
+  process.env.NODE_ENV === 'production'
+    ? process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
+    : process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID_DEV;
+const PublicVapidKey =
+  process.env.NODE_ENV === 'production'
+    ? process.env.NEXT_PUBLIC_VAPID_KEY
+    : process.env.NEXT_PUBLIC_VAPID_KEY_DEV;
+
+console.log({
+  FirebasePublicApiKey,
+  FirebaseAuthDomain,
+  FirebaseProjectId,
+  PublicVapidKey
+});
+
 const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_PUBLIC_API_KEY,
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-  storageBucket: 'costd-789a2.appspot.com',
-  messagingSenderId: '294037826120',
-  appId: '1:294037826120:web:45ec69e5c25e48e7a3c67d',
-  measurementId: 'G-JH3F85GZT8'
+  apiKey: FirebasePublicApiKey,
+  authDomain: FirebaseAuthDomain,
+  projectId: FirebaseProjectId,
+  storageBucket: FirebaseStorageBucket,
+  messagingSenderId: FirebaseMessagingSenderId,
+  appId: FirebaseAppId,
+  measurementId: FirebaseMeasurementId
 };
 
 // Initialize Firebase
@@ -43,7 +83,7 @@ export const firebaseCloudMessaging = {
       const status = await Notification.requestPermission();
       if (status && status === 'granted') {
         // Get new token from Firebase
-        const vapidKey = process.env.NEXT_PUBLIC_VAPID_KEY;
+        const vapidKey = PublicVapidKey;
         const fcmToken = await getToken(messaging, { vapidKey });
         // Set token in our local storage
         if (fcmToken) {
