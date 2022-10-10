@@ -48,13 +48,6 @@ const PublicVapidKey =
     ? process.env.NEXT_PUBLIC_VAPID_KEY
     : process.env.NEXT_PUBLIC_VAPID_KEY_DEV;
 
-console.log({
-  FirebasePublicApiKey,
-  FirebaseAuthDomain,
-  FirebaseProjectId,
-  PublicVapidKey
-});
-
 const firebaseConfig = {
   apiKey: FirebasePublicApiKey,
   authDomain: FirebaseAuthDomain,
