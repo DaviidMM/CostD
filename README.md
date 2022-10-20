@@ -1,3 +1,18 @@
+# Puesta en marcha
+
+Para desplegar la aplicación, primero hay que declarar varias variables de entorno. Se puede utilizar el archivo `.env.template` para saber que variables son necesarias.
+Cuando la aplicación se ejecute en modo desarrollo, se utilizarán todas las variables que terminan en `_DEV`.
+
+Todos estos datos se obtienen a través de la [consola de firebase](https://console.firebase.google.com/u/0/).
+
+Para obtener la variable `GOOGLE_SA_CREDENTIALS` hay que [obtener las claves de cuenta de firebase admin](#claves-firebase-admin-sdk).
+
+## Claves Firebase Admin SDK
+
+Acceder a `Configuración del proyecto` > `Cuentas de servicio` > `Generar nueva clave privada`. Esto generará un archivo `json`, el cual habrá que codificar en `base64` y eliminar los saltos de línea que haya.
+
+# README.md original NextJS
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
