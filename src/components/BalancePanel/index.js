@@ -31,7 +31,7 @@ export default function BalancePanel({
   members,
   onMovementUpdate = () => {}
 }) {
-  const group = useGroup();
+  const [group] = useGroup();
   const { user } = useAuth();
   const userId = user.id;
   const { datasets, membersBalance } = calculateDatasets({
