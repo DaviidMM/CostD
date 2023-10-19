@@ -19,7 +19,7 @@ export default function NewGroupPage() {
           bold
           gradientColor
           color="orange"
-          texts={['Crear nuevo grupo']}
+          texts={['Nuevo grupo']}
           cursor=""
         />
       </h1>
