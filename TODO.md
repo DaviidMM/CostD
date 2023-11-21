@@ -8,7 +8,10 @@
     - Correo
 
 - Visual:
+
   - Añadir gasto total y mi gasto a grupo
+
+- Implementar PWA
 
 ## Futuras mejoras:
 
