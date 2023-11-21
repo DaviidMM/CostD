@@ -106,7 +106,7 @@ export const checkAuthState = (onChange) => {
   return onAuthStateChanged(auth, async (user) => {
     const normalizedUser = mapUserFromFirebase(user);
     if (normalizedUser) {
-      await storeUserInDb();
+      storeUserInDb();
       return onChange({
         user: normalizedUser,
         status: authStatus.authenticated,

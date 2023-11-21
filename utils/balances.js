@@ -87,11 +87,11 @@ const barChartOptions = {
               0
             );
 
-            if (context.datasetIndex === 0) {
-              return sum < 0 ? 'start' : 'end';
-            } else {
-              return null;
-            }
+            return context.datasetIndex === 0
+              ? sum < 0
+                ? 'start'
+                : 'end'
+              : null;
           },
           color: 'white',
           formatter: (_, context) => {
@@ -106,11 +106,9 @@ const barChartOptions = {
               0
             );
 
-            if (context.datasetIndex === 0) {
-              return (sum < 0 ? '' : '+') + Number(sum.toFixed(2)) + '€';
-            } else {
-              return null;
-            }
+            return context.datasetIndex === 0
+              ? (sum > 0 ? '+' : '') + `${sum}€`
+              : null;
           }
         },
         member: {
@@ -128,11 +126,11 @@ const barChartOptions = {
               0
             );
 
-            if (context.datasetIndex === 0) {
-              return sum < 0 ? 'end' : 'start';
-            } else {
-              return null;
-            }
+            return context.datasetIndex === 0
+              ? sum < 0
+                ? 'end'
+                : 'start'
+              : null;
           },
           color: 'white',
           formatter: (_, context) => {
@@ -165,7 +163,10 @@ const barChartOptions = {
       yAlign: 'center',
       callbacks: {
         title: (item) => item[0].dataset.label,
-        label: (item) => `${item.formattedValue} €`
+        label: (item) => {
+          console.log(item);
+          return `${item.formattedValue} €`;
+        }
       }
     }
   }
@@ -173,153 +174,119 @@ const barChartOptions = {
 
 export const getBarChartOptions = () => barChartOptions;
 
-export const getMembersBalance = ({ movements, members }) => {
-  const balanceTotal = Object.fromEntries(
-    members.map((member) => {
-      return [
-        member.id,
-        Number(
-          movements
-            .reduce((acc, movement) => {
-              const { participants, member: payer, amount, type } = movement;
-              if (payer === member.id) {
-                if (type === 'refund') return acc + amount;
-                return (
-                  acc +
-                  (amount / participants.length) * (participants.length - 1)
-                );
-              }
-              if (participants.includes(member.id)) {
-                return acc - amount / participants.length;
-              }
-              return acc;
-            }, 0)
-            .toFixed(2)
-        )
-      ];
-    })
+const formatNum = (num) => Number(Number(num).toFixed(2));
+function splitPayments(payments) {
+  // Order object by payments
+  const sortedPayments = Object.fromEntries(
+    Object.entries(payments).sort(([, a], [, b]) => a - b)
   );
+  const people = Object.keys(sortedPayments);
+  const valuesPaid = Object.values(sortedPayments);
 
-  const debtors = Object.entries(balanceTotal)
-    .filter(([, balance]) => balance < 0)
-    .map(([id, balance]) => {
-      return {
-        id,
-        balance
-      };
-    });
-  const creditors = Object.entries(balanceTotal)
-    .filter(([, balance]) => balance > 0)
-    .map(([id, balance]) => {
-      return {
-        id,
-        balance
-      };
-    });
+  let i = 0;
+  let j = people.length - 1;
+  let debt;
 
-  const neutros = Object.entries(balanceTotal)
-    .filter(([, balance]) => balance === 0)
-    .map(([id, balance]) => {
-      return {
-        id,
-        balance
-      };
-    });
+  // If all payments are 0, return empty matrix
+  if (valuesPaid.every((p) => p === 0)) {
+    return people.map((person) => ({
+      id: person,
+      data: Array(people.length).fill(null),
+      total: payments[person]
+    }));
+  }
 
-  // sort balanceTotal array by creditors and debtors
-  const membersBalance = [...creditors, ...debtors, ...neutros];
+  // Initialize payment matrix
+  const matrix = new Array(people.length)
+    .fill()
+    .map(() => Array(people.length).fill(null));
 
-  // console.table(membersBalance);
+  while (i < j) {
+    debt = Math.min(valuesPaid[i], valuesPaid[j]);
+    valuesPaid[i] = formatNum(valuesPaid[i] - debt);
+    valuesPaid[j] = formatNum(valuesPaid[j] + debt);
 
-  const auxiliar = Array.from(Array(members.length), () => []);
+    matrix[i][j] = -debt;
+    matrix[j][i] = debt;
+    if (Math.abs(valuesPaid[i]) <= 0.01) i++;
+    if (Math.abs(valuesPaid[j]) <= 0.01) j--;
+  }
 
-  const datasets = membersBalance.map((memberRow, idxMemberRow) => {
-    // console.log('EMPEZANDO NUEVA FILA ======================');
-    // console.table(memberRow);
-    const deudorRow = debtors.some((deudor) => deudor.id === memberRow.id);
-    const acreedorRow = creditors.some(
-      (acreedor) => acreedor.id === memberRow.id
-    );
-    let remainingBalance = membersBalance.find(
-      (m) => m.id === memberRow.id
-    ).balance;
-    // console.log('remainingBalance', remainingBalance);
+  const result = people.map((person, idx) => ({
+    id: person,
+    data: matrix[idx],
+    total: payments[person]
+  }));
 
-    membersBalance.forEach((memberColumn, idxMemberCol) => {
-      // console.table(membersBalance);
-      if (memberRow.id === memberColumn.id) {
-        auxiliar[idxMemberRow][idxMemberCol] = null;
-        return;
-      }
-      if (acreedorRow) {
-        if (remainingBalance === 0) {
-          auxiliar[idxMemberRow][idxMemberCol] = null;
-          return;
+  // Flip the matrix
+  return result.reverse().map((r) => ({ ...r, data: r.data.reverse() }));
+}
+
+function calculateBalances(movements) {
+  const balances = {};
+
+  movements.forEach((movement) => {
+    if (movement.type === 'expense') {
+      const share = movement.amount / movement.participants.length;
+      movement.participants.forEach((participant) => {
+        if (balances[participant]) {
+          balances[participant] -= share;
+        } else {
+          balances[participant] = -share;
         }
-        const deudor = debtors.find((deudor) => deudor.id === memberColumn.id);
-        if (deudor) {
-          const { balance } = deudor;
-          const acreedorIndex = membersBalance.findIndex(
-            (m) => m.id === memberRow.id
-          );
-          const deudorIndex = membersBalance.findIndex(
-            (m) => m.id === memberColumn.id
-          );
-
-          const result = remainingBalance + balance;
-          if (result === 0) {
-            remainingBalance = 0;
-            membersBalance[acreedorIndex].balance = 0;
-            membersBalance[deudorIndex].balance = 0;
-            auxiliar[idxMemberRow][idxMemberCol] = Number(balance.toFixed(2));
-            return;
-          }
-          if (result > 0) {
-            remainingBalance = result;
-            membersBalance[acreedorIndex].balance = result;
-            membersBalance[deudorIndex].balance = 0;
-            auxiliar[idxMemberRow][idxMemberCol] =
-              balance === 0 ? null : Number(balance.toFixed(2));
-            return;
-          }
-          if (result < 0) {
-            membersBalance[deudorIndex].balance +=
-              membersBalance[acreedorIndex].balance;
-            auxiliar[idxMemberRow][idxMemberCol] = -remainingBalance;
-            remainingBalance = 0;
-            membersBalance[acreedorIndex].balance = remainingBalance;
-            return;
-          }
+      });
+      balances[movement.member] =
+        (balances[movement.member] || 0) + movement.amount;
+    } else if (movement.type === 'refund') {
+      if (balances[movement.member]) {
+        balances[movement.member] += movement.amount;
+      } else {
+        balances[movement.member] = movement.amount;
+      }
+      movement.participants.forEach((participant) => {
+        if (balances[participant]) {
+          balances[participant] -=
+            movement.amount / movement.participants.length;
+        } else {
+          balances[participant] =
+            -movement.amount / movement.participants.length;
         }
-        auxiliar[idxMemberRow][idxMemberCol] = null;
-        return;
-      }
-      if (deudorRow) {
-        auxiliar[idxMemberRow][idxMemberCol] =
-          -auxiliar[idxMemberCol][idxMemberRow] || null;
-        return;
-      }
-      auxiliar[idxMemberRow][idxMemberCol] = null;
-    });
-
-    return {
-      label: members.find((m) => m.id === memberRow.id).name,
-      id: memberRow.id,
-      data: auxiliar[idxMemberRow]
-    };
+      });
+    }
   });
-  return {
-    debtors,
-    creditors,
-    membersBalance: datasets
-  };
+
+  // Ajuste de saldos cercanos a 0 y redondeo a dos decimales
+  for (const key in balances) {
+    if (Object.prototype.hasOwnProperty.call(balances, key)) {
+      if (Math.abs(balances[key]) <= 0.01) {
+        balances[key] = 0;
+      } else {
+        balances[key] = Math.floor(balances[key] * 100) / 100;
+      }
+    }
+  }
+
+  return balances;
+}
+
+export const getMembersBalance = ({ movements, members }) => {
+  const balances = calculateBalances(movements);
+
+  console.log({ movements });
+  console.log({ balances });
+
+  const splittedPayments = splitPayments(balances);
+  const result = splittedPayments.map((p) => ({
+    ...p,
+    label: members.find((m) => m.id === p.id).name
+  }));
+
+  return result;
 };
 
 export const calculateDatasets = ({ movements, members }) => {
-  const { membersBalance } = getMembersBalance({
-    movements,
-    members
-  });
+  const membersBalance = getMembersBalance({ movements, members });
+
   const datasets = membersBalance.map(({ label, data }) => {
     return {
       label,
